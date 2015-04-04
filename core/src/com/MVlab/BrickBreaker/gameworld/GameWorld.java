@@ -28,6 +28,7 @@ public class GameWorld  implements ContactListener {
     private Border topBorder;
     private World physicWorld;
     ArrayList<Brick> bricks;
+    public ArrayList<Body> deletationBricks;
     private float screenWidth;
     private float screenHeight;
 
@@ -39,6 +40,7 @@ public class GameWorld  implements ContactListener {
         this.screenWidth = screenWidth;
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
         bricks = new ArrayList<Brick>();
+        deletationBricks = new ArrayList<Body>();
 
         physicWorld = new World(new Vector2(0, -11F), true);
         physicWorld.setContactListener(this);

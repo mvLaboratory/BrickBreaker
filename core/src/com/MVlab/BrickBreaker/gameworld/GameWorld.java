@@ -91,11 +91,7 @@ public class GameWorld  implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        Body a=contact.getFixtureA().getBody();
-        Body b=contact.getFixtureB().getBody();
 
-        a.getUserData();
-        b.getUserData(); 
     }
 
     @Override
@@ -110,6 +106,23 @@ public class GameWorld  implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
+                Body a=contact.getFixtureA().getBody();
+        Body b=contact.getFixtureB().getBody();
 
+        Object bodyA = a.getUserData();
+        Object bodyB = b.getUserData();
+        Body deleteBody = null;
+
+        if (bodyA instanceof Brick) {
+            deleteBody = a;
+        }
+
+        if (bodyB instanceof Brick) {
+            deleteBody = b;
+        }
+
+        if  (deleteBody != null) {
+            deletationBricks.add(deleteBody);
+        }
     }
 }

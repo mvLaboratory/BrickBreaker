@@ -9,5 +9,7 @@ public class Consts {
     public static float VIEWPORT_HEIGHT = 30;
     public static float GAME_LEFT_BORDER = -7.4f;
     public static float GAME_RIGHT_BORDER = 4f;
-    public static float GAME_TOP_BORDER = 14.5f;
+    public static float GAME_TOP_BORDER = 13f;
+
+    public static float BRICKS_PER_ROW = 8f;
 }

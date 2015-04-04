@@ -4,33 +4,44 @@
 
 package com.MVlab.BrickBreaker.gameworld;
 import com.MVlab.BrickBreaker.gameObjects.Border;
+import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-public class GameWorld {
+import java.util.ArrayList;
+
+public class GameWorld  implements ContactListener {
     private Racket racket;
     private Ball ball;
     private Border leftBorder;
     private Border rightBorder;
     private Border topBorder;
-    private Border bottomBorder;
     private World physicWorld;
+    ArrayList<Brick> bricks;
     private float screenWidth;
     private float screenHeight;
 
     public GameWorld(float screenWidth, float screenHeight) {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
+        bricks = new ArrayList<Brick>();
 
         physicWorld = new World(new Vector2(0, -11F), true);
+        physicWorld.setContactListener(this);
 
         racket = new Racket(0, -6, 2, 0.5f, physicWorld, screenSize);
         ball = new Ball(0, 0, 0.4f, physicWorld);
@@ -38,6 +49,15 @@ public class GameWorld {
         leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+
+        Vector2 brickPosition = new Vector2(-6.5f, 5);
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
+                bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.5f, 0.3f, physicWorld));
+                brickPosition.x += 0.3;
+            }
+            brickPosition.x = -6.5f;
+        }
     }
 
     public void update(float delta) {
@@ -67,5 +87,29 @@ public class GameWorld {
 
     public World getPhysicWorld() {
         return physicWorld;
+    }
+
+    @Override
+    public void beginContact(Contact contact) {
+        Body a=contact.getFixtureA().getBody();
+        Body b=contact.getFixtureB().getBody();
+
+        a.getUserData();
+        b.getUserData(); 
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }

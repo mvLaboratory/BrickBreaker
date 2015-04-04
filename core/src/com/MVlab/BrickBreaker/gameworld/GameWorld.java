@@ -52,13 +52,13 @@ public class GameWorld  implements ContactListener {
         rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
-        Vector2 brickPosition = new Vector2(-6.5f, 5);
+        Vector2 brickPosition = new Vector2(-6.3f, 5);
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
                 bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.5f, 0.3f, physicWorld));
                 brickPosition.x += 0.3;
             }
-            brickPosition.x = -6.5f;
+            brickPosition.x = -6.3f;
         }
     }
 

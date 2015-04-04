@@ -55,7 +55,6 @@ public class GameRenderer {
             if (delBody != null) {
                 delBody.setActive(false);
                 physicWorld.destroyBody(delBody);
-                deletationIndexes.add(world.deletationBricks.indexOf(delBody));
             }
         }
         world.deletationBricks.clear();

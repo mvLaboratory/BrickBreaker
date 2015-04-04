@@ -51,6 +51,14 @@ public class GameRenderer {
     public void render() {
         cam.update();
         physicWorld.step(Gdx.graphics.getDeltaTime(), 1, 1);
+        for (Body delBody : world.deletationBricks) {
+            if (delBody != null) {
+                delBody.setActive(false);
+                physicWorld.destroyBody(delBody);
+                deletationIndexes.add(world.deletationBricks.indexOf(delBody));
+            }
+        }
+        world.deletationBricks.clear();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

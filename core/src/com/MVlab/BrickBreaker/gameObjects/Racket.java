@@ -40,7 +40,7 @@ public class Racket {
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(position);
+//        bodyDef.position.set(position);
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.KinematicBody);
@@ -60,7 +60,7 @@ public class Racket {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 0.1f;
-        fixtureDef.restitution = 2f;
+        fixtureDef.restitution = 2.5f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
@@ -69,7 +69,7 @@ public class Racket {
     }
 
     public void update(float delta) {
-        float bodyCenterX = physicBody.getPosition().x;
+        float bodyCenterX = physicBody.getPosition().x - width / 2;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -98,7 +98,7 @@ public class Racket {
         x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
         x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x;
+        float bodyCenterX = physicBody.getPosition().x - width / 2;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -111,12 +111,12 @@ public class Racket {
         }
         physicBody.setLinearVelocity(presentVelocity);
 
-//        Gdx.app.debug("click+++", "+++==========================+++");
-//        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
-//        Gdx.app.debug("target", "" + targetPosition);
-//        Gdx.app.debug("positionDelta", "" + positionDelta);
-//        Gdx.app.debug("presentVelocity.x", "" + presentVelocity.x);
-//        Gdx.app.debug("click---", "                    ");
+        Gdx.app.debug("click+++", "+++==========================+++");
+        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
+        Gdx.app.debug("target", "" + targetPosition);
+        Gdx.app.debug("positionDelta", "" + positionDelta);
+        Gdx.app.debug("presentVelocity.x", "" + presentVelocity.x);
+        Gdx.app.debug("click---", "                    ");
     }
 
     public void onDrag(float x) {
@@ -124,7 +124,7 @@ public class Racket {
         x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
         x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x;
+        float bodyCenterX = physicBody.getPosition().x - width / 2;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 

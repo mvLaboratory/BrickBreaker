@@ -41,7 +41,7 @@ public class Brick {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 5f;
-        fixtureDef.restitution = 1.2f;
+        fixtureDef.restitution = 1f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 

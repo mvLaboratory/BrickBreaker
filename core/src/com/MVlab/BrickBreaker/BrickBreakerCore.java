@@ -26,7 +26,7 @@ public class BrickBreakerCore extends ApplicationAdapter {
 
         paused = false;
 
-        Gdx.input.setInputProcessor(new InputHandler(world.getRacket(), world.getBall()));
+        Gdx.input.setInputProcessor(new InputHandler(world, renderer));
     }
 
     @Override

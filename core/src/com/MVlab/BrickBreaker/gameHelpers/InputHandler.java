@@ -1,5 +1,8 @@
 package com.MVlab.BrickBreaker.gameHelpers;
 
+import com.MVlab.BrickBreaker.gameworld.GameRenderer;
+import com.MVlab.BrickBreaker.gameworld.GameWorld;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
@@ -9,16 +12,24 @@ import com.MVlab.BrickBreaker.gameObjects.Racket;
  * Created by MV on 17.03.2015.
  */
 public class InputHandler implements InputProcessor {
+    private GameWorld gameWorld;
+    private GameRenderer gameRenderer;
     private Racket racket;
     private Ball ball;
 
-    public InputHandler(Racket racket, Ball ball) {
-        this.racket = racket;
-        this.ball = ball;
+    public InputHandler(GameWorld gameWorld, GameRenderer renderer) {
+        this.gameWorld = gameWorld;
+        this.gameRenderer = renderer;
+        this.racket = gameWorld.getRacket();
+        this.ball = gameWorld.getBall();
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.R) {
+            gameWorld.init();
+            gameRenderer.init();
+        }
         return false;
     }
 

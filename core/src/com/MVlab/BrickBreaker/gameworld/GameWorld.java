@@ -38,15 +38,15 @@ public class GameWorld  implements ContactListener {
         init();
     }
 
-    private void init() {
+    public void init() {
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
         bricks = new ArrayList<Brick>();
 
-        physicWorld = new World(new Vector2(0, -9F), true);
+        physicWorld = new World(new Vector2(0, -10F), true);
         physicWorld.setContactListener(this);
 
-        racket = new Racket(0, -6.5f, 1.5f, 0.5f, physicWorld, screenSize);
-        ball = new Ball(0, 0, 0.4f, physicWorld);
+        racket = new Racket(Consts.GAME_LEFT_BORDER + (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, -12.5f, 1.5f, 0.3f, physicWorld, screenSize);
+        ball = new Ball(-1, 0, 0.4f, physicWorld);
 
         leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);

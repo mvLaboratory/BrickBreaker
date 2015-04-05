@@ -40,7 +40,7 @@ public class GameRenderer  implements Disposable {
         init();
     }
 
-    private void init() {
+    public void init() {
         this.b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         this.physicWorld = world.getPhysicWorld();
 

@@ -41,12 +41,20 @@ public class Brick {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 5f;
-        fixtureDef.restitution = 1f;
+        fixtureDef.restitution = 1.2f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
         // Shape is the only disposable of the lot, so get rid of it
         bodyShape.dispose();
+    }
+
+    public void update() {
+        if (health <= 0 && existing()) {
+            physicBody.setActive(false);
+            physicWorld.destroyBody(physicBody);
+            delete();
+        }
     }
 
     public void damage(int damage) {

@@ -64,16 +64,6 @@ public class GameRenderer  implements Disposable {
 
     public void render() {
         cam.update();
-        physicWorld.step(Gdx.graphics.getDeltaTime(), 1, 1);
-
-        //deleting bodies+++
-        for (Brick brick : bricks) {
-            if (brick != null && brick.getHealth() <= 0 && brick.existing()) {
-                brick.getBody().setActive(false);
-                physicWorld.destroyBody(brick.getBody());
-                brick.delete();
-            }
-        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

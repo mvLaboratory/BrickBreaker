@@ -64,7 +64,13 @@ public class GameWorld  implements ContactListener {
     }
 
     public void update(float delta) {
-        //physicWorld.step(Gdx.graphics.getDeltaTime(), 1, 1);
+        physicWorld.step(delta, 1, 1);
+
+        for (Brick brick : bricks) {
+            if (brick != null) {
+                brick.update();
+            }
+        }
         racket.update(delta);
         ball.update();
     }

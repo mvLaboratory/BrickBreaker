@@ -100,9 +100,15 @@ public class Racket {
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x;
         float positionDelta = (targetPosition - bodyCenterX);
+        float absPositionDelta = MV_Math.abs(positionDelta);
 
         Vector2 presentVelocity = physicBody.getLinearVelocity();
         presentVelocity.x = positionDelta > 0 ? 100 : -100;
+        if (absPositionDelta < 1) {
+            if (absPositionDelta < 0.01)
+                presentVelocity.x = 0;
+            else presentVelocity.x = positionDelta * 50;
+        }
         physicBody.setLinearVelocity(presentVelocity);
 
 //        Gdx.app.debug("click+++", "+++==========================+++");
@@ -120,9 +126,15 @@ public class Racket {
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x;
         float positionDelta = (targetPosition - bodyCenterX);
+        float absPositionDelta = MV_Math.abs(positionDelta);
 
         Vector2 presentVelocity = physicBody.getLinearVelocity();
         presentVelocity.x = positionDelta > 0 ? 100 : -100;
+        if (absPositionDelta < 1) {
+            if (absPositionDelta < 0.01)
+                presentVelocity.x = 0;
+            else presentVelocity.x = positionDelta * 50;
+        }
         physicBody.setLinearVelocity(presentVelocity);
     }
 

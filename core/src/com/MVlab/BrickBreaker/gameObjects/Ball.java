@@ -54,8 +54,11 @@ public class Ball {
 
     }
 
-    public void updatePosition() {
-
+    public void update() {
+        Vector2 presentVelocity = physicBody.getLinearVelocity();
+        if (presentVelocity.y > 30) presentVelocity.y = 30;
+        if (presentVelocity.x > 30) presentVelocity.x = 30;
+        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public float getX() {

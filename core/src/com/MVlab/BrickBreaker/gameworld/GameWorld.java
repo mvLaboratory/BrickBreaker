@@ -26,6 +26,7 @@ public class GameWorld  implements ContactListener {
     private Border leftBorder;
     private Border rightBorder;
     private Border topBorder;
+    private Border bottomBorder;
     private World physicWorld;
     ArrayList<Brick> bricks;
     private float screenWidth;
@@ -40,15 +41,16 @@ public class GameWorld  implements ContactListener {
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
         bricks = new ArrayList<Brick>();
 
-        physicWorld = new World(new Vector2(0, -11F), true);
+        physicWorld = new World(new Vector2(0, -10F), true);
         physicWorld.setContactListener(this);
 
-        racket = new Racket(0, -6, 2, 0.5f, physicWorld, screenSize);
+        racket = new Racket(0, -6.5f, 1.5f, 0.5f, physicWorld, screenSize);
         ball = new Ball(0, 0, 0.4f, physicWorld);
 
         leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+        bottomBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
         Vector2 brickPosition = new Vector2(-6.3f, 5);
         for (int i = 0; i < 5; i++) {
@@ -62,7 +64,7 @@ public class GameWorld  implements ContactListener {
 
     public void update(float delta) {
         racket.update(delta);
-        ball.updatePosition();
+        ball.update();
     }
 
     public Racket getRacket() {
@@ -95,17 +97,14 @@ public class GameWorld  implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-
     }
 
     @Override
     public void endContact(Contact contact) {
-
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
     }
 
     @Override

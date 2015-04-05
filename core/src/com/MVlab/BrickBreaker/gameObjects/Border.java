@@ -18,8 +18,6 @@ public class Border {
     private Body physicBody;
     private BodyDef bodyDef;
 
-    float health;
-
     public Border(float x, float y, float width, float height, World physicWorld) {
         this.x = x;
         this.y = y;
@@ -33,7 +31,6 @@ public class Border {
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.StaticBody);
-   //     physicBody.
 
         PolygonShape bodyShape = new PolygonShape();
         bodyShape.setAsBox(width, height);
@@ -41,7 +38,7 @@ public class Border {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 100f;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.restitution = 1f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.util.HashMap;
 
 /**
  * Created by MV on 04.04.2015.
@@ -18,6 +17,7 @@ public class Brick {
     private Body physicBody;
     private BodyDef bodyDef;
     private int health;
+    private boolean deleted;
 
     public Brick(float x, float y, float width, float height, World physicWorld) {
         this.x = x;
@@ -41,7 +41,7 @@ public class Brick {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 5f;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.restitution = 1f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
@@ -59,5 +59,13 @@ public class Brick {
 
     public Body getBody() {
         return physicBody;
+    }
+
+    public void delete () {
+        this.deleted = true;
+    }
+
+    public boolean existing() {
+        return !deleted;
     }
 }

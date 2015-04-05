@@ -38,7 +38,7 @@ public class Border {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 100f;
-        fixtureDef.restitution = 1f;
+        fixtureDef.restitution = 0.75f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 

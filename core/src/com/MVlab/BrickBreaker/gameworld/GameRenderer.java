@@ -17,10 +17,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
 
-public class GameRenderer {
+public class GameRenderer  implements Disposable {
     GameWorld world;
     World physicWorld;
     Ball ball;
@@ -35,9 +36,23 @@ public class GameRenderer {
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
-        this.b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         this.world = world;
+        init();
+    }
+
+    private void init() {
+        this.b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         this.physicWorld = world.getPhysicWorld();
+
+        cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
+        cam.position.set(0, 0, 0);
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(cam.combined);
+
+        initObjects();
+    }
+
+    private void initObjects() {
         ball = world.getBall();
         racket = world.getRacket();
         leftBorder = world.getLeftBorder();
@@ -45,11 +60,6 @@ public class GameRenderer {
         topBorder = world.getTopBorder();
 
         bricks = world.getBricks();
-
-        cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
-        cam.position.set(0, 0, 0);
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam.combined);
     }
 
     public void render() {
@@ -104,5 +114,14 @@ public class GameRenderer {
 //        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
 //        shapeRenderer.circle(ball.getX(), ball.getY(), ball.getRadius());
 //        shapeRenderer.end();
+    }
+
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void dispose() {
+
     }
 }

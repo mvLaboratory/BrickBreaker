@@ -33,15 +33,16 @@ public class GameWorld  implements ContactListener {
     private float screenHeight;
 
     public GameWorld(float screenWidth, float screenHeight) {
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
+        init();
+    }
+
+    private void init() {
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
         bricks = new ArrayList<Brick>();
 
-        physicWorld = new World(new Vector2(0, -10F), true);
+        physicWorld = new World(new Vector2(0, -9F), true);
         physicWorld.setContactListener(this);
 
         racket = new Racket(0, -6.5f, 1.5f, 0.5f, physicWorld, screenSize);
@@ -63,6 +64,7 @@ public class GameWorld  implements ContactListener {
     }
 
     public void update(float delta) {
+        //physicWorld.step(Gdx.graphics.getDeltaTime(), 1, 1);
         racket.update(delta);
         ball.update();
     }

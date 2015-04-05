@@ -56,8 +56,8 @@ public class Ball {
 
     public void update() {
         Vector2 presentVelocity = physicBody.getLinearVelocity();
-        if (presentVelocity.y > 30) presentVelocity.y = 30;
-        if (presentVelocity.x > 30) presentVelocity.x = 30;
+        if (presentVelocity.y > 50) presentVelocity.y = 50;
+        if (presentVelocity.x > 50) presentVelocity.x = 50;
         physicBody.setLinearVelocity(presentVelocity);
     }
 

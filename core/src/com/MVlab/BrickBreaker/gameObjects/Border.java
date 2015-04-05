@@ -26,7 +26,6 @@ public class Border {
         this.width = width;
         this.height = height;
         this.physicWorld = physicWorld;
-        health = 100;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;

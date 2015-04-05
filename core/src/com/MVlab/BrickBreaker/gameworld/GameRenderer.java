@@ -5,6 +5,7 @@
 package com.MVlab.BrickBreaker.gameworld;
 
 import com.MVlab.BrickBreaker.gameObjects.Border;
+import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,6 +28,7 @@ public class GameRenderer {
     Border leftBorder;
     Border rightBorder;
     Border topBorder;
+    ArrayList<Brick> bricks;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
@@ -42,6 +44,8 @@ public class GameRenderer {
         rightBorder = world.getRightBorder();
         topBorder = world.getTopBorder();
 
+        bricks = world.getBricks();
+
         cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
         cam.position.set(0, 0, 0);
         shapeRenderer = new ShapeRenderer();
@@ -51,13 +55,21 @@ public class GameRenderer {
     public void render() {
         cam.update();
         physicWorld.step(Gdx.graphics.getDeltaTime(), 1, 1);
-        for (Body delBody : world.deletationBricks) {
-            if (delBody != null) {
-                delBody.setActive(false);
-                physicWorld.destroyBody(delBody);
+
+        //deleting bodies+++
+        ArrayList<Integer> deleteIndexes = new ArrayList<Integer>();
+        int index = -1;
+        for (Brick brick : bricks) {
+            index++;
+            if (brick != null && brick.getHealth() <= 0) {
+                brick.getBody().setActive(false);
+                physicWorld.destroyBody(brick.getBody());
+                deleteIndexes.add(index);
             }
         }
-        world.deletationBricks.clear();
+        for (Integer delIndex: deleteIndexes)
+            bricks.remove(delIndex.intValue());
+        //deleting bodies---
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

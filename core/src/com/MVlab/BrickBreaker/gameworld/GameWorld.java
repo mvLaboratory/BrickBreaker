@@ -28,7 +28,6 @@ public class GameWorld  implements ContactListener {
     private Border topBorder;
     private World physicWorld;
     ArrayList<Brick> bricks;
-    public ArrayList<Body> deletationBricks;
     private float screenWidth;
     private float screenHeight;
 
@@ -40,7 +39,6 @@ public class GameWorld  implements ContactListener {
         this.screenWidth = screenWidth;
         Vector2 screenSize = new Vector2(screenWidth, screenHeight);
         bricks = new ArrayList<Brick>();
-        deletationBricks = new ArrayList<Body>();
 
         physicWorld = new World(new Vector2(0, -11F), true);
         physicWorld.setContactListener(this);
@@ -91,6 +89,10 @@ public class GameWorld  implements ContactListener {
         return physicWorld;
     }
 
+    public ArrayList<Brick> getBricks() {
+        return bricks;
+    }
+
     @Override
     public void beginContact(Contact contact) {
 
@@ -108,23 +110,19 @@ public class GameWorld  implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-                Body a=contact.getFixtureA().getBody();
+        Body a=contact.getFixtureA().getBody();
         Body b=contact.getFixtureB().getBody();
 
         Object bodyA = a.getUserData();
         Object bodyB = b.getUserData();
-        Body deleteBody = null;
 
+        //Brick collides
         if (bodyA instanceof Brick) {
-            deleteBody = a;
+            ((Brick) bodyA).damage(100);
         }
 
         if (bodyB instanceof Brick) {
-            deleteBody = b;
-        }
-
-        if  (deleteBody != null) {
-            deletationBricks.add(deleteBody);
+            ((Brick) bodyB).damage(100);
         }
     }
 }

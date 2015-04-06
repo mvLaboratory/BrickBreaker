@@ -107,7 +107,8 @@ public class GameRenderer  implements Disposable {
     }
 
     public void resize(int width, int height) {
-
+        cam.viewportWidth = (Consts.VIEWPORT_HEIGHT / height) * width;
+        cam.update();
     }
 
     @Override

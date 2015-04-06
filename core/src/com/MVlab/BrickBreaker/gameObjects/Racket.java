@@ -27,10 +27,11 @@ public class Racket {
     private BodyDef bodyDef;
     private World physicWorld;
 
+    float startPosition;
     float targetPosition = 0;
 
     public Racket(float x, float y, float width, float height, World physicWorld, Vector2 screenSize) {
-
+        this.startPosition = x;
         this.width = width;
         this.height = height;
         this.physicWorld = physicWorld;
@@ -69,7 +70,7 @@ public class Racket {
     }
 
     public void update(float delta) {
-        float bodyCenterX = physicBody.getPosition().x - width / 2;
+        float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -98,7 +99,7 @@ public class Racket {
         x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
         x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x - width / 2;
+        float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -124,7 +125,7 @@ public class Racket {
         x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
         x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x - width / 2;
+        float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 

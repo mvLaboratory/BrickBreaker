@@ -13,4 +13,6 @@ public class Consts {
     public static float GAME_BOTTOM_BORDER = -13f;
 
     public static float BRICKS_PER_ROW = 8f;
+
+    public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures";
 }

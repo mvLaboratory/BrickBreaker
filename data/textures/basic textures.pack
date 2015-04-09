@@ -1,0 +1,40 @@
+
+basic textures.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Racket
+  rotate: false
+  xy: 1, 1
+  size: 298, 505
+  orig: 298, 505
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 301, 296
+  size: 210, 210
+  orig: 210, 210
+  offset: 0, 0
+  index: -1
+border
+  rotate: false
+  xy: 513, 464
+  size: 346, 42
+  orig: 346, 42
+  offset: 0, 0
+  index: -1
+pipe
+  rotate: false
+  xy: 513, 422
+  size: 258, 40
+  orig: 258, 40
+  offset: 0, 0
+  index: -1
+ball
+  rotate: false
+  xy: 301, 249
+  size: 46, 45
+  orig: 46, 45
+  offset: 0, 0
+  index: -1

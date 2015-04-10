@@ -58,7 +58,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final TextureAtlas.AtlasRegion racket;
 
         public RacketTexture(TextureAtlas atlas) {
-            racket = atlas.findRegion("racket");
+            racket = atlas.findRegion("Racket");
         }
     }
 

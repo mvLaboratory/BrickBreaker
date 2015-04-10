@@ -81,6 +81,24 @@ public class GameRenderer  implements Disposable {
         spr.draw(batch);
         batch.end();
 
+        TextureRegion pipeTexture = Assets.instance.pipe.pipe;
+        Sprite sprPipe = new Sprite(pipeTexture);
+        sprPipe.setSize(300, 5);
+        sprPipe.setPosition(0, 15);
+
+        batch.begin();
+        sprPipe.draw(batch);
+        batch.end();
+
+        TextureRegion racketTexture = Assets.instance.racket.racket;
+        Sprite sprRacket = new Sprite(racketTexture);
+        sprRacket.setSize(50, 100);
+        sprRacket.setPosition(racket.getX(), racket.getY());
+
+        batch.begin();
+        sprRacket.draw(batch);
+        batch.end();
+
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,
                     cam.combined);

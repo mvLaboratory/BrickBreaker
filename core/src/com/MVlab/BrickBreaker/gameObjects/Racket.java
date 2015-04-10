@@ -49,13 +49,16 @@ public class Racket {
         PolygonShape bodyShape = new PolygonShape();
 
 //        bodyShape.setAsBox(width, height);
-        Vector2[] vertices = new Vector2[6];
+        Vector2[] vertices = new Vector2[8];
         vertices[0] = new Vector2(x - width, y);
         vertices[1] = new Vector2(x + width, y);
         vertices[2] = new Vector2(x - (width / 1.2f), y + height);
         vertices[3] = new Vector2(x + (width / 1.2f), y + height);
         vertices[4] = new Vector2(x - width / 3  , y + height * 2);
         vertices[5] = new Vector2(x + width / 3  , y + height * 2);
+        //new
+        vertices[6] = new Vector2(x - width / 3  , Consts.GAME_BOTTOM_BORDER);
+        vertices[7] = new Vector2(x + width / 3  , Consts.GAME_BOTTOM_BORDER);
         bodyShape.set(vertices);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -112,12 +115,12 @@ public class Racket {
         }
         physicBody.setLinearVelocity(presentVelocity);
 
-        Gdx.app.debug("click+++", "+++==========================+++");
-        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
-        Gdx.app.debug("target", "" + targetPosition);
-        Gdx.app.debug("positionDelta", "" + positionDelta);
-        Gdx.app.debug("presentVelocity.x", "" + presentVelocity.x);
-        Gdx.app.debug("click---", "                    ");
+//        Gdx.app.debug("click+++", "+++==========================+++");
+//        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
+//        Gdx.app.debug("target", "" + targetPosition);
+//        Gdx.app.debug("positionDelta", "" + positionDelta);
+//        Gdx.app.debug("presentVelocity.x", "" + presentVelocity.x);
+//        Gdx.app.debug("click---", "                    ");
     }
 
     public void onDrag(float x) {
@@ -140,7 +143,7 @@ public class Racket {
     }
 
     public float getX() {
-        return position.x;
+        return physicBody.getPosition().x / ((Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2)) + screenSize.x / 2.9f;
     }
 
     public float getY() {

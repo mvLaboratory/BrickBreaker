@@ -4,12 +4,16 @@
 
 package com.MVlab.BrickBreaker.gameworld;
 
+import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
@@ -67,6 +71,15 @@ public class GameRenderer  implements Disposable {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        TextureRegion regions = Assets.instance.levelDecoration.background;
+        Sprite spr = new Sprite(regions);
+        spr.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        SpriteBatch batch = new SpriteBatch();
+        batch.begin();
+        spr.draw(batch);
+        batch.end();
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,

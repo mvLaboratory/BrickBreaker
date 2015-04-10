@@ -6,6 +6,7 @@ import com.MVlab.BrickBreaker.gameworld.GameWorld;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 
 public class BrickBreakerCore extends ApplicationAdapter {
@@ -17,6 +18,8 @@ public class BrickBreakerCore extends ApplicationAdapter {
     @Override
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+        Assets.instance.init(new AssetManager());
 
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
@@ -53,10 +56,13 @@ public class BrickBreakerCore extends ApplicationAdapter {
     @Override
     public void pause() {
         paused = true;
+        renderer.dispose();
+        Assets.instance.dispose();
     }
 
     @Override
     public void resume() {
+        Assets.instance.init(new AssetManager());
         paused = false;
     }
 }

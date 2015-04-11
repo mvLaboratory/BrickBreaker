@@ -93,10 +93,29 @@ public class GameRenderer  implements Disposable {
         TextureRegion racketTexture = Assets.instance.racket.racket;
         Sprite sprRacket = new Sprite(racketTexture);
         sprRacket.setSize(50, 100);
+        sprRacket.setOrigin(25, 50);
         sprRacket.setPosition(racket.getX(), racket.getY());
 
         batch.begin();
         sprRacket.draw(batch);
+        batch.end();
+
+        TextureRegion ballTexture = Assets.instance.ball.ball;
+        Sprite sprBall = new Sprite(ballTexture);
+        sprBall.setSize(10, 10);
+        sprBall.setPosition(ball.getX(), ball.getY());
+
+        batch.begin();
+        sprBall.draw(batch);
+        batch.end();
+
+        TextureRegion borderTexture = Assets.instance.border.border;
+        Sprite sprLeftBorder = new Sprite(borderTexture);
+        sprLeftBorder.setSize(25, 400);
+        sprLeftBorder.setPosition(leftBorder.getX(), rightBorder.getY());
+
+        batch.begin();
+        sprLeftBorder.draw(batch);
         batch.end();
 
         if (DEBUG_DRAW_BOX2D_WORLD) {

@@ -1,5 +1,7 @@
 package com.MVlab.BrickBreaker.gameObjects;
 
+import com.MVlab.BrickBreaker.utils.Consts;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -47,11 +49,15 @@ public class Border {
     }
 
     public float getX() {
-        return x;
+        float density = (Consts.VIEWPORT_WIDTH / 2) / (Gdx.graphics.getWidth() / 2);
+        float x = physicBody.getPosition().x;
+        return (x / density) + (Gdx.graphics.getWidth() / 2) - (width / density * 1.5f);
     }
 
     public float getY() {
-        return y;
+        float density = (Consts.VIEWPORT_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
+        float y = physicBody.getPosition().y;
+        return (y / density) + (Gdx.graphics.getHeight() / 2) - (width / density * 1.5f);
     }
 
     public float getWidth() {

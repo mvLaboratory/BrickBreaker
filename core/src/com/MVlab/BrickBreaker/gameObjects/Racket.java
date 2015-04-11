@@ -114,19 +114,12 @@ public class Racket {
             else presentVelocity.x = positionDelta * 50;
         }
         physicBody.setLinearVelocity(presentVelocity);
-
-//        Gdx.app.debug("click+++", "+++==========================+++");
-//        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
-//        Gdx.app.debug("target", "" + targetPosition);
-//        Gdx.app.debug("positionDelta", "" + positionDelta);
-//        Gdx.app.debug("presentVelocity.x", "" + presentVelocity.x);
-//        Gdx.app.debug("click---", "                    ");
     }
 
     public void onDrag(float x) {
         float density = (Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2);
         x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
-        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
+        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
@@ -143,7 +136,9 @@ public class Racket {
     }
 
     public float getX() {
-        return physicBody.getPosition().x / ((Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2)) + screenSize.x / 2.9f;
+        float density = (Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2);
+        float x = physicBody.getPosition().x;
+        return (x / density) + (screenSize.x / 2) - (width / density * 1.5f);
     }
 
     public float getY() {

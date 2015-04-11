@@ -18,6 +18,7 @@ public class Assets implements Disposable, AssetErrorListener {
     private AssetManager assetManager;
 
     public RacketTexture racket;
+    public BallTexture ball;
     public AssetLevelDecoration levelDecoration;
     public PipeTexture pipe;
     public BorderTexture border;
@@ -39,6 +40,7 @@ public class Assets implements Disposable, AssetErrorListener {
             t.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         racket = new RacketTexture(atlas);
+        ball = new BallTexture(atlas);
         border = new BorderTexture(atlas);
         pipe = new PipeTexture(atlas);
         levelDecoration = new AssetLevelDecoration(atlas);
@@ -62,11 +64,11 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class AssetLevelDecoration{
-        public final TextureAtlas.AtlasRegion background;
+    public class BorderTexture{
+        public final TextureAtlas.AtlasRegion border;
 
-        public AssetLevelDecoration(TextureAtlas atlas) {
-            background = atlas.findRegion("background");
+        public BorderTexture(TextureAtlas atlas) {
+            border = atlas.findRegion("border");
         }
     }
 
@@ -78,11 +80,19 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
-    public class BorderTexture{
-        public final TextureAtlas.AtlasRegion border;
+    public class BallTexture{
+        public final TextureAtlas.AtlasRegion ball;
 
-        public BorderTexture(TextureAtlas atlas) {
-            border = atlas.findRegion("border");
+        public BallTexture(TextureAtlas atlas) {
+            ball = atlas.findRegion("ball");
+        }
+    }
+
+    public class AssetLevelDecoration{
+        public final TextureAtlas.AtlasRegion background;
+
+        public AssetLevelDecoration(TextureAtlas atlas) {
+            background = atlas.findRegion("background");
         }
     }
 }

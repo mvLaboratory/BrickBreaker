@@ -22,6 +22,8 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetLevelDecoration levelDecoration;
     public PipeTexture pipe;
     public BorderTexture border;
+    public TopBorderTexture topBorder;
+    public BrickTexture brickTexture;
 
     private Assets() {};
 
@@ -42,7 +44,9 @@ public class Assets implements Disposable, AssetErrorListener {
         racket = new RacketTexture(atlas);
         ball = new BallTexture(atlas);
         border = new BorderTexture(atlas);
+        topBorder = new TopBorderTexture(atlas);
         pipe = new PipeTexture(atlas);
+        brickTexture = new BrickTexture(atlas);
         levelDecoration = new AssetLevelDecoration(atlas);
     }
 
@@ -72,6 +76,14 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class TopBorderTexture{
+        public final TextureAtlas.AtlasRegion topBorder;
+
+        public TopBorderTexture(TextureAtlas atlas) {
+            topBorder = atlas.findRegion("topBorder");
+        }
+    }
+
     public class PipeTexture{
         public final TextureAtlas.AtlasRegion pipe;
 
@@ -88,11 +100,21 @@ public class Assets implements Disposable, AssetErrorListener {
         }
     }
 
+    public class BrickTexture{
+        public final TextureAtlas.AtlasRegion brick;
+
+        public BrickTexture(TextureAtlas atlas) {
+            brick = atlas.findRegion("brick");
+        }
+    }
+
     public class AssetLevelDecoration{
         public final TextureAtlas.AtlasRegion background;
+        public final TextureAtlas.AtlasRegion background2;
 
         public AssetLevelDecoration(TextureAtlas atlas) {
             background = atlas.findRegion("background");
+            background2 = atlas.findRegion("background2");
         }
     }
 }

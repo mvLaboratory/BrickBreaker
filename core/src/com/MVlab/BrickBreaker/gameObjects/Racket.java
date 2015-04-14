@@ -5,7 +5,7 @@
 package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
-import com.badlogic.gdx.Gdx;
+import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -18,7 +18,6 @@ import com.MVlab.BrickBreaker.utils.MV_Math;
 
 public class Racket {
     private Vector2 position;
-    private Vector2 screenSize;
 
     private float width;
     private float height;
@@ -30,12 +29,9 @@ public class Racket {
     float startPosition;
     float targetPosition = 0;
 
-    public Racket(float x, float y, float width, float height, World physicWorld, Vector2 screenSize) {
+    public Racket(float x, float y, float width, float height, World physicWorld) {
         this.startPosition = x;
-        this.width = width;
-        this.height = height;
         this.physicWorld = physicWorld;
-        this.screenSize = screenSize;
 
         position = new Vector2(x, y);
 
@@ -54,12 +50,14 @@ public class Racket {
         vertices[1] = new Vector2(x + width, y);
         vertices[2] = new Vector2(x - (width / 1.2f), y + height);
         vertices[3] = new Vector2(x + (width / 1.2f), y + height);
-        vertices[4] = new Vector2(x - width / 3  , y + height * 2);
-        vertices[5] = new Vector2(x + width / 3  , y + height * 2);
-        //new
-        vertices[6] = new Vector2(x - width / 3  , Consts.GAME_BOTTOM_BORDER);
-        vertices[7] = new Vector2(x + width / 3  , Consts.GAME_BOTTOM_BORDER);
+        vertices[4] = new Vector2(x - width / 3, y + height * 2);
+        vertices[5] = new Vector2(x + width / 3, y + height * 2);
+        //bottom
+        vertices[6] = new Vector2(x - width / 3, Consts.GAME_BOTTOM_BORDER);
+        vertices[7] = new Vector2(x + width / 3, Consts.GAME_BOTTOM_BORDER);
         bodyShape.set(vertices);
+
+        this.height = (y + height * 2) - Consts.GAME_BOTTOM_BORDER;
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
@@ -79,16 +77,7 @@ public class Racket {
 
         Vector2 presentVelocity = physicBody.getLinearVelocity();
 
-//        Gdx.app.debug("Move+++", "+++============================+++");
-//        Gdx.app.debug("bodyCenter", "" + bodyCenterX);
-//        Gdx.app.debug("begin", "" + physicBody.getPosition().x);
-//        Gdx.app.debug("end", "" + (physicBody.getPosition().x + width / 2));
-//        Gdx.app.debug("target", "" + targetPosition);
-//        Gdx.app.debug("absPositionDelta", "" + absPositionDelta);
-//        Gdx.app.debug("velocity", "" + presentVelocity.x);
-//        Gdx.app.debug("move---", "                 ");
-
-       if (absPositionDelta < 1) {
+        if (absPositionDelta < 1) {
            if (absPositionDelta < 0.01)
             presentVelocity.x = 0;
            else presentVelocity.x = positionDelta * 50;
@@ -97,10 +86,7 @@ public class Racket {
     }
 
     public void onClick(float x) {
-
-        float density = (Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2);
-        x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
-        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER  - width);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
@@ -117,9 +103,7 @@ public class Racket {
     }
 
     public void onDrag(float x) {
-        float density = (Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2);
-        x = (x * density) - (Consts.VIEWPORT_WIDTH / 2);
-        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x + startPosition;
         float positionDelta = (targetPosition - bodyCenterX);
@@ -136,20 +120,18 @@ public class Racket {
     }
 
     public float getX() {
-        float density = (Consts.VIEWPORT_WIDTH / 2) / (screenSize.x / 2);
-        float x = physicBody.getPosition().x;
-        return (x / density) + (screenSize.x / 2) - (width / density * 1.5f);
+        return GameHelpers.meterToCoordX(physicBody.getPosition().x) - (width / GameHelpers.screenDensity() * 1.5f);
     }
 
     public float getY() {
-        return position.y;
+        return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (height / GameHelpers.screenDensity() * 2f);
     }
 
     public float getWidth() {
-        return width;
+        return GameHelpers.meterToPixelsX(width);
     }
 
     public float getHeight() {
-        return height;
+        return GameHelpers.meterToPixelsY(height);
     }
 }

@@ -34,6 +34,7 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
+    Sprite spr, spr2, sprPipe, sprRacket, sprBall, sprLeftBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
@@ -64,6 +65,30 @@ public class GameRenderer  implements Disposable {
         topBorder = world.getTopBorder();
 
         bricks = world.getBricks();
+
+        TextureRegion borderTexture = Assets.instance.border.border;
+        borderTexture.flip(true, false);
+        sprLeftBorder = new Sprite(borderTexture);
+
+        TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;
+//        borderTopTexture.flip(true, false);
+        sprTopBorder = new Sprite(topBorderTexture);
+
+        TextureRegion ballTexture = Assets.instance.ball.ball;
+        sprBall = new Sprite(ballTexture);
+
+        TextureRegion racketTexture = Assets.instance.racket.racket;
+        sprRacket = new Sprite(racketTexture);
+
+        TextureRegion pipeTexture = Assets.instance.pipe.pipe;
+        pipeTexture.flip(false, true);
+        sprPipe = new Sprite(pipeTexture);
+
+        TextureRegion regions = Assets.instance.levelDecoration.background;
+        spr = new Sprite(regions);
+
+        TextureRegion brickTexture = Assets.instance.brickTexture.brick;
+        sprBrick = new Sprite(brickTexture);
     }
 
     public void render() {
@@ -72,8 +97,6 @@ public class GameRenderer  implements Disposable {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        TextureRegion regions = Assets.instance.levelDecoration.background;
-        Sprite spr = new Sprite(regions);
         spr.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         SpriteBatch batch = new SpriteBatch();
@@ -81,8 +104,6 @@ public class GameRenderer  implements Disposable {
         spr.draw(batch);
         batch.end();
 
-        TextureRegion pipeTexture = Assets.instance.pipe.pipe;
-        Sprite sprPipe = new Sprite(pipeTexture);
         sprPipe.setSize(300, 5);
         sprPipe.setPosition(0, 15);
 
@@ -90,8 +111,6 @@ public class GameRenderer  implements Disposable {
         sprPipe.draw(batch);
         batch.end();
 
-        TextureRegion racketTexture = Assets.instance.racket.racket;
-        Sprite sprRacket = new Sprite(racketTexture);
         sprRacket.setSize(50, 100);
         sprRacket.setOrigin(25, 50);
         sprRacket.setPosition(racket.getX(), racket.getY());
@@ -100,8 +119,7 @@ public class GameRenderer  implements Disposable {
         sprRacket.draw(batch);
         batch.end();
 
-        TextureRegion ballTexture = Assets.instance.ball.ball;
-        Sprite sprBall = new Sprite(ballTexture);
+
         sprBall.setSize(10, 10);
         sprBall.setPosition(ball.getX(), ball.getY());
 
@@ -109,14 +127,58 @@ public class GameRenderer  implements Disposable {
         sprBall.draw(batch);
         batch.end();
 
-        TextureRegion borderTexture = Assets.instance.border.border;
-        Sprite sprLeftBorder = new Sprite(borderTexture);
-        sprLeftBorder.setSize(25, 400);
-        sprLeftBorder.setPosition(leftBorder.getX(), rightBorder.getY());
+        //bricks
+        for (Brick brick : bricks) {
+            if (!brick.existing()) continue;
+            sprBrick.setSize(brick.getWidth(), brick.getHeight());
+            sprBrick.setPosition(brick.getX(), brick.getY());
 
-        batch.begin();
-        sprLeftBorder.draw(batch);
-        batch.end();
+            batch.begin();
+            sprBrick.draw(batch);
+            batch.end();
+        }
+//        sprBrick.setSize(20, 10);
+//        sprBrick.setPosition(20, 20);
+//
+//        batch.begin();
+//        sprBrick.draw(batch);
+//        batch.end();
+
+        //borders
+        float borderY = 20;
+        float step = 20;
+        while (borderY < Gdx.graphics.getHeight() - 45) {
+            sprLeftBorder.setSize(5, step);
+            sprLeftBorder.setPosition(0, borderY);
+            borderY += step;
+
+            batch.begin();
+            sprLeftBorder.draw(batch);
+            batch.end();
+        }
+
+        borderY = 20;
+        while (borderY < Gdx.graphics.getHeight() - 45) {
+            sprLeftBorder.setSize(5, step);
+            sprLeftBorder.setPosition(206, borderY);
+            borderY += step;
+
+            batch.begin();
+            sprLeftBorder.draw(batch);
+            batch.end();
+        }
+
+        float borderX = 5;
+        step = 20;
+        while (borderX < Gdx.graphics.getWidth() - 65) {
+            sprTopBorder.setSize(step, 5);
+            sprTopBorder.setPosition(borderX, Gdx.graphics.getHeight() - 38);
+            borderX += step;
+
+            batch.begin();
+            sprTopBorder.draw(batch);
+            batch.end();
+        }
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,

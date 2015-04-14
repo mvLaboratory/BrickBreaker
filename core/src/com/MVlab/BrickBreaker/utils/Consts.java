@@ -14,5 +14,5 @@ public class Consts {
 
     public static float BRICKS_PER_ROW = 8f;
 
-    public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures/basic textures.pack";
+    public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures/BrickBreackerTextures.pack";
 }

@@ -44,7 +44,7 @@ public class GameWorld  implements ContactListener {
         physicWorld = new World(new Vector2(0, -10F), true);
         physicWorld.setContactListener(this);
 
-        racket = new Racket(-1, -9f, 1.5f, 0.3f, physicWorld);
+        racket = new Racket(-1, -4.5f, 1.5f, 0.3f, 4.5f, physicWorld);
         ball = new Ball(-1, 0, 0.3f, physicWorld);
 
         leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);

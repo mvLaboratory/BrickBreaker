@@ -111,7 +111,7 @@ public class GameRenderer  implements Disposable {
         sprPipe.draw(batch);
         batch.end();
 
-        sprRacket.setSize(50, 100);
+        sprRacket.setSize(racket.getWidth(), racket.getFullHeight());
         sprRacket.setOrigin(25, 50);
         sprRacket.setPosition(racket.getX(), racket.getY());
 

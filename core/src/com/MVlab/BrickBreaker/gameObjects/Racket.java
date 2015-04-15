@@ -6,6 +6,7 @@ package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,6 +22,7 @@ public class Racket {
 
     private float width;
     private float height;
+    private float fullHeight;
 
     private Body physicBody;
     private BodyDef bodyDef;
@@ -29,15 +31,18 @@ public class Racket {
     float startPosition;
     float targetPosition = 0;
 
-    public Racket(float x, float y, float width, float height, World physicWorld) {
+    public Racket(float x, float y, float width, float height, float fullHeight, World physicWorld) {
         this.startPosition = x;
         this.physicWorld = physicWorld;
+        this.fullHeight = fullHeight;
+        this.height = height;
+        this.width = width;
 
         position = new Vector2(x, y);
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-//        bodyDef.position.set(position);
+        bodyDef.position.set(position);
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.KinematicBody);
@@ -53,11 +58,9 @@ public class Racket {
         vertices[4] = new Vector2(x - width / 3, y + height * 2);
         vertices[5] = new Vector2(x + width / 3, y + height * 2);
         //bottom
-        vertices[6] = new Vector2(x - width / 3, Consts.GAME_BOTTOM_BORDER);
-        vertices[7] = new Vector2(x + width / 3, Consts.GAME_BOTTOM_BORDER);
+        vertices[6] = new Vector2(x - width / 3, y - fullHeight);
+        vertices[7] = new Vector2(x + width / 3, y - fullHeight);
         bodyShape.set(vertices);
-
-        this.height = (y + height * 2) - Consts.GAME_BOTTOM_BORDER;
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
@@ -124,14 +127,19 @@ public class Racket {
     }
 
     public float getY() {
-        return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (height / GameHelpers.screenDensity() * 2f);
+       // return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (fullHeight / GameHelpers.screenDensity());
+        return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (fullHeight / GameHelpers.screenDensity() * 1.5f);
     }
 
     public float getWidth() {
-        return GameHelpers.meterToPixelsX(width);
+        return GameHelpers.meterToPixelsX(width) * 2;
     }
 
     public float getHeight() {
         return GameHelpers.meterToPixelsY(height);
+    }
+
+    public float getFullHeight() {
+        return GameHelpers.meterToPixelsY(fullHeight);
     }
 }

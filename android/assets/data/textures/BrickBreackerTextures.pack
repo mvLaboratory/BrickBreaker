@@ -26,28 +26,28 @@ pipe
   index: -1
 brick
   rotate: false
-  xy: 343, 240
-  size: 93, 48
-  orig: 93, 48
+  xy: 343, 223
+  size: 133, 65
+  orig: 133, 65
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 343, 193
+  xy: 343, 176
   size: 46, 45
   orig: 46, 45
   offset: 0, 0
   index: -1
 border
   rotate: false
-  xy: 438, 246
+  xy: 343, 132
   size: 40, 42
   orig: 40, 42
   offset: 0, 0
   index: -1
 topBorder
   rotate: false
-  xy: 343, 149
+  xy: 391, 179
   size: 40, 42
   orig: 40, 42
   offset: 0, 0

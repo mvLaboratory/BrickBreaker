@@ -67,7 +67,7 @@ public class GameRenderer  implements Disposable {
         bricks = world.getBricks();
 
         TextureRegion borderTexture = Assets.instance.border.border;
-        borderTexture.flip(true, false);
+        //borderTexture.flip(true, false);
         sprSideBorder = new Sprite(borderTexture);
 
         TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;

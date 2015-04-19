@@ -16,9 +16,8 @@ public class InputHandler implements InputProcessor {
     private Racket racket;
     private Ball ball;
 
-    public InputHandler(GameWorld gameWorld, GameRenderer renderer) {
+    public InputHandler(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
-        this.gameRenderer = renderer;
         this.racket = gameWorld.getRacket();
         this.ball = gameWorld.getBall();
     }
@@ -26,13 +25,8 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.R) {
-            gameWorld.init();
-            gameRenderer.init();
+          gameWorld.restart();
         }
-        else if(keycode == Input.Keys.LEFT) gameRenderer.moveCamera(-0.5f, 0);
-        else if(keycode == Input.Keys.RIGHT) gameRenderer.moveCamera(0.5f, 0);
-        else if(keycode == Input.Keys.UP) gameRenderer.moveCamera(0, 0.5f);
-        else if(keycode == Input.Keys.DOWN) gameRenderer.moveCamera(0, -0.5f);
         return false;
     }
 

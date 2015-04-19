@@ -4,6 +4,7 @@
 
 package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.gameObjects.Border;
+import com.MVlab.BrickBreaker.gameObjects.BottomBorder;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.gameObjects.RightBorder;
@@ -26,11 +27,13 @@ public class GameWorld  implements ContactListener {
     private LeftBorder leftBorder;
     private RightBorder rightBorder;
     private Border topBorder;
-    private Border bottomBorder;
+    private BottomBorder bottomBorder;
     private World physicWorld;
     ArrayList<Brick> bricks;
     private float screenWidth;
     private float screenHeight;
+    private Boolean stoped;
+    private Boolean restart;
 
     public GameWorld(float screenWidth, float screenHeight) {
         this.screenHeight = screenHeight;
@@ -47,10 +50,13 @@ public class GameWorld  implements ContactListener {
         racket = new Racket(0, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(-1, 0, 0.3f, physicWorld);
 
+        stoped = false;
+        restart = false;
+
         leftBorder = new LeftBorder(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new RightBorder(Consts.GAME_RIGHT_BORDER, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.15f, physicWorld);
-        bottomBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+        bottomBorder = new BottomBorder(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
         Vector2 brickPosition = new Vector2(-3.5f, 4);
         for (int i = 0; i < 2; i++) {
@@ -147,5 +153,26 @@ public class GameWorld  implements ContactListener {
         if (bodyA instanceof RightBorder && bodyB instanceof Ball) {
             ((Ball) bodyB).getPhysicBody().applyLinearImpulse(-1, 0, 0, 0, true);
         }
+
+        //Bottom border
+        if ((bodyA instanceof Ball && bodyB instanceof BottomBorder) || (bodyA instanceof BottomBorder && bodyB instanceof Ball)) {
+            stoped = true;
+        }
+    }
+
+    public void stop() {
+        stoped = true;
+    }
+
+    public Boolean active() {
+        return !stoped;
+    }
+
+    public Boolean needRestart() {
+        return restart;
+    }
+
+    public void restart() {
+        restart = true;
     }
 }

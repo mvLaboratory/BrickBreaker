@@ -4,6 +4,7 @@
 package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
+import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -72,11 +73,11 @@ public class Ball {
     public float getY() {
         float density = (Consts.VIEWPORT_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
         float y = physicBody.getPosition().y;
-        return (y / density) + (Gdx.graphics.getHeight() / 2) - (radius / density * 1.5f);
+        return (y / density) + (Gdx.graphics.getHeight() / 2) - (radius / density);
     }
 
     public float getRadius() {
-        return radius;
+        return GameHelpers.meterToPixelsY(radius * 2);
     }
 
     public Vector2 getPosition() {

@@ -1,8 +1,8 @@
 package com.MVlab.BrickBreaker;
 
 import com.MVlab.BrickBreaker.gameHelpers.InputHandler;
-import com.MVlab.BrickBreaker.gameworld.GameRenderer;
-import com.MVlab.BrickBreaker.gameworld.GameWorld;
+import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
+import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

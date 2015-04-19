@@ -2,12 +2,10 @@
  * Created by MV on 17.03.2015.
  */
 
-package com.MVlab.BrickBreaker.gameworld;
+package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.utils.Consts;
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
 import com.badlogic.gdx.math.Vector2;
@@ -41,15 +39,15 @@ public class GameWorld  implements ContactListener {
     public void init() {
         bricks = new ArrayList<Brick>();
 
-        physicWorld = new World(new Vector2(0, -10F), true);
+        physicWorld = new World(new Vector2(0, -3F), true);
         physicWorld.setContactListener(this);
 
-        racket = new Racket(0, 0, 1f, 0.2f, 3f, physicWorld);
+        racket = new Racket(0, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(-1, 0, 0.3f, physicWorld);
 
         leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
-        topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+        topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.15f, physicWorld);
         bottomBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
         Vector2 brickPosition = new Vector2(-3.5f, 4);

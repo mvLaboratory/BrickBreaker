@@ -1,8 +1,7 @@
 package com.MVlab.BrickBreaker.gameHelpers;
 
-import com.MVlab.BrickBreaker.gameworld.GameRenderer;
-import com.MVlab.BrickBreaker.gameworld.GameWorld;
-import com.badlogic.gdx.Gdx;
+import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
+import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
@@ -30,6 +29,10 @@ public class InputHandler implements InputProcessor {
             gameWorld.init();
             gameRenderer.init();
         }
+        else if(keycode == Input.Keys.LEFT) gameRenderer.moveCamera(-0.5f, 0);
+        else if(keycode == Input.Keys.RIGHT) gameRenderer.moveCamera(0.5f, 0);
+        else if(keycode == Input.Keys.UP) gameRenderer.moveCamera(0, 0.5f);
+        else if(keycode == Input.Keys.DOWN) gameRenderer.moveCamera(0, -0.5f);
         return false;
     }
 

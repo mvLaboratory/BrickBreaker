@@ -6,7 +6,6 @@ package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,13 +27,15 @@ public class Racket {
     private BodyDef bodyDef;
     private World physicWorld;
 
-    float startPosition;
+    float startPositionX;
+    float startPositionY;
     float targetPosition = 0;
 
     public Racket(float x, float y, float width, float height, float fullHeight, World physicWorld) {
-        this.startPosition = x;
+        this.startPositionX = x;
+        this.startPositionY = y;
         this.physicWorld = physicWorld;
-        this.fullHeight = fullHeight - (height * 3);
+        this.fullHeight = fullHeight;
         this.height = height;
         this.width = width;
 
@@ -72,7 +73,7 @@ public class Racket {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 0.1f;
-        fixtureDef.restitution = 2.5f;
+        fixtureDef.restitution = 1.5f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
@@ -81,7 +82,7 @@ public class Racket {
     }
 
     public void update(float delta) {
-        float bodyCenterX = physicBody.getPosition().x + startPosition;
+        float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -98,7 +99,7 @@ public class Racket {
     public void onClick(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x + startPosition;
+        float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -115,7 +116,7 @@ public class Racket {
     public void onDrag(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x + startPosition;
+        float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
@@ -130,11 +131,11 @@ public class Racket {
     }
 
     public float getX() {
-        return GameHelpers.meterToCoordX(physicBody.getPosition().x) - (width / GameHelpers.screenDensity() * 1.5f);
+        return GameHelpers.meterToCoordX(physicBody.getPosition().x) - (width / GameHelpers.screenDensity());
     }
 
     public float getY() {
-       return GameHelpers.meterToCoordY(physicBody.getPosition().y)  - (fullHeight / GameHelpers.screenDensityY());
+       return GameHelpers.meterToCoordY(physicBody.getPosition().y) + GameHelpers.meterToPixelsY(startPositionY) - (fullHeight / GameHelpers.screenDensity());
     }
 
     public float getWidth() {

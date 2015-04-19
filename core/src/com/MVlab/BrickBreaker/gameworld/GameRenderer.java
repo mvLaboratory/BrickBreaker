@@ -2,12 +2,13 @@
  * Created by MV on 17.03.2015.
  */
 
-package com.MVlab.BrickBreaker.gameworld;
+package com.MVlab.BrickBreaker.gameWorld;
 
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.utils.Consts;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,10 +18,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite spr, spr2, sprPipe, sprRacket, sprBall, sprLeftBorder, sprTopBorder, sprBrick;
+    Sprite background, spr2, sprPipe, sprRacket, sprBall, sprLeftBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
@@ -71,26 +71,26 @@ public class GameRenderer  implements Disposable {
         sprLeftBorder = new Sprite(borderTexture);
 
         TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;
-//      borderTopTexture.flip(true, false);
         sprTopBorder = new Sprite(topBorderTexture);
 
         TextureRegion ballTexture = Assets.instance.ball.ball;
         sprBall = new Sprite(ballTexture);
+        sprBall.setSize(ball.getRadius(), ball.getRadius());
 
         TextureRegion racketTexture = Assets.instance.racket.racket;
         sprRacket = new Sprite(racketTexture);
         sprRacket.setSize(racket.getWidth(), racket.getFullHeight());
         sprRacket.setOrigin(racket.getWidth() / 2, 0);
 
-        TextureRegion pipeTexture = Assets.instance.pipe.pipe;
-        pipeTexture.flip(false, true);
-        sprPipe = new Sprite(pipeTexture);
-
+//        TextureRegion pipeTexture = Assets.instance.pipe.pipe;
+//        pipeTexture.flip(false, true);
+//        sprPipe = new Sprite(pipeTexture);
+//
         TextureRegion regions = Assets.instance.levelDecoration.background;
-        spr = new Sprite(regions);
-
-        TextureRegion brickTexture = Assets.instance.brickTexture.brick;
-        sprBrick = new Sprite(brickTexture);
+        background = new Sprite(regions);
+//
+//        TextureRegion brickTexture = Assets.instance.brickTexture.brick;
+//        sprBrick = new Sprite(brickTexture);
     }
 
     public void render() {
@@ -99,32 +99,35 @@ public class GameRenderer  implements Disposable {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        spr.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         SpriteBatch batch = new SpriteBatch();
-        batch.begin();
-        spr.draw(batch);
-        batch.end();
 
-//        sprPipe.setSize(300, 5);
-//        sprPipe.setPosition(0, 15);
-//
-//        batch.begin();
-//        sprPipe.draw(batch);
-//        batch.end();
-//racket+++
+        //Background+++
+        batch.begin();
+        background.draw(batch);
+        batch.end();
+        //Background---
+
+//      sprPipe.setSize(300, 5);
+//      sprPipe.setPosition(0, 15);
+//      batch.begin();
+//      sprPipe.draw(batch);
+//      batch.end();
+
+        //racket+++
         sprRacket.setPosition(racket.getX(), racket.getY());
         batch.begin();
         sprRacket.draw(batch);
         batch.end();
-//racket---
+        //racket---
 
-//        sprBall.setSize(10, 10);
-//        sprBall.setPosition(ball.getX(), ball.getY());
-//
-//        batch.begin();
-//        sprBall.draw(batch);
-//        batch.end();
+        //Ball+++
+        sprBall.setPosition(ball.getX(), ball.getY());
+        batch.begin();
+        sprBall.draw(batch);
+        batch.end();
+        //Ball---
 
         //bricks
 //        for (Brick brick : bricks) {
@@ -144,8 +147,8 @@ public class GameRenderer  implements Disposable {
 //        batch.end();
 
         //borders
-//        float borderY = 20;
-//        float step = 20;
+        float borderY = 20;
+        float step = 20;
 //        while (borderY < Gdx.graphics.getHeight() - 45) {
 //            sprLeftBorder.setSize(5, step);
 //            sprLeftBorder.setPosition(0, borderY);
@@ -167,17 +170,19 @@ public class GameRenderer  implements Disposable {
 //            batch.end();
 //        }
 //
-//        float borderX = 5;
-//        step = 20;
-//        while (borderX < Gdx.graphics.getWidth() - 65) {
-//            sprTopBorder.setSize(step, 5);
-//            sprTopBorder.setPosition(borderX, Gdx.graphics.getHeight() - 38);
-//            borderX += step;
-//
-//            batch.begin();
-//            sprTopBorder.draw(batch);
-//            batch.end();
-//        }
+        float borderPosition = topBorder.getX();
+        float borderFinish = topBorder.getX() + topBorder.getWidth() * 2;
+
+        step = 20;
+        while (borderPosition < borderFinish) {
+            sprTopBorder.setSize(step, topBorder.getHeight());
+            sprTopBorder.setPosition(borderPosition, topBorder.getY());
+            borderPosition += step;
+
+            batch.begin();
+            sprTopBorder.draw(batch);
+            batch.end();
+        }
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,
@@ -217,12 +222,12 @@ public class GameRenderer  implements Disposable {
 //        shapeRenderer.end();
 
         //grid
-        for (int i = -10; i <= 1; i++) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-            shapeRenderer.line(-10, i, 10, i);
-            shapeRenderer.end();
-        }
+//        for (int i = -10; i <= 0; i++) {
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//            shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//            shapeRenderer.line(-10, i, 10, i);
+//            shapeRenderer.end();
+//        }
     }
 
     public void resize(int width, int height) {
@@ -233,5 +238,12 @@ public class GameRenderer  implements Disposable {
     @Override
     public void dispose() {
 
+    }
+
+    public void moveCamera(float x, float y) {
+        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            Vector3 camPos = cam.position;
+            cam.position.set(camPos.x + x, camPos.y + y, camPos.z);
+        }
     }
 }

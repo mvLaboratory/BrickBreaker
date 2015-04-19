@@ -45,8 +45,8 @@ public class GameWorld  implements ContactListener {
         racket = new Racket(0, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(-1, 0, 0.3f, physicWorld);
 
-        leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
-        rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.01f, Consts.GAME_TOP_BORDER, physicWorld);
+        leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
+        rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.15f, physicWorld);
         bottomBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 

@@ -34,10 +34,10 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, spr2, sprPipe, sprRacket, sprBall, sprLeftBorder, sprTopBorder, sprBrick;
+    Sprite background, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
@@ -68,7 +68,7 @@ public class GameRenderer  implements Disposable {
 
         TextureRegion borderTexture = Assets.instance.border.border;
         borderTexture.flip(true, false);
-        sprLeftBorder = new Sprite(borderTexture);
+        sprSideBorder = new Sprite(borderTexture);
 
         TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;
         sprTopBorder = new Sprite(topBorderTexture);
@@ -88,9 +88,9 @@ public class GameRenderer  implements Disposable {
 //
         TextureRegion regions = Assets.instance.levelDecoration.background;
         background = new Sprite(regions);
-//
-//        TextureRegion brickTexture = Assets.instance.brickTexture.brick;
-//        sprBrick = new Sprite(brickTexture);
+
+        TextureRegion brickTexture = Assets.instance.brickTexture.brick;
+        sprBrick = new Sprite(brickTexture);
     }
 
     public void render() {
@@ -129,51 +129,23 @@ public class GameRenderer  implements Disposable {
         batch.end();
         //Ball---
 
-        //bricks
-//        for (Brick brick : bricks) {
-//            if (!brick.existing()) continue;
-//            sprBrick.setSize(brick.getWidth(), brick.getHeight());
-//            sprBrick.setPosition(brick.getX(), brick.getY());
-//
-//            batch.begin();
-//            sprBrick.draw(batch);
-//            batch.end();
-//        }
-//        sprBrick.setSize(20, 10);
-//        sprBrick.setPosition(20, 20);
-//
-//        batch.begin();
-//        sprBrick.draw(batch);
-//        batch.end();
+        //bricks+++
+        for (Brick brick : bricks) {
+            if (!brick.existing()) continue;
+            sprBrick.setSize(brick.getWidth(), brick.getHeight());
+            sprBrick.setPosition(brick.getX(), brick.getY());
+
+            batch.begin();
+            sprBrick.draw(batch);
+            batch.end();
+        }
+        //bricks---
 
         //borders
-        float borderY = 20;
-        float step = 20;
-//        while (borderY < Gdx.graphics.getHeight() - 45) {
-//            sprLeftBorder.setSize(5, step);
-//            sprLeftBorder.setPosition(0, borderY);
-//            borderY += step;
-//
-//            batch.begin();
-//            sprLeftBorder.draw(batch);
-//            batch.end();
-//        }
-//
-//        borderY = 20;
-//        while (borderY < Gdx.graphics.getHeight() - 45) {
-//            sprLeftBorder.setSize(5, step);
-//            sprLeftBorder.setPosition(206, borderY);
-//            borderY += step;
-//
-//            batch.begin();
-//            sprLeftBorder.draw(batch);
-//            batch.end();
-//        }
-//
         float borderPosition = topBorder.getX();
-        float borderFinish = topBorder.getX() + topBorder.getWidth() * 2;
+        float borderFinish = topBorder.getX() + topBorder.getWidth();
+        float step = 20;
 
-        step = 20;
         while (borderPosition < borderFinish) {
             sprTopBorder.setSize(step, topBorder.getHeight());
             sprTopBorder.setPosition(borderPosition, topBorder.getY());
@@ -184,27 +156,35 @@ public class GameRenderer  implements Disposable {
             batch.end();
         }
 
+        borderPosition = rightBorder.getY();
+        borderFinish = rightBorder.getY() + rightBorder.getHeight();
+        while (borderPosition < borderFinish) {
+            sprSideBorder.setSize(rightBorder.getWidth(), step);
+            sprSideBorder.setPosition(rightBorder.getX(), borderPosition);
+            borderPosition += step;
+
+            batch.begin();
+            sprSideBorder.draw(batch);
+            batch.end();
+        }
+
+        borderPosition = leftBorder.getY();
+        borderFinish = leftBorder.getY() + leftBorder.getHeight();
+
+        while (borderPosition < borderFinish) {
+            sprSideBorder.setSize(leftBorder.getWidth(), step);
+            sprSideBorder.setPosition(leftBorder.getX(), borderPosition);
+            borderPosition += step;
+
+            batch.begin();
+            sprSideBorder.draw(batch);
+            batch.end();
+        }
+
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,
                     cam.combined);
         }
-
-        //borders+++
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.rect(leftBorder.getX(), leftBorder.getY(), leftBorder.getWidth(), leftBorder.getHeight());
-//        shapeRenderer.end();
-//
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.rect(rightBorder.getX() - 1, rightBorder.getY(), rightBorder.getWidth(), rightBorder.getHeight());
-//        shapeRenderer.end();
-//
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.rect(topBorder.getX(), topBorder.getY(), topBorder.getWidth(), topBorder.getHeight());
-//        shapeRenderer.end();
-        //borders---
 
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 //        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);

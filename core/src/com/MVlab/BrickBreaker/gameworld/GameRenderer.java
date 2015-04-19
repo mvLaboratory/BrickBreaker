@@ -37,7 +37,7 @@ public class GameRenderer  implements Disposable {
     Sprite background, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {

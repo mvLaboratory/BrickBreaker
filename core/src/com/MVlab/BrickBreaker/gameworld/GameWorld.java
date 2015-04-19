@@ -5,6 +5,8 @@
 package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
+import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
+import com.MVlab.BrickBreaker.gameObjects.RightBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
@@ -21,8 +23,8 @@ import java.util.ArrayList;
 public class GameWorld  implements ContactListener {
     private Racket racket;
     private Ball ball;
-    private Border leftBorder;
-    private Border rightBorder;
+    private LeftBorder leftBorder;
+    private RightBorder rightBorder;
     private Border topBorder;
     private Border bottomBorder;
     private World physicWorld;
@@ -45,8 +47,8 @@ public class GameWorld  implements ContactListener {
         racket = new Racket(0, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(-1, 0, 0.3f, physicWorld);
 
-        leftBorder = new Border(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
-        rightBorder = new Border(Consts.GAME_RIGHT_BORDER, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
+        leftBorder = new LeftBorder(Consts.GAME_LEFT_BORDER - 0.01f, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
+        rightBorder = new RightBorder(Consts.GAME_RIGHT_BORDER, -0.5f, 0.15f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.15f, physicWorld);
         bottomBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
@@ -114,8 +116,8 @@ public class GameWorld  implements ContactListener {
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        Body a=contact.getFixtureA().getBody();
-        Body b=contact.getFixtureB().getBody();
+        Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
 
         Object bodyA = a.getUserData();
         Object bodyB = b.getUserData();
@@ -127,6 +129,23 @@ public class GameWorld  implements ContactListener {
 
         if (bodyB instanceof Brick) {
             ((Brick) bodyB).damage(100);
+        }
+
+        //border collision
+        if (bodyA instanceof Ball && bodyB instanceof LeftBorder) {
+            ((Ball) bodyA).getPhysicBody().applyLinearImpulse(1, 0, 0, 0, true);
+        }
+
+        if (bodyA instanceof LeftBorder && bodyB instanceof Ball) {
+            ((Ball) bodyB).getPhysicBody().applyLinearImpulse(1, 0, 0, 0, true);
+        }
+
+        if (bodyA instanceof Ball && bodyB instanceof RightBorder) {
+            ((Ball) bodyA).getPhysicBody().applyLinearImpulse(-1, 0, 0, 0, true);
+        }
+
+        if (bodyA instanceof RightBorder && bodyB instanceof Ball) {
+            ((Ball) bodyB).getPhysicBody().applyLinearImpulse(-1, 0, 0, 0, true);
         }
     }
 }

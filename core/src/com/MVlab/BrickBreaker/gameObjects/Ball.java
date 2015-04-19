@@ -37,6 +37,7 @@ public class Ball {
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.DynamicBody);
+        physicBody.setUserData(this);
 
         ballShape = new CircleShape();
         ballShape.setRadius(radius);
@@ -82,5 +83,9 @@ public class Ball {
 
     public Vector2 getPosition() {
         return physicBody.getPosition();
+    }
+
+    public Body getPhysicBody() {
+        return physicBody;
     }
 }

@@ -34,6 +34,7 @@ public class Border {
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.StaticBody);
+        physicBody.setUserData(this);
 
         PolygonShape bodyShape = new PolygonShape();
         bodyShape.setAsBox(width, height);

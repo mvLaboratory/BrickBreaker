@@ -8,6 +8,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.World;
 
 public class BrickBreakerCore extends ApplicationAdapter {
     private static final String TAG = BrickBreakerCore.class.getName();
@@ -37,24 +38,20 @@ public class BrickBreakerCore extends ApplicationAdapter {
 
     @Override
     public void render() {
-        restart = world.needRestart();
-        if (!world.active() && !paused) {
-            paused = true;
-        }
-        if (!paused) {
+        if (!paused && world.active()) {
             Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             world.update(Gdx.graphics.getDeltaTime());
             renderer.render();
         }
-        if (restart) {
+
+        if (world.needRestart()) {
             world.init();
             renderer.init();
             Gdx.input.setInputProcessor(new InputHandler(world));
 
             paused = false;
-            restart= false;
         }
     }
 
@@ -79,5 +76,6 @@ public class BrickBreakerCore extends ApplicationAdapter {
     public void resume() {
         paused = false;
         Assets.instance.init(new AssetManager());
+        renderer.init();
     }
 }

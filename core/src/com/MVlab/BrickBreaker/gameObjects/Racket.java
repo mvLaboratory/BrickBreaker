@@ -97,7 +97,7 @@ public class Racket {
     }
 
     public void onClick(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);
@@ -114,7 +114,7 @@ public class Racket {
     }
 
     public void onDrag(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width, Consts.GAME_RIGHT_BORDER - width);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);

@@ -42,6 +42,10 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (!gameWorld.active()) {
+            gameWorld.restart();
+            return true;
+        }
         racket.onClick(screenX);
         return true;
     }

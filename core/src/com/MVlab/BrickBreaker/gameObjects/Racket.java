@@ -34,7 +34,7 @@ public class Racket {
     public Racket(float x, float y, float width, float height, float fullHeight, World physicWorld) {
         this.startPosition = x;
         this.physicWorld = physicWorld;
-        this.fullHeight = fullHeight;
+        this.fullHeight = fullHeight - (height * 3);
         this.height = height;
         this.width = width;
 
@@ -51,15 +51,22 @@ public class Racket {
 
 //        bodyShape.setAsBox(width, height);
         Vector2[] vertices = new Vector2[8];
-        vertices[0] = new Vector2(x - width, y);
-        vertices[1] = new Vector2(x + width, y);
-        vertices[2] = new Vector2(x - (width / 1.2f), y + height);
-        vertices[3] = new Vector2(x + (width / 1.2f), y + height);
-        vertices[4] = new Vector2(x - width / 3, y + height * 2);
-        vertices[5] = new Vector2(x + width / 3, y + height * 2);
+//        vertices[0] = new Vector2(x - width, y);
+//        vertices[1] = new Vector2(x + width, y);
+//        vertices[2] = new Vector2(x - (width / 1.2f), y + height);
+//        vertices[3] = new Vector2(x + (width / 1.2f), y + height);
+//        vertices[4] = new Vector2(x - width / 3, y + height * 2);
+//        vertices[5] = new Vector2(x + width / 3, y + height * 2);
+
+        vertices[0] = new Vector2(x - width, y - height * 2);
+        vertices[1] = new Vector2(x + width, y - height * 2);
+        vertices[2] = new Vector2(x - (width / 1.2f), y - height);
+        vertices[3] = new Vector2(x + (width / 1.2f), y - height);
+        vertices[4] = new Vector2(x - width / 3, y);
+        vertices[5] = new Vector2(x + width / 3, y);
         //bottom
-        vertices[6] = new Vector2(x - width / 3, y - fullHeight);
-        vertices[7] = new Vector2(x + width / 3, y - fullHeight);
+        vertices[6] = new Vector2(x - width, y - fullHeight);
+        vertices[7] = new Vector2(x + width, y - fullHeight);
         bodyShape.set(vertices);
 
         FixtureDef fixtureDef = new FixtureDef();
@@ -127,8 +134,7 @@ public class Racket {
     }
 
     public float getY() {
-       // return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (fullHeight / GameHelpers.screenDensity());
-        return GameHelpers.meterToCoordY(physicBody.getPosition().y) - (fullHeight / GameHelpers.screenDensity() * 1.5f);
+       return GameHelpers.meterToCoordY(physicBody.getPosition().y)  - (fullHeight / GameHelpers.screenDensityY());
     }
 
     public float getWidth() {

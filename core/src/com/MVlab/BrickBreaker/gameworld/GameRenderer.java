@@ -37,7 +37,7 @@ public class GameRenderer  implements Disposable {
     Sprite background, background2, background3, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
@@ -67,7 +67,6 @@ public class GameRenderer  implements Disposable {
         bricks = world.getBricks();
 
         TextureRegion borderTexture = Assets.instance.border.border;
-        //borderTexture.flip(true, false);
         sprSideBorder = new Sprite(borderTexture);
 
         TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;
@@ -92,7 +91,6 @@ public class GameRenderer  implements Disposable {
         TextureRegion brickTexture = Assets.instance.brickTexture.brick;
         sprBrick = new Sprite(brickTexture);
 
-        //TextureRegion backReg2 = Assets.instance.levelDecoration.background;
         background2 = new Sprite(regions);
         background3 = new Sprite(regions);
     }

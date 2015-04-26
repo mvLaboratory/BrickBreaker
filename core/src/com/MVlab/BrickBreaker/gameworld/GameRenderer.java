@@ -34,7 +34,7 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
+    Sprite background, background2, background3, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
@@ -91,6 +91,10 @@ public class GameRenderer  implements Disposable {
 
         TextureRegion brickTexture = Assets.instance.brickTexture.brick;
         sprBrick = new Sprite(brickTexture);
+
+        //TextureRegion backReg2 = Assets.instance.levelDecoration.background;
+        background2 = new Sprite(regions);
+        background3 = new Sprite(regions);
     }
 
     public void render() {
@@ -99,11 +103,9 @@ public class GameRenderer  implements Disposable {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         SpriteBatch batch = new SpriteBatch();
-
         //Background+++
+        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.begin();
         background.draw(batch);
         batch.end();
@@ -180,6 +182,24 @@ public class GameRenderer  implements Disposable {
             sprSideBorder.draw(batch);
             batch.end();
         }
+
+        //Background2+++
+        batch.begin();
+        background2.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - (topBorder.getY() / 2));
+        background2.setOrigin(0, Gdx.graphics.getHeight() - (topBorder.getY() / 2));
+        background2.setPosition(0, topBorder.getY() + topBorder.getHeight());
+        background2.draw(batch);
+        batch.end();
+        //Background---
+
+        //Background2+++
+        batch.begin();
+        background3.setSize(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), Gdx.graphics.getHeight());
+        background3.setOrigin(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), 0);
+        background3.setPosition(rightBorder.getX() + rightBorder.getWidth(), 0);
+        background3.draw(batch);
+        batch.end();
+        //Background---
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,

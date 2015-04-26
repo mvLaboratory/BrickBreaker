@@ -55,7 +55,7 @@ public class Border {
     }
 
     public float getY() {
-        return GameHelpers.meterToCoordY(y) - (height / GameHelpers.screenDensity());
+        return GameHelpers.meterToCoordY(y) - (height / GameHelpers.screenDensityY());
     }
 
     public float getWidth() {

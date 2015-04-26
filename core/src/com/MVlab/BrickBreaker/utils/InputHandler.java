@@ -1,4 +1,4 @@
-package com.MVlab.BrickBreaker.gameHelpers;
+package com.MVlab.BrickBreaker.utils;
 
 import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;

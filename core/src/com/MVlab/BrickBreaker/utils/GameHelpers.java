@@ -10,6 +10,10 @@ public class GameHelpers {
         return (Consts.VIEWPORT_WIDTH / 2) / (Gdx.graphics.getWidth() / 2);
     }
 
+    public static float screenDensityY() {
+        return (Consts.VIEWPORT_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
+    }
+
     public static float pixelToMeterX(float x) {
         return x * screenDensity();
     }
@@ -27,11 +31,11 @@ public class GameHelpers {
     }
 
     public static float pixelToMeterY(float y) {
-        return y * screenDensity();
+        return y * screenDensityY();
     }
 
     public static float meterToPixelsY(float y) {
-        return y / screenDensity();
+        return y / screenDensityY();
     }
 
     public static float coordToMeterY(float y) {

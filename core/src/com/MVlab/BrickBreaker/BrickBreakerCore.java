@@ -1,6 +1,6 @@
 package com.MVlab.BrickBreaker;
 
-import com.MVlab.BrickBreaker.gameHelpers.InputHandler;
+import com.MVlab.BrickBreaker.utils.InputHandler;
 import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.badlogic.gdx.Application;
@@ -8,7 +8,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.physics.box2d.World;
 
 public class BrickBreakerCore extends ApplicationAdapter {
     private static final String TAG = BrickBreakerCore.class.getName();

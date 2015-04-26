@@ -6,6 +6,7 @@ package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -82,51 +83,94 @@ public class Racket {
     }
 
     public void update(float delta) {
-        float bodyCenterX = physicBody.getPosition().x + startPositionX;
-        float positionDelta = (targetPosition - bodyCenterX);
-        float absPositionDelta = MV_Math.abs(positionDelta);
-
-        Vector2 presentVelocity = physicBody.getLinearVelocity();
-
-        if (absPositionDelta < 1) {
-           if (absPositionDelta < 0.01)
-            presentVelocity.x = 0;
-           else presentVelocity.x = positionDelta * 50;
-       }
-        physicBody.setLinearVelocity(presentVelocity);
+        setRocketSpeed();
+//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
+//        float positionDelta = (targetPosition - bodyCenterX);
+//        float absPositionDelta = MV_Math.abs(positionDelta);
+//
+//        Vector2 presentVelocity = physicBody.getLinearVelocity();
+//
+//        Gdx.app.debug("move", "11----");
+//        Gdx.app.debug("move target", "" + targetPosition);
+//        Gdx.app.debug("move center", "" + bodyCenterX);
+//        Gdx.app.debug("move positionDelta", "" + positionDelta);
+//        Gdx.app.debug("move velocity", "" + presentVelocity.x);
+//        Gdx.app.debug("move", "11----");
+//
+//        if (absPositionDelta < 2) {
+//           if (absPositionDelta < 0.01)
+//            presentVelocity.x = 0;
+//           else presentVelocity.x = positionDelta * 10;
+//       }
+//        Gdx.app.debug("move", "22----");
+//        Gdx.app.debug("move target", "" + targetPosition);
+//        Gdx.app.debug("move center", "" + bodyCenterX);
+//        Gdx.app.debug("move positionDelta", "" + positionDelta);
+//        Gdx.app.debug("move velocity", "" + presentVelocity.x);
+//        Gdx.app.debug("move", "22----");
+//
+//        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public void onClick(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
-        float bodyCenterX = physicBody.getPosition().x + startPositionX;
-        float positionDelta = (targetPosition - bodyCenterX);
-        float absPositionDelta = MV_Math.abs(positionDelta);
-
-        Vector2 presentVelocity = physicBody.getLinearVelocity();
-        presentVelocity.x = positionDelta > 0 ? 100 : -100;
-        if (absPositionDelta < 1) {
-            if (absPositionDelta < 0.01)
-                presentVelocity.x = 0;
-            else presentVelocity.x = positionDelta * 50;
-        }
-        physicBody.setLinearVelocity(presentVelocity);
+        setRocketSpeed();
+//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
+//        float positionDelta = (targetPosition - bodyCenterX);
+//        float absPositionDelta = MV_Math.abs(positionDelta);
+//
+//        Vector2 presentVelocity = physicBody.getLinearVelocity();
+//        presentVelocity.x = positionDelta > 0 ? 50 : -50;
+//
+//        Gdx.app.debug("click", "" + targetPosition);
+//        Gdx.app.debug("click posdelta", "" + positionDelta);
+//        Gdx.app.debug("click velocity", "" + presentVelocity.x);
+//
+//        if (absPositionDelta < 2) {
+//            if (absPositionDelta < 0.01)
+//                presentVelocity.x = 0;
+//            else presentVelocity.x = positionDelta * 10;
+//        }
+//        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public void onDrag(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
+        setRocketSpeed();
+//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
+//        float positionDelta = (targetPosition - bodyCenterX);
+//        float absPositionDelta = MV_Math.abs(positionDelta);
+//
+//        Vector2 presentVelocity = physicBody.getLinearVelocity();
+//        presentVelocity.x = positionDelta > 0 ? 50 : -50;
+//        if (absPositionDelta < 2) {
+//            if (absPositionDelta < 0.01)
+//                presentVelocity.x = 0;
+//            else presentVelocity.x = positionDelta * 10;
+//        }
+//        physicBody.setLinearVelocity(presentVelocity);
+    }
+
+    private void setRocketSpeed() {
         float bodyCenterX = physicBody.getPosition().x + startPositionX;
         float positionDelta = (targetPosition - bodyCenterX);
         float absPositionDelta = MV_Math.abs(positionDelta);
 
         Vector2 presentVelocity = physicBody.getLinearVelocity();
-        presentVelocity.x = positionDelta > 0 ? 100 : -100;
-        if (absPositionDelta < 1) {
-            if (absPositionDelta < 0.01)
+
+//        if (absPositionDelta < 2) {
+//            if (absPositionDelta < 0.01)
+//                presentVelocity.x = 0;
+//            else presentVelocity.x = positionDelta * 10;
+//        }
+
+            if (absPositionDelta < 0.1)
                 presentVelocity.x = 0;
-            else presentVelocity.x = positionDelta * 50;
-        }
+            else presentVelocity.x = positionDelta * 50 / (Gdx.graphics.getDeltaTime() * 50);
+
+
         physicBody.setLinearVelocity(presentVelocity);
     }
 
@@ -135,7 +179,7 @@ public class Racket {
     }
 
     public float getY() {
-       return GameHelpers.meterToCoordY(physicBody.getPosition().y) + GameHelpers.meterToPixelsY(startPositionY) - (fullHeight / GameHelpers.screenDensity());
+       return GameHelpers.meterToCoordY(physicBody.getPosition().y) + GameHelpers.meterToPixelsY(startPositionY) - (fullHeight / GameHelpers.screenDensityY());
     }
 
     public float getWidth() {

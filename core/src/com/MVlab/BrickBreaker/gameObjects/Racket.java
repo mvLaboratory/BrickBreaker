@@ -41,6 +41,7 @@ public class Racket {
         this.width = width;
 
         position = new Vector2(x, y);
+        targetPosition = x - width;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -53,13 +54,6 @@ public class Racket {
 
 //        bodyShape.setAsBox(width, height);
         Vector2[] vertices = new Vector2[8];
-//        vertices[0] = new Vector2(x - width, y);
-//        vertices[1] = new Vector2(x + width, y);
-//        vertices[2] = new Vector2(x - (width / 1.2f), y + height);
-//        vertices[3] = new Vector2(x + (width / 1.2f), y + height);
-//        vertices[4] = new Vector2(x - width / 3, y + height * 2);
-//        vertices[5] = new Vector2(x + width / 3, y + height * 2);
-
         vertices[0] = new Vector2(x - width, y - height * 2);
         vertices[1] = new Vector2(x + width, y - height * 2);
         vertices[2] = new Vector2(x - (width / 1.2f), y - height);
@@ -74,7 +68,7 @@ public class Racket {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 0.1f;
-        fixtureDef.restitution = 1.5f;
+        fixtureDef.restitution = 1.7f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
@@ -84,73 +78,18 @@ public class Racket {
 
     public void update(float delta) {
         setRocketSpeed();
-//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
-//        float positionDelta = (targetPosition - bodyCenterX);
-//        float absPositionDelta = MV_Math.abs(positionDelta);
-//
-//        Vector2 presentVelocity = physicBody.getLinearVelocity();
-//
-//        Gdx.app.debug("move", "11----");
-//        Gdx.app.debug("move target", "" + targetPosition);
-//        Gdx.app.debug("move center", "" + bodyCenterX);
-//        Gdx.app.debug("move positionDelta", "" + positionDelta);
-//        Gdx.app.debug("move velocity", "" + presentVelocity.x);
-//        Gdx.app.debug("move", "11----");
-//
-//        if (absPositionDelta < 2) {
-//           if (absPositionDelta < 0.01)
-//            presentVelocity.x = 0;
-//           else presentVelocity.x = positionDelta * 10;
-//       }
-//        Gdx.app.debug("move", "22----");
-//        Gdx.app.debug("move target", "" + targetPosition);
-//        Gdx.app.debug("move center", "" + bodyCenterX);
-//        Gdx.app.debug("move positionDelta", "" + positionDelta);
-//        Gdx.app.debug("move velocity", "" + presentVelocity.x);
-//        Gdx.app.debug("move", "22----");
-//
-//        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public void onClick(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         setRocketSpeed();
-//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
-//        float positionDelta = (targetPosition - bodyCenterX);
-//        float absPositionDelta = MV_Math.abs(positionDelta);
-//
-//        Vector2 presentVelocity = physicBody.getLinearVelocity();
-//        presentVelocity.x = positionDelta > 0 ? 50 : -50;
-//
-//        Gdx.app.debug("click", "" + targetPosition);
-//        Gdx.app.debug("click posdelta", "" + positionDelta);
-//        Gdx.app.debug("click velocity", "" + presentVelocity.x);
-//
-//        if (absPositionDelta < 2) {
-//            if (absPositionDelta < 0.01)
-//                presentVelocity.x = 0;
-//            else presentVelocity.x = positionDelta * 10;
-//        }
-//        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public void onDrag(float x) {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         setRocketSpeed();
-//        float bodyCenterX = physicBody.getPosition().x + startPositionX;
-//        float positionDelta = (targetPosition - bodyCenterX);
-//        float absPositionDelta = MV_Math.abs(positionDelta);
-//
-//        Vector2 presentVelocity = physicBody.getLinearVelocity();
-//        presentVelocity.x = positionDelta > 0 ? 50 : -50;
-//        if (absPositionDelta < 2) {
-//            if (absPositionDelta < 0.01)
-//                presentVelocity.x = 0;
-//            else presentVelocity.x = positionDelta * 10;
-//        }
-//        physicBody.setLinearVelocity(presentVelocity);
     }
 
     private void setRocketSpeed() {
@@ -175,7 +114,7 @@ public class Racket {
     }
 
     public float getX() {
-        return GameHelpers.meterToCoordX(physicBody.getPosition().x) - (width / GameHelpers.screenDensity());
+        return GameHelpers.meterToCoordX(physicBody.getPosition().x) + GameHelpers.meterToPixelsX(startPositionX) - (width / GameHelpers.screenDensity());
     }
 
     public float getY() {

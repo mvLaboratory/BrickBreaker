@@ -16,6 +16,8 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class Ball {
     private World physicWorld;
+    float startPositionX;
+    float startPositionY;
     private float radius;
     private Vector2 physicPosition;
     private Body physicBody;
@@ -26,6 +28,8 @@ public class Ball {
 
     public Ball(float x, float y, float radius, World physicWorld) {
         physicPosition = new Vector2(x, y);
+        this.startPositionX = x;
+        this.startPositionY = y;
 
         this.radius = radius;
         this.physicWorld = physicWorld;
@@ -46,7 +50,7 @@ public class Ball {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = ballShape;
         fixtureDef.density = 50f;
-        fixtureDef.restitution = 0.5f;
+        fixtureDef.restitution = 0.55f;
 
         fixture = physicBody.createFixture(fixtureDef);
 
@@ -66,15 +70,14 @@ public class Ball {
     }
 
     public float getX() {
-        float density = (Consts.VIEWPORT_WIDTH / 2) / (Gdx.graphics.getWidth() / 2);
-        float x = physicBody.getPosition().x;
-        return (x / density) + (Gdx.graphics.getWidth() / 2) - (radius / density * 4f);
+        return  GameHelpers.meterToCoordX(physicBody.getPosition().x) + GameHelpers.meterToPixelsX(startPositionX) - (radius / GameHelpers.screenDensity());
     }
 
     public float getY() {
-        float density = (Consts.VIEWPORT_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
-        float y = physicBody.getPosition().y;
-        return (y / density) + (Gdx.graphics.getHeight() / 2) - (radius / density);
+//        float density = (Consts.VIEWPORT_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
+//        float y = physicBody.getPosition().y;
+//        return (y / density) + (Gdx.graphics.getHeight() / 2) - (radius / density);
+        return GameHelpers.meterToCoordY(physicBody.getPosition().y) + GameHelpers.meterToPixelsY(startPositionY) - (radius / GameHelpers.screenDensityY());
     }
 
     public float getRadius() {

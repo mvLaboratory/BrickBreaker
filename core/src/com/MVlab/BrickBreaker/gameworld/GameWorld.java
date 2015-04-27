@@ -34,6 +34,7 @@ public class GameWorld  implements ContactListener {
     private float screenHeight;
     private Boolean stoped;
     private Boolean restart;
+    private int score;
 
     public GameWorld(float screenWidth, float screenHeight) {
         this.screenHeight = screenHeight;
@@ -66,6 +67,8 @@ public class GameWorld  implements ContactListener {
             }
             brickPosition.x = -3.5f;
         }
+
+        score = 0;
     }
 
     public void update(float delta) {
@@ -131,10 +134,12 @@ public class GameWorld  implements ContactListener {
         //Brick collides
         if (bodyA instanceof Brick) {
             ((Brick) bodyA).damage(100);
+            scored();
         }
 
         if (bodyB instanceof Brick) {
             ((Brick) bodyB).damage(100);
+            scored();
         }
 
         //border collision
@@ -158,6 +163,14 @@ public class GameWorld  implements ContactListener {
         if ((bodyA instanceof Ball && bodyB instanceof BottomBorder) || (bodyA instanceof BottomBorder && bodyB instanceof Ball)) {
             stoped = true;
         }
+    }
+
+    public void scored() {
+        score += 1;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public void stop() {

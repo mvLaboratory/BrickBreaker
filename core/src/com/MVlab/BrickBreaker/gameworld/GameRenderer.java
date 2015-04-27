@@ -7,6 +7,7 @@ package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
+import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
@@ -93,6 +94,8 @@ public class GameRenderer  implements Disposable {
 
         background2 = new Sprite(regions);
         background3 = new Sprite(regions);
+
+
     }
 
     public void render() {
@@ -198,6 +201,12 @@ public class GameRenderer  implements Disposable {
         background3.draw(batch);
         batch.end();
         //Background---
+
+        //score
+        batch.begin();
+        Assets.instance.fonts.defaultBig.draw(batch, "" + world.getScore(), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        batch.end();
+        //
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
             b2debugRenderer.render(physicWorld,

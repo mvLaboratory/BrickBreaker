@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -24,6 +25,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public BorderTexture border;
     public TopBorderTexture topBorder;
     public BrickTexture brickTexture;
+    public AssetFonts fonts;
 
     private Assets() {};
 
@@ -48,11 +50,16 @@ public class Assets implements Disposable, AssetErrorListener {
         pipe = new PipeTexture(atlas);
         brickTexture = new BrickTexture(atlas);
         levelDecoration = new AssetLevelDecoration(atlas);
+
+        fonts = new AssetFonts();
     }
 
     @Override
     public void dispose() {
         assetManager.dispose();
+        fonts.defaultSmall.dispose();
+        fonts.defaultNormal.dispose();
+        fonts.defaultBig.dispose();
     }
 
     @Override
@@ -115,6 +122,26 @@ public class Assets implements Disposable, AssetErrorListener {
         public AssetLevelDecoration(TextureAtlas atlas) {
             background = atlas.findRegion("background");
             background2 = atlas.findRegion("background2");
+        }
+    }
+
+    public class AssetFonts {
+        public final BitmapFont defaultSmall;
+        public final BitmapFont defaultNormal;
+        public final BitmapFont defaultBig;
+
+        public AssetFonts() {
+            defaultSmall = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
+            defaultNormal = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
+            defaultBig = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
+
+            defaultSmall.setScale(0.75f);
+            defaultNormal.setScale(1f);
+            defaultBig.setScale(2f);
+
+            defaultSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            defaultNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
     }
 }

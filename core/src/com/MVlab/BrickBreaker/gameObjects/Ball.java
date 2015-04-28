@@ -49,7 +49,7 @@ public class Ball {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = ballShape;
-        fixtureDef.density = 50f;
+        fixtureDef.density = 40f;
         fixtureDef.restitution = 0.55f;
 
         fixture = physicBody.createFixture(fixtureDef);

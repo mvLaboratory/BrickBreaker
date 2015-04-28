@@ -41,7 +41,7 @@ public class Racket {
         this.width = width;
 
         position = new Vector2(x, y);
-        targetPosition = x - width;
+        targetPosition = x * 2;
 
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -81,13 +81,13 @@ public class Racket {
     }
 
     public void onClick(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         setRocketSpeed();
     }
 
     public void onDrag(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.15f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.15f);
         targetPosition = x;
         setRocketSpeed();
     }

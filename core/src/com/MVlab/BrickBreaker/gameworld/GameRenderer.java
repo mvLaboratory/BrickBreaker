@@ -9,14 +9,15 @@ import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
+import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
 import com.badlogic.gdx.math.Vector3;
@@ -37,8 +38,7 @@ public class GameRenderer  implements Disposable {
     ArrayList<Brick> bricks;
     Sprite background, background2, background3, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
-    private ShapeRenderer shapeRenderer;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
@@ -52,9 +52,6 @@ public class GameRenderer  implements Disposable {
 
         cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
         cam.position.set(0, 0, 0);
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(cam.combined);
-
         initObjects();
     }
 
@@ -94,8 +91,6 @@ public class GameRenderer  implements Disposable {
 
         background2 = new Sprite(regions);
         background3 = new Sprite(regions);
-
-
     }
 
     public void render() {
@@ -204,7 +199,29 @@ public class GameRenderer  implements Disposable {
 
         //score
         batch.begin();
-        Assets.instance.fonts.defaultBig.draw(batch, "" + world.getScore(), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        BitmapFont scoreFont =  Assets.instance.fonts.defaultBig;
+        scoreFont.draw(batch, GameHelpers.getFormattedScore(world.getScore()), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        batch.end();
+        //
+
+        //FPS
+        batch.begin();
+        int fps = Gdx.graphics.getFramesPerSecond();
+        BitmapFont fpsFont = Assets.instance.fonts.defaultSmall;
+        if (fps >= 45)
+            fpsFont.setColor(0, 1, 0, 1);
+        else if (fps >= 30)
+            fpsFont.setColor(1, 1, 0, 1);
+        else
+            fpsFont.setColor(1, 0, 0, 1);
+
+        fpsFont.draw(batch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
+        batch.end();
+        //
+
+        //Time
+        batch.begin();
+        Assets.instance.fonts.defaultBig.draw(batch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
         batch.end();
         //
 

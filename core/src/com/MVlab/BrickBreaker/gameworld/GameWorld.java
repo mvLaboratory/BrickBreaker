@@ -35,6 +35,7 @@ public class GameWorld  implements ContactListener {
     private Boolean stoped;
     private Boolean restart;
     private int score;
+    private float gameDuration;
 
     public GameWorld(float screenWidth, float screenHeight) {
         this.screenHeight = screenHeight;
@@ -69,10 +70,12 @@ public class GameWorld  implements ContactListener {
         }
 
         score = 0;
+        gameDuration = 0;
     }
 
     public void update(float delta) {
         physicWorld.step(delta, 1, 1);
+        gameDuration += delta;
 
         for (Brick brick : bricks) {
             if (brick != null) {
@@ -187,5 +190,9 @@ public class GameWorld  implements ContactListener {
 
     public void restart() {
         restart = true;
+    }
+
+    public float getGameDuration() {
+        return gameDuration;
     }
 }

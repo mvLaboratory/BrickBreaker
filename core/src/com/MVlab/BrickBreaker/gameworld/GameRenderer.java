@@ -38,7 +38,7 @@ public class GameRenderer  implements Disposable {
     ArrayList<Brick> bricks;
     Sprite background, background2, background3, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
@@ -154,7 +154,7 @@ public class GameRenderer  implements Disposable {
             batch.end();
         }
 
-        borderPosition = rightBorder.getY();
+        borderPosition = rightBorder.getY() - 100;
         borderFinish = rightBorder.getY() + rightBorder.getHeight();
         while (borderPosition < borderFinish) {
             sprSideBorder.setSize(rightBorder.getWidth(), step);
@@ -166,7 +166,7 @@ public class GameRenderer  implements Disposable {
             batch.end();
         }
 
-        borderPosition = leftBorder.getY();
+        borderPosition = leftBorder.getY() - 100;
         borderFinish = leftBorder.getY() + leftBorder.getHeight();
 
         while (borderPosition < borderFinish) {

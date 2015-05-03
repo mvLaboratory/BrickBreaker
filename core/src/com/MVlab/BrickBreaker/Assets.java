@@ -131,9 +131,9 @@ public class Assets implements Disposable, AssetErrorListener {
         public final BitmapFont defaultBig;
 
         public AssetFonts() {
-            defaultSmall = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
-            defaultNormal = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
-            defaultBig = new BitmapFont(Gdx.files.internal("data/images/arial-15.fnt"), false);
+            defaultSmall = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
+            defaultNormal = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
+            defaultBig = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
 
             defaultSmall.setScale(0.75f);
             defaultNormal.setScale(1f);

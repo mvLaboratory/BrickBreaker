@@ -36,13 +36,15 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, background2, background3, spr2, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
-    private OrthographicCamera cam;
+    Sprite background, background2, background3, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
+    private OrthographicCamera cam, guiCam;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     private Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
         this.world = world;
+        cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
+        guiCam = new OrthographicCamera(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT);
         init();
     }
 
@@ -50,8 +52,14 @@ public class GameRenderer  implements Disposable {
         this.b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         this.physicWorld = world.getPhysicWorld();
 
-        cam = new OrthographicCamera(Consts.VIEWPORT_WIDTH, Consts.VIEWPORT_HEIGHT);
         cam.position.set(0, 0, 0);
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        guiCam.viewportWidth = Consts.VIEWPORT_GUI_WIDTH;
+//        guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
+//        guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
+//
+//        guiCam.setToOrtho(false);
+//        guiCam.update();
         initObjects();
     }
 
@@ -100,6 +108,7 @@ public class GameRenderer  implements Disposable {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         SpriteBatch batch = new SpriteBatch();
+        //batch.setProjectionMatrix(cam.combined);
         //Background+++
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.begin();
@@ -197,15 +206,10 @@ public class GameRenderer  implements Disposable {
         batch.end();
         //Background---
 
-        //score
-        batch.begin();
-        BitmapFont scoreFont =  Assets.instance.fonts.defaultBig;
-        scoreFont.draw(batch, GameHelpers.getFormattedScore(world.getScore()), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
-        batch.end();
-        //
-
+        SpriteBatch guiBatch = new SpriteBatch();
+        guiBatch.setProjectionMatrix(guiCam.combined);
         //FPS
-        batch.begin();
+        guiBatch.begin();
         int fps = Gdx.graphics.getFramesPerSecond();
         BitmapFont fpsFont = Assets.instance.fonts.defaultSmall;
         if (fps >= 45)
@@ -215,14 +219,27 @@ public class GameRenderer  implements Disposable {
         else
             fpsFont.setColor(1, 0, 0, 1);
 
-        fpsFont.draw(batch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
-        batch.end();
+       // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
+        fpsFont.draw(guiBatch, "FPS: " + fps, Consts.VIEWPORT_GUI_WIDTH - 10, 10);
+        guiBatch.end();
+        //
+
+        //score
+        guiBatch.begin();
+        BitmapFont scoreFont =  Assets.instance.fonts.tableNormal;
+        scoreFont.setColor(0, 1, 0, 1);
+        //scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), 5, Consts.VIEWPORT_GUI_HEIGHT - 5);
+        guiBatch.end();
         //
 
         //Time
-        batch.begin();
-        Assets.instance.fonts.defaultBig.draw(batch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
-        batch.end();
+        guiBatch.begin();
+        BitmapFont timeFont =  Assets.instance.fonts.tableNormal;
+        timeFont.setColor(0, 1, 0, 1);
+       // timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), 110, Consts.VIEWPORT_GUI_HEIGHT - 5);
+        guiBatch.end();
         //
 
         if (DEBUG_DRAW_BOX2D_WORLD) {
@@ -255,8 +272,12 @@ public class GameRenderer  implements Disposable {
     }
 
     public void resize(int width, int height) {
-        //cam.viewportWidth = (Consts.VIEWPORT_HEIGHT / height) * width;
-        //cam.update();
+       //cam.viewportWidth = (Consts.VIEWPORT_HEIGHT / height) * width;
+       //cam.update();
+       guiCam.viewportWidth = Consts.VIEWPORT_GUI_HEIGHT / (float) height * (float) width;
+       guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
+       guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
+       guiCam.update();
     }
 
     @Override

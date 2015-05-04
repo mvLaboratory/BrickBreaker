@@ -37,13 +37,13 @@ public class BrickBreakerCore extends ApplicationAdapter {
 
     @Override
     public void render() {
-        if (!paused && world.active()) {
-            Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (!paused && world.active()) {
             world.update(Gdx.graphics.getDeltaTime());
-            renderer.render();
         }
+        renderer.render();
 
         if (world.needRestart()) {
             world.init();

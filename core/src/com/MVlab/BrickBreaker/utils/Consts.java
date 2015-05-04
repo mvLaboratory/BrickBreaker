@@ -7,11 +7,14 @@ public class Consts {
     //game consts
     public static float VIEWPORT_WIDTH = 10;
     public static float VIEWPORT_HEIGHT = 15;
+    public static float VIEWPORT_GUI_WIDTH = 300;
+    public static float VIEWPORT_GUI_HEIGHT = 450;
+
     public static float GAME_LEFT_BORDER = -5f;
     public static float GAME_RIGHT_BORDER = 3f;
     public static float GAME_CENTER = (GAME_RIGHT_BORDER + GAME_LEFT_BORDER) / 2 + 0.5f;
     public static float GAME_TOP_BORDER = 6.5f;
-    public static float GAME_BOTTOM_BORDER = -4.65f;
+    public static float GAME_BOTTOM_BORDER = -4.8f;
 
     public static float BRICKS_PER_ROW = 5f;
 

@@ -56,18 +56,17 @@ public class GameHelpers {
     public static String getFormattedTime(float secondsCount) {
         String strMinutes = "00";
         String strSeconds = "00";
-        String strHours = "00";
+        String strMiniSeconds = "000";
         int minutes = 0;
-        int hours = 0;
+        int miniSeconds = 0;
         int seconds = 0;
+        int allSeconds = 0;
 
         minutes = (int)secondsCount / 60;
         seconds = (int)secondsCount - (minutes * 60);
-        hours = (int) minutes / 60;
-        minutes -= hours * 60;
+        allSeconds = (minutes * 60) + seconds;
+        miniSeconds = (int)(secondsCount * 1000) - (allSeconds * 100) ;
 
-        strHours += hours;
-        strHours = strHours.substring(strHours.length() - 2);
 
         strMinutes += minutes;
         strMinutes = strMinutes.substring(strMinutes.length() - 2);
@@ -75,7 +74,10 @@ public class GameHelpers {
         strSeconds += seconds;
         strSeconds = strSeconds.substring(strSeconds.length() - 2);
 
-        String returnString = strHours + ":" + strMinutes + ":" + strSeconds;
+        strMiniSeconds += miniSeconds;
+        strMiniSeconds = strMiniSeconds.substring(strMiniSeconds.length() - 3);
+
+        String returnString = strMinutes + ":" + strSeconds + ":" + strMiniSeconds;
         return returnString;
     }
 }

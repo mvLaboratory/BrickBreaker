@@ -54,12 +54,14 @@ public class Assets implements Disposable, AssetErrorListener {
         fonts = new AssetFonts();
     }
 
-    @Override
+       @Override
     public void dispose() {
         assetManager.dispose();
         fonts.defaultSmall.dispose();
         fonts.defaultNormal.dispose();
         fonts.defaultBig.dispose();
+
+        fonts.tableNormal.dispose();
     }
 
     @Override
@@ -130,18 +132,26 @@ public class Assets implements Disposable, AssetErrorListener {
         public final BitmapFont defaultNormal;
         public final BitmapFont defaultBig;
 
+        public final BitmapFont tableNormal;
+
         public AssetFonts() {
             defaultSmall = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
             defaultNormal = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
             defaultBig = new BitmapFont(Gdx.files.internal("data/fonts/arial-15.fnt"), false);
 
+            tableNormal = new BitmapFont(Gdx.files.internal("data/fonts/tableFont1.fnt"), false);
+
             defaultSmall.setScale(0.75f);
             defaultNormal.setScale(1f);
             defaultBig.setScale(2f);
 
+            tableNormal.setScale(1.2f);
+
             defaultSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             defaultNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+            tableNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
     }
 }

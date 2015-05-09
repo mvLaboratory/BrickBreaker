@@ -145,7 +145,7 @@ public class Assets implements Disposable, AssetErrorListener {
             defaultNormal.setScale(1f);
             defaultBig.setScale(2f);
 
-            tableNormal.setScale(1.2f);
+            tableNormal.setScale(1f);
 
             defaultSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             defaultNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

@@ -10,6 +10,8 @@ public class DesktopLauncher {
         config.title = "Brick breaker";
         config.width = 272;
         config.height = 408;
+//        config.width = 480;
+//        config.height = 640;
 		new LwjglApplication(new BrickBreakerCore(), config);
 	}
 }

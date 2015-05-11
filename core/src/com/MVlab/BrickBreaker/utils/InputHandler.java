@@ -1,7 +1,7 @@
 package com.MVlab.BrickBreaker.utils;
 
-import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
-import com.MVlab.BrickBreaker.gameWorld.GameWorld;
+import com.MVlab.BrickBreaker.gameworld.GameRenderer;
+import com.MVlab.BrickBreaker.gameworld.GameWorld;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
@@ -42,11 +42,11 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (!gameWorld.active()) {
-            gameWorld.restart();
-            return true;
-        }
-        racket.onClick(screenX);
+        if (gameWorld.active())
+            racket.onClick(screenX);
+
+        if (gameWorld.levelStart() || gameWorld.getPresentGameState() == GameWorld.gameState.restart)
+            gameWorld.kickTheBall();
         return true;
     }
 
@@ -57,7 +57,8 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        racket.onDrag(screenX);
+        if (gameWorld.active())
+            racket.onDrag(screenX);
         return true;
     }
 

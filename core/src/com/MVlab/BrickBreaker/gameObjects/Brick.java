@@ -102,4 +102,22 @@ public class Brick {
         float y = physicBody.getPosition().y;
         return (y / density) + (Gdx.graphics.getHeight() / 2) - (height / density);
     }
+
+
+//returns brick parameters in pixels
+    public float getBrickWidth() {
+        return width ;
+    }
+
+    public float getBrickHeight() {
+        return height;
+    }
+
+    public float getBrickX() {
+        return x;
+    }
+
+    public float getBrickY() {
+        return y;
+    }
 }

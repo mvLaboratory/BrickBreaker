@@ -1,8 +1,8 @@
 package com.MVlab.BrickBreaker;
 
 import com.MVlab.BrickBreaker.utils.InputHandler;
-import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
-import com.MVlab.BrickBreaker.gameWorld.GameWorld;
+import com.MVlab.BrickBreaker.gameworld.GameRenderer;
+import com.MVlab.BrickBreaker.gameworld.GameWorld;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -11,8 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 public class BrickBreakerCore extends ApplicationAdapter {
     private static final String TAG = BrickBreakerCore.class.getName();
-    private boolean paused;
-    private boolean restart;
+    private GameWorld.gameState previousGameState;
     private GameWorld world;
     private GameRenderer renderer;
     private InputHandler inputHandler;
@@ -22,16 +21,12 @@ public class BrickBreakerCore extends ApplicationAdapter {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
         Assets.instance.init(new AssetManager());
+        previousGameState = GameWorld.gameState.start;
 
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-
-        world = new GameWorld(screenWidth, screenHeight);
+        world = new GameWorld();
         renderer = new GameRenderer(world);
 
-        paused = false;
         inputHandler = new InputHandler(world);
-
         Gdx.input.setInputProcessor(inputHandler);
     }
 
@@ -40,17 +35,13 @@ public class BrickBreakerCore extends ApplicationAdapter {
         Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (!paused && world.active()) {
-            world.update(Gdx.graphics.getDeltaTime());
-        }
+        world.update(Gdx.graphics.getDeltaTime());
         renderer.render();
 
         if (world.needRestart()) {
             world.init();
             renderer.init();
             Gdx.input.setInputProcessor(new InputHandler(world));
-
-            paused = false;
         }
     }
 
@@ -66,14 +57,15 @@ public class BrickBreakerCore extends ApplicationAdapter {
 
     @Override
     public void pause() {
-        paused = true;
+        previousGameState = world.getPresentGameState();
+ //       world.setPresentGameState(GameWorld.gameState.paused);
         renderer.dispose();
         Assets.instance.dispose();
     }
 
     @Override
     public void resume() {
-        paused = false;
+ //       world.setPresentGameState(previousGameState);
         Assets.instance.init(new AssetManager());
         renderer.init();
     }

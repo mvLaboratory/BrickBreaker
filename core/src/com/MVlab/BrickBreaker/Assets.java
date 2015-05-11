@@ -35,9 +35,9 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Consts.BASIC_TEXTURES_ATLAS_OBJECT, TextureAtlas.class);
         assetManager.finishLoading();
 
-        Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
-        for (String a : assetManager.getAssetNames())
-            Gdx.app.debug(TAG, "asset: " + a);
+//        Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
+//        for (String a : assetManager.getAssetNames())
+//            Gdx.app.debug(TAG, "asset: " + a);
 
         TextureAtlas atlas = assetManager.get(Consts.BASIC_TEXTURES_ATLAS_OBJECT);
         for (Texture t : atlas.getTextures())
@@ -54,7 +54,7 @@ public class Assets implements Disposable, AssetErrorListener {
         fonts = new AssetFonts();
     }
 
-       @Override
+    @Override
     public void dispose() {
         assetManager.dispose();
         fonts.defaultSmall.dispose();
@@ -143,7 +143,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
             defaultSmall.setScale(0.75f);
             defaultNormal.setScale(1f);
-            defaultBig.setScale(2f);
+            defaultBig.setScale(3f);
 
             tableNormal.setScale(1f);
 

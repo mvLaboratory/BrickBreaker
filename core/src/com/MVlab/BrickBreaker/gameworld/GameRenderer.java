@@ -2,7 +2,7 @@
  * Created by MV on 17.03.2015.
  */
 
-package com.MVlab.BrickBreaker.gameWorld;
+package com.MVlab.BrickBreaker.gameworld;
 
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
@@ -36,7 +36,7 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, background2, background3, sprPipe, sprRacket, sprBall, sprSideBorder, sprTopBorder, sprBrick;
+    Sprite background, background2, background3, sprPipe, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam, guiCam;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     private Box2DDebugRenderer b2debugRenderer;
@@ -54,12 +54,7 @@ public class GameRenderer  implements Disposable {
 
         cam.position.set(0, 0, 0);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-//        guiCam.viewportWidth = Consts.VIEWPORT_GUI_WIDTH;
-//        guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
-//        guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
-//
-//        guiCam.setToOrtho(false);
-//        guiCam.update();
+
         initObjects();
     }
 
@@ -81,6 +76,8 @@ public class GameRenderer  implements Disposable {
         TextureRegion ballTexture = Assets.instance.ball.ball;
         sprBall = new Sprite(ballTexture);
         sprBall.setSize(ball.getRadius(), ball.getRadius());
+
+        sprExtraLive = new Sprite(ballTexture);
 
         TextureRegion racketTexture = Assets.instance.racket.racket;
         sprRacket = new Sprite(racketTexture);
@@ -130,10 +127,12 @@ public class GameRenderer  implements Disposable {
         //racket---
 
         //Ball+++
-        sprBall.setPosition(ball.getX(), ball.getY());
-        batch.begin();
-        sprBall.draw(batch);
-        batch.end();
+        if (!(world.getPresentGameState() == GameWorld.gameState.dropped)) {
+            sprBall.setPosition(ball.getX(), ball.getY());
+            batch.begin();
+            sprBall.draw(batch);
+            batch.end();
+        }
         //Ball---
 
         //bricks+++
@@ -220,7 +219,7 @@ public class GameRenderer  implements Disposable {
             fpsFont.setColor(1, 0, 0, 1);
 
        // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
-        fpsFont.draw(guiBatch, "FPS: " + fps, Consts.VIEWPORT_GUI_WIDTH - 10, 10);
+        fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
         guiBatch.end();
         //
 
@@ -238,7 +237,46 @@ public class GameRenderer  implements Disposable {
         BitmapFont timeFont =  Assets.instance.fonts.tableNormal;
         timeFont.setColor(0, 1, 0, 1);
        // timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
-        timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), 110, Consts.VIEWPORT_GUI_HEIGHT - 5);
+        timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), 90, Consts.VIEWPORT_GUI_HEIGHT - 5);
+        guiBatch.end();
+        //
+
+        //Extra lives+++
+        guiBatch.begin();
+        float sprRadius = 20;
+        sprExtraLive.setSize(sprRadius, sprRadius);
+        float sprExtraLiveStartPosition = Consts.VIEWPORT_GUI_WIDTH - sprRadius * 1.5f;
+
+        for (int i = 0; i < Consts.EXTRA_LIFE_CONT; i++) {
+            if (i >= world.getExtraLivesCount())
+                sprExtraLive.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+            else
+                sprExtraLive.setColor(1, 1, 1, 1);
+            sprExtraLive.setPosition(sprExtraLiveStartPosition - (i * sprRadius) - (i * 5), Consts.VIEWPORT_GUI_HEIGHT - sprRadius * 1.5f);
+            sprExtraLive.draw(guiBatch);
+        }
+        guiBatch.end();
+        //--
+
+        //start massage
+        guiBatch.begin();
+        if  (world.getPresentGameState() == GameWorld.gameState.restart || world.getPresentGameState() == GameWorld.gameState.start) {
+            BitmapFont startMassageFont = Assets.instance.fonts.defaultBig;
+            startMassageFont.setColor(1, 1, 1, 1);
+
+            String startMassage = (Gdx.app.getType() == Application.ApplicationType.Desktop) ? "Click to start": "Touch to start";
+            startMassageFont.drawMultiLine(guiBatch, startMassage, guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2 + 50, 0, BitmapFont.HAlignment.CENTER);
+        }
+        guiBatch.end();
+        //
+
+        //start massage
+        guiBatch.begin();
+        if  (world.levelStart()) {
+            BitmapFont lvlStartMassageFont = Assets.instance.fonts.defaultBig;
+            lvlStartMassageFont.setColor(1, 1, 1, 1);
+            lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + world.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
+        }
         guiBatch.end();
         //
 

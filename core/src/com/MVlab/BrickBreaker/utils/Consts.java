@@ -14,9 +14,11 @@ public class Consts {
     public static float GAME_RIGHT_BORDER = 3f;
     public static float GAME_CENTER = (GAME_RIGHT_BORDER + GAME_LEFT_BORDER) / 2 + 0.5f;
     public static float GAME_TOP_BORDER = 6.5f;
-    public static float GAME_BOTTOM_BORDER = -4.8f;
+    public static float GAME_BOTTOM_BORDER = -5.5f;
 
     public static float BRICKS_PER_ROW = 5f;
+    public static int EXTRA_LIFE_CONT = 3;
+    public static int DROP_DURATION = 1; // 1 seconds till ball restart
 
     public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures/BrickBreackerTextures.pack";
 }

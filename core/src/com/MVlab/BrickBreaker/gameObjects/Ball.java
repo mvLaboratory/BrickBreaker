@@ -69,6 +69,10 @@ public class Ball {
         physicBody.setLinearVelocity(presentVelocity);
     }
 
+    public boolean underBottomBorder() {
+        return getY() < Consts.GAME_BOTTOM_BORDER;
+    }
+
     public float getX() {
         return  GameHelpers.meterToCoordX(physicBody.getPosition().x) + GameHelpers.meterToPixelsX(startPositionX) - (radius / GameHelpers.screenDensity());
     }

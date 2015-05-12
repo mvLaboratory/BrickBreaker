@@ -127,7 +127,7 @@ public class GameRenderer  implements Disposable {
         //racket---
 
         //Ball+++
-        if (!(world.getPresentGameState() == GameWorld.gameState.dropped)) {
+        if (!(world.getPresentGameState() == GameWorld.gameState.dropped || world.getPresentGameState() == GameWorld.gameState.gameOver)) {
             sprBall.setPosition(ball.getX(), ball.getY());
             batch.begin();
             sprBall.draw(batch);
@@ -276,6 +276,18 @@ public class GameRenderer  implements Disposable {
             BitmapFont lvlStartMassageFont = Assets.instance.fonts.defaultBig;
             lvlStartMassageFont.setColor(1, 1, 1, 1);
             lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + world.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
+        }
+        guiBatch.end();
+        //
+
+        //start massage
+        guiBatch.begin();
+        if  (world.getPresentGameState() == GameWorld.gameState.gameOver) {
+            BitmapFont gameOverMassageFont = Assets.instance.fonts.defaultBig;
+            gameOverMassageFont.setColor(1, 1, 1, 1);
+            gameOverMassageFont.drawMultiLine(guiBatch, "Game over", guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2 + 50, 0, BitmapFont.HAlignment.CENTER);
+            String overMassage = (Gdx.app.getType() == Application.ApplicationType.Desktop) ? "Click to restart": "Touch to restart";
+            gameOverMassageFont.drawMultiLine(guiBatch, overMassage, guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
         }
         guiBatch.end();
         //

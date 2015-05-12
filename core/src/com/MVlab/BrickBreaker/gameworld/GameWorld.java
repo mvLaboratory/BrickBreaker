@@ -38,9 +38,10 @@ public class GameWorld  implements ContactListener {
     private int levelNumber;
     private float gameDuration;
     private float dropDuration;
+    private float midLevelDuration;
     private gameState presentGameState;
 
-    public enum gameState {start, restart, levelStart, active, paused, dropped, gameOver};
+    public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
 
     public GameWorld() {
         extraLivesCount = Consts.EXTRA_LIFE_CONT;
@@ -63,16 +64,21 @@ public class GameWorld  implements ContactListener {
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.15f, physicWorld);
         bottomBorder = new BottomBorder(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
-        if (presentGameState == gameState.start){
+        if (presentGameState == gameState.start || presentGameState == gameState.gameRestart){
             score = 0;
             gameDuration = 0;
             levelNumber = 0;
         }
         dropDuration = 0;
+        midLevelDuration = 0;
+
+        if (presentGameState == gameState.gameRestart) presentGameState = gameState.start;
+        if (presentGameState == gameState.levelRestart) presentGameState = gameState.levelStart;
 
         initLevel();
     }
 
+    //Levels+++
     public void initLevel() {
         ArrayList<Brick> tempBricks = new ArrayList<Brick>();
 
@@ -102,6 +108,11 @@ public class GameWorld  implements ContactListener {
         levelNumber++;
     }
 
+    public boolean levelStart() {
+        return presentGameState == gameState.levelStart || presentGameState == gameState.start;
+    }
+    //Levels---
+
     public void update(float delta) {
         if (active()) {
             physicWorld.step(delta, 1, 1);
@@ -115,8 +126,8 @@ public class GameWorld  implements ContactListener {
                 }
             }
             if (activeBricksCount == 0) {
-                presentGameState = gameState.levelStart;
-                initLevel();
+                presentGameState = gameState.levelEnd;
+                //initLevel();
             }
 
             racket.update(delta);
@@ -132,6 +143,14 @@ public class GameWorld  implements ContactListener {
                 dropDuration = 0;
             }
             dropDuration += delta;
+        }
+
+        if (presentGameState == gameState.levelEnd) {
+            if (midLevelDuration > Consts.MID_LEVEL_DURATION) {
+                presentGameState = gameState.levelRestart;
+                midLevelDuration = 0;
+            }
+            midLevelDuration += delta;
         }
     }
 
@@ -152,7 +171,10 @@ public class GameWorld  implements ContactListener {
 
     public void drop() {
         extraLivesCount--;
-        presentGameState = gameState.dropped;
+        if (extraLivesCount <= 0)
+            presentGameState = gameState.gameOver;
+        else
+            presentGameState = gameState.dropped;
     }
 
     public Boolean active() {
@@ -160,7 +182,7 @@ public class GameWorld  implements ContactListener {
     }
 
     public Boolean needRestart() {
-        return presentGameState == gameState.restart || presentGameState == gameState.levelStart;
+        return presentGameState == gameState.restart || presentGameState == gameState.levelRestart || presentGameState == gameState.gameRestart;
     }
 
     public void restart() {
@@ -205,10 +227,6 @@ public class GameWorld  implements ContactListener {
 
     public void rebootExtraLivesCount() {
         extraLivesCount = Consts.EXTRA_LIFE_CONT;
-    }
-
-    public boolean levelStart() {
-        return presentGameState == gameState.levelStart || presentGameState == gameState.start;
     }
 
     public gameState getPresentGameState() {

@@ -47,6 +47,11 @@ public class InputHandler implements InputProcessor {
 
         if (gameWorld.levelStart() || gameWorld.getPresentGameState() == GameWorld.gameState.restart)
             gameWorld.kickTheBall();
+
+        if (gameWorld.getPresentGameState() == GameWorld.gameState.gameOver) {
+            gameWorld.rebootExtraLivesCount();
+            gameWorld.setPresentGameState(GameWorld.gameState.gameRestart);
+        }
         return true;
     }
 

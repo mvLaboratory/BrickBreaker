@@ -58,14 +58,14 @@ public class BrickBreakerCore extends ApplicationAdapter {
     @Override
     public void pause() {
         previousGameState = world.getPresentGameState();
- //       world.setPresentGameState(GameWorld.gameState.paused);
+        world.setPresentGameState(GameWorld.gameState.paused);
         renderer.dispose();
         Assets.instance.dispose();
     }
 
     @Override
     public void resume() {
- //       world.setPresentGameState(previousGameState);
+        world.setPresentGameState(previousGameState);
         Assets.instance.init(new AssetManager());
         renderer.init();
     }

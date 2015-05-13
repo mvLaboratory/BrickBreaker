@@ -2,7 +2,7 @@
  * Created by MV on 17.03.2015.
  */
 
-package com.MVlab.BrickBreaker.gameworld;
+package com.MVlab.BrickBreaker.gameWorld;
 
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;

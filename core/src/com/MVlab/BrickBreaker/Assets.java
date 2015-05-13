@@ -143,7 +143,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
             defaultSmall.setScale(0.75f);
             defaultNormal.setScale(1f);
-            defaultBig.setScale(3f);
+            defaultBig.setScale(2.5f);
 
             tableNormal.setScale(1f);
 

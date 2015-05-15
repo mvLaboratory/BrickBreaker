@@ -35,7 +35,7 @@ public class GameWorld  implements ContactListener {
     ArrayList<Brick> bricks;
     private int score;
     private int extraLivesCount;
-    private int levelNumber;
+    private static int levelNumber;
     private float gameDuration;
     private float dropDuration;
     private float midLevelDuration;
@@ -53,7 +53,7 @@ public class GameWorld  implements ContactListener {
     }
 
     public void init() {
-        physicWorld = new World(new Vector2(0, -3F), true);
+        physicWorld = new World(new Vector2(0, -3f * getLevelMultiplier()), true);
         physicWorld.setContactListener(this);
 
         racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld);
@@ -67,7 +67,7 @@ public class GameWorld  implements ContactListener {
         if (presentGameState == gameState.start || presentGameState == gameState.gameRestart){
             score = 0;
             gameDuration = 0;
-            levelNumber = 0;
+            levelNumber = 10;
         }
         dropDuration = 0;
         midLevelDuration = 0;
@@ -157,7 +157,7 @@ public class GameWorld  implements ContactListener {
     public void kickTheBall() {
         int ballDirectionX = MathUtils.random(-1, 2);
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
-        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 80, 0, 0, true);
+        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 80 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
     }
 
@@ -237,8 +237,14 @@ public class GameWorld  implements ContactListener {
         this.presentGameState = presentGameState;
     }
 
-    public int getLevelNumber() {
+    public static int getLevelNumber() {
         return levelNumber;
+    }
+
+    public static float getLevelMultiplier() {
+        float levelMultiplier = MV_Math.max(10, levelNumber);
+        levelMultiplier = MV_Math.max(1f, levelMultiplier * 0.13f);
+        return MV_Math.max(1, levelMultiplier);
     }
 
     @Override

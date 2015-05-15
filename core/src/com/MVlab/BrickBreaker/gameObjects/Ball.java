@@ -50,7 +50,7 @@ public class Ball {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = ballShape;
         fixtureDef.density = 40f;
-        fixtureDef.restitution = 0.55f;
+        fixtureDef.restitution = 0.55f * GameWorld.getLevelMultiplier();
 
         fixture = physicBody.createFixture(fixtureDef);
 
@@ -63,10 +63,12 @@ public class Ball {
     }
 
     public void update() {
+        float ballMaxSpeed = 10 * GameWorld.getLevelMultiplier();
         Vector2 presentVelocity = physicBody.getLinearVelocity();
-        if (presentVelocity.y > 25) presentVelocity.y = 25;
-        if (presentVelocity.x > 25) presentVelocity.x = 25;
-        physicBody.setLinearVelocity(presentVelocity);
+        presentVelocity.y = MathUtils.clamp(presentVelocity.y, -ballMaxSpeed, ballMaxSpeed);
+        presentVelocity.x = MathUtils.clamp(presentVelocity.x, -ballMaxSpeed, ballMaxSpeed);
+
+    //    physicBody.setLinearVelocity(presentVelocity);
     }
 
     public boolean underBottomBorder() {

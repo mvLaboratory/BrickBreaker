@@ -259,20 +259,22 @@ public class GameRenderer  implements Disposable {
         //
 
         //score
+        float scoreFntScale = (guiCam.viewportWidth / guiCam.viewportHeight * 0.6f) + 0.6f;
         guiBatch.begin();
         BitmapFont scoreFont =  Assets.instance.fonts.tableNormal;
-        scoreFont.setScale(0.9f);
+        scoreFont.setScale(scoreFntScale);
         scoreFont.setColor(0, 1, 0, 1);
-        float scoreWide = 17 * 5 * scoreFont.getScaleX();
+        float scoreWide = 17 * 5 * scoreFntScale;
         //scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
         scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), 3, guiCam.viewportHeight - 5);
         guiBatch.end();
         //
 
         //Time
+        float timeFntScale = (guiCam.viewportWidth / guiCam.viewportHeight * 0.6f) + 0.6f;
         guiBatch.begin();
         BitmapFont timeFont =  Assets.instance.fonts.tableNormal;
-        timeFont.setScale(guiCam.viewportWidth / guiCam.viewportHeight * 1.8f);
+        timeFont.setScale(timeFntScale);
         timeFont.setColor(0, 1, 0, 1);
         // timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
         timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), scoreWide, guiCam.viewportHeight - 5);
@@ -281,16 +283,16 @@ public class GameRenderer  implements Disposable {
 
         //Extra lives+++
         guiBatch.begin();
-        float sprRadius = 17;
+        float sprRadius = (guiCam.viewportWidth / guiCam.viewportHeight * 11) + 10;
         sprExtraLive.setSize(sprRadius, sprRadius);
-        float sprExtraLiveStartPosition = guiCam.viewportWidth - sprRadius * 1.5f;
+        float sprExtraLiveStartPosition = guiCam.viewportWidth - sprRadius * 1.1f;
 
         for (int i = 0; i < Consts.EXTRA_LIFE_CONT; i++) {
             if (i >= world.getExtraLivesCount())
                 sprExtraLive.setColor(0.5f, 0.5f, 0.5f, 0.5f);
             else
                 sprExtraLive.setColor(1, 1, 1, 1);
-            sprExtraLive.setPosition(sprExtraLiveStartPosition - (i * sprRadius) - (i * 5), guiCam.viewportHeight - sprRadius * 1.5f);
+            sprExtraLive.setPosition(sprExtraLiveStartPosition - (i * sprRadius) - (i), guiCam.viewportHeight - sprRadius * 1.6f);
             sprExtraLive.draw(guiBatch);
         }
         guiBatch.end();

@@ -3,9 +3,11 @@
  */
 package com.MVlab.BrickBreaker.gameObjects;
 
+import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

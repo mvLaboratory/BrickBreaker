@@ -11,6 +11,7 @@ import com.MVlab.BrickBreaker.gameObjects.RightBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
+import com.MVlab.BrickBreaker.utils.MV_Math;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -67,7 +68,7 @@ public class GameWorld  implements ContactListener {
         if (presentGameState == gameState.start || presentGameState == gameState.gameRestart){
             score = 0;
             gameDuration = 0;
-            levelNumber = 10;
+            levelNumber = 0;
         }
         dropDuration = 0;
         midLevelDuration = 0;
@@ -242,7 +243,7 @@ public class GameWorld  implements ContactListener {
     }
 
     public static float getLevelMultiplier() {
-        float levelMultiplier = MV_Math.max(10, levelNumber);
+        float levelMultiplier = MV_Math.max(1, levelNumber);
         levelMultiplier = MV_Math.max(1f, levelMultiplier * 0.13f);
         return MV_Math.max(1, levelMultiplier);
     }

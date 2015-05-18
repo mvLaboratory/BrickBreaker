@@ -104,6 +104,39 @@ public class GameRenderer  implements Disposable {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        renderObjects();
+        renderGUI();
+
+        if (DEBUG_DRAW_BOX2D_WORLD) {
+            b2debugRenderer.render(physicWorld,
+                    cam.combined);
+        }
+
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//        shapeRenderer.rect(racket.getX(), racket.getY(), racket.getWidth(), racket.getHeight());
+//        shapeRenderer.end();
+//
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//        shapeRenderer.rect(racket.getX(),racket.getY(), racket.getWidth(), racket.getHeight());
+//        shapeRenderer.end();
+
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//        shapeRenderer.circle(ball.getX(), ball.getY(), ball.getRadius());
+//        shapeRenderer.end();
+
+        //grid
+//        for (int i = -10; i <= 0; i++) {
+//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//            shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+//            shapeRenderer.line(-10, i, 10, i);
+//            shapeRenderer.end();
+//        }
+    }
+
+    private void renderObjects() {
         SpriteBatch batch = new SpriteBatch();
         //batch.setProjectionMatrix(cam.combined);
         //Background+++
@@ -204,7 +237,9 @@ public class GameRenderer  implements Disposable {
         background3.draw(batch);
         batch.end();
         //Background---
+    }
 
+    private void renderGUI() {
         SpriteBatch guiBatch = new SpriteBatch();
         guiBatch.setProjectionMatrix(guiCam.combined);
         //FPS
@@ -218,7 +253,7 @@ public class GameRenderer  implements Disposable {
         else
             fpsFont.setColor(1, 0, 0, 1);
 
-       // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
+        // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
         fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
         guiBatch.end();
         //
@@ -228,18 +263,19 @@ public class GameRenderer  implements Disposable {
         BitmapFont scoreFont =  Assets.instance.fonts.tableNormal;
         scoreFont.setScale(0.9f);
         scoreFont.setColor(0, 1, 0, 1);
+        float scoreWide = 17 * 5 * scoreFont.getScaleX();
         //scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), leftBorder.getX(), topBorder.getY() + (topBorder.getHeight() * 2) + 20);
-        scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), 5, guiCam.viewportHeight - 5);
+        scoreFont.draw(guiBatch, GameHelpers.getFormattedScore(world.getScore()), 3, guiCam.viewportHeight - 5);
         guiBatch.end();
         //
 
         //Time
         guiBatch.begin();
         BitmapFont timeFont =  Assets.instance.fonts.tableNormal;
-        timeFont.setScale(0.9f);
+        timeFont.setScale(guiCam.viewportWidth / guiCam.viewportHeight * 1.8f);
         timeFont.setColor(0, 1, 0, 1);
-       // timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
-        timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), 90, guiCam.viewportHeight - 5);
+        // timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), leftBorder.getX() + 100, topBorder.getY() + (topBorder.getHeight() * 2) + 20);
+        timeFont.draw(guiBatch, GameHelpers.getFormattedTime(world.getGameDuration()), scoreWide, guiCam.viewportHeight - 5);
         guiBatch.end();
         //
 
@@ -293,34 +329,6 @@ public class GameRenderer  implements Disposable {
         }
         guiBatch.end();
         //
-
-        if (DEBUG_DRAW_BOX2D_WORLD) {
-            b2debugRenderer.render(physicWorld,
-                    cam.combined);
-        }
-
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.rect(racket.getX(), racket.getY(), racket.getWidth(), racket.getHeight());
-//        shapeRenderer.end();
-//
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.rect(racket.getX(),racket.getY(), racket.getWidth(), racket.getHeight());
-//        shapeRenderer.end();
-
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//        shapeRenderer.circle(ball.getX(), ball.getY(), ball.getRadius());
-//        shapeRenderer.end();
-
-        //grid
-//        for (int i = -10; i <= 0; i++) {
-//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//            shapeRenderer.setColor(255 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
-//            shapeRenderer.line(-10, i, 10, i);
-//            shapeRenderer.end();
-//        }
     }
 
     public void resize(int width, int height) {

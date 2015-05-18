@@ -65,7 +65,7 @@ public class Ball {
     }
 
     public void update() {
-        float ballMaxSpeed = 10 * GameWorld.getLevelMultiplier();
+        float ballMaxSpeed = 9 * GameWorld.getLevelMultiplier();
         Vector2 presentVelocity = physicBody.getLinearVelocity();
         presentVelocity.y = MathUtils.clamp(presentVelocity.y, -ballMaxSpeed, ballMaxSpeed);
         presentVelocity.x = MathUtils.clamp(presentVelocity.x, -ballMaxSpeed, ballMaxSpeed);

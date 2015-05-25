@@ -37,14 +37,14 @@ public class GameWorld  implements ContactListener {
     private int score;
     private int extraLivesCount;
     private static int levelNumber;
-    private float gameDuration;
-    private float dropDuration;
-    private float midLevelDuration;
+    private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
     private gameState presentGameState;
+    private Game game;
 
     public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
 
-    public GameWorld() {
+    public GameWorld(Game game) {
+        this.game = game;
         extraLivesCount = Consts.EXTRA_LIFE_CONT;
         bricks = new ArrayList<Brick>();
 
@@ -72,6 +72,7 @@ public class GameWorld  implements ContactListener {
         }
         dropDuration = 0;
         midLevelDuration = 0;
+        timeLeftTillReturnToMenu = 0;
 
         if (presentGameState == gameState.gameRestart) presentGameState = gameState.start;
         if (presentGameState == gameState.levelRestart) presentGameState = gameState.levelStart;
@@ -152,6 +153,12 @@ public class GameWorld  implements ContactListener {
                 midLevelDuration = 0;
             }
             midLevelDuration += delta;
+        }
+
+        if (timeLeftTillReturnToMenu > 0) timeLeftTillReturnToMenu -= delta;
+        if (timeLeftTillReturnToMenu < 0) {
+            game.setScreen(new MenuScreen(game));
+            timeLeftTillReturnToMenu = 0;
         }
     }
 
@@ -246,6 +253,11 @@ public class GameWorld  implements ContactListener {
         float levelMultiplier = MV_Math.max(1, levelNumber);
         levelMultiplier = MV_Math.max(1f, levelMultiplier * 0.13f);
         return MV_Math.max(1, levelMultiplier);
+    }
+
+    public void backToMenu() {
+        timeLeftTillReturnToMenu = Consts.MID_SCREEN_DURATION;
+//        game.setScreen(new MenuScreen(game));
     }
 
     @Override

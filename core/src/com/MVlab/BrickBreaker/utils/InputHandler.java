@@ -11,6 +11,7 @@ import com.MVlab.BrickBreaker.gameObjects.Racket;
  * Created by MV on 17.03.2015.
  */
 public class InputHandler implements InputProcessor {
+    private static final String TAG = InputHandler.class.getName();
     private GameWorld gameWorld;
     private GameRenderer gameRenderer;
     private Racket racket;
@@ -27,7 +28,11 @@ public class InputHandler implements InputProcessor {
         if (keycode == Input.Keys.R) {
           gameWorld.restart();
         }
-        return false;
+
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
+            gameWorld.backToMenu();
+        }
+        return true;
     }
 
     @Override

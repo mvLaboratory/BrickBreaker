@@ -334,12 +334,12 @@ public class GameRenderer  implements Disposable {
     }
 
     public void resize(int width, int height) {
-       //cam.viewportWidth = (Consts.VIEWPORT_HEIGHT / height) * width;
-       //cam.update();
-       guiCam.viewportWidth = Consts.VIEWPORT_GUI_HEIGHT / (float) height * (float) width;
-       guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
-       guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
-       guiCam.update();
+        //cam.viewportWidth = (Consts.VIEWPORT_HEIGHT / height) * width;
+        //cam.update();
+        guiCam.viewportWidth = Consts.VIEWPORT_GUI_HEIGHT / (float) height * (float) width;
+        guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
+        guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
+        guiCam.update();
     }
 
     @Override

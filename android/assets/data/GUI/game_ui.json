@@ -1,0 +1,6 @@
+{
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+ qPlay: { down: qPlay-dn, up: qPlay-up },
+ quit: { down: quit-dn, up: quit-up }
+},
+}

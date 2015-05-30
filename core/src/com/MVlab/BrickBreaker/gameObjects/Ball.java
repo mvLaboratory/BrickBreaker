@@ -70,7 +70,7 @@ public class Ball {
         presentVelocity.y = MathUtils.clamp(presentVelocity.y, -ballMaxSpeed, ballMaxSpeed);
         presentVelocity.x = MathUtils.clamp(presentVelocity.x, -ballMaxSpeed, ballMaxSpeed);
 
-    //    physicBody.setLinearVelocity(presentVelocity);
+        physicBody.setLinearVelocity(presentVelocity);
     }
 
     public boolean underBottomBorder() {

@@ -8,10 +8,10 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Brick breaker";
-        config.width = 272;
-        config.height = 408;
-//        config.width = 300;
-//        config.height = 600;
+//        config.width = 272;
+//        config.height = 408;
+        config.width = 300;
+        config.height = 500;
 		new LwjglApplication(new BrickBreakerCore(), config);
 	}
 }

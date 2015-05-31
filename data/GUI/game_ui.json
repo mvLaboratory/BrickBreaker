@@ -1,6 +1,12 @@
 {
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
- qPlay: { down: ButtonQuickGame2, up: ButtonQuickGame1 },
- quit: { down: ButtonQuit2, up: ButtonQuit1 }
+ qPlay:   { down: ButtonQuickGameDn, up: ButtonQuickGameUp },
+ Options: { down: ButtonOptionsDn, up: ButtonOptionsUp },
+ quit:    { down: ButtonQuitDn, up: ButtonQuitUp }
+},
+
+com.badlogic.gdx.scenes.scene2d.ui.Image: {
+ backGround: { drawable: backGround},
+ racket: { drawable: Racket},
 },
 }

@@ -1,0 +1,61 @@
+
+BrickBreackerGUI.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+backGround
+  rotate: false
+  xy: 1, 142
+  size: 360, 360
+  orig: 360, 360
+  offset: 0, 0
+  index: -1
+Racket
+  rotate: false
+  xy: 363, 313
+  size: 113, 189
+  orig: 113, 189
+  offset: 0, 0
+  index: -1
+ButtonOptionsDn
+  rotate: false
+  xy: 1, 95
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1
+ButtonOptionsUp
+  rotate: false
+  xy: 1, 48
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1
+ButtonQuickGameDn
+  rotate: false
+  xy: 176, 95
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1
+ButtonQuickGameUp
+  rotate: false
+  xy: 1, 1
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1
+ButtonQuitDn
+  rotate: false
+  xy: 176, 48
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1
+ButtonQuitUp
+  rotate: false
+  xy: 176, 1
+  size: 173, 45
+  orig: 173, 45
+  offset: 0, 0
+  index: -1

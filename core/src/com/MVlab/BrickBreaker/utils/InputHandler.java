@@ -29,7 +29,7 @@ public class InputHandler implements InputProcessor {
           gameWorld.restart();
         }
 
-        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
+        if (keycode == Input.Keys.BACKSPACE || keycode == Input.Keys.BACK) {
             gameWorld.backToMenu();
         }
         return true;

@@ -139,7 +139,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
-        stage = new Stage(new StretchViewport(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT * 0.8f));
+        stage = new Stage(new StretchViewport(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT));
         Gdx.input.setInputProcessor(stage);
         rebuiltStage();
     }

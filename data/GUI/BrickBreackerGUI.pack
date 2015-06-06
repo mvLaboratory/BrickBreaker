@@ -5,56 +5,56 @@ filter: Linear,Linear
 repeat: none
 backGround
   rotate: false
-  xy: 1, 142
-  size: 360, 360
-  orig: 360, 360
+  xy: 1, 1
+  size: 360, 482
+  orig: 360, 482
   offset: 0, 0
   index: -1
 Racket
   rotate: false
-  xy: 363, 313
-  size: 113, 189
-  orig: 113, 189
+  xy: 363, 332
+  size: 113, 151
+  orig: 113, 151
   offset: 0, 0
   index: -1
 ButtonOptionsDn
   rotate: false
-  xy: 1, 95
+  xy: 478, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 ButtonOptionsUp
   rotate: false
-  xy: 1, 48
+  xy: 478, 391
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 ButtonQuickGameDn
   rotate: false
-  xy: 176, 95
+  xy: 653, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 ButtonQuickGameUp
   rotate: false
-  xy: 1, 1
+  xy: 478, 344
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 ButtonQuitDn
   rotate: false
-  xy: 176, 48
+  xy: 653, 391
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 ButtonQuitUp
   rotate: false
-  xy: 176, 1
+  xy: 828, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0

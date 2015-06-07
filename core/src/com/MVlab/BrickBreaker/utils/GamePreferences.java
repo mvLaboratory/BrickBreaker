@@ -2,6 +2,7 @@ package com.MVlab.BrickBreaker.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Created by MV on 07.06.2015.
@@ -21,6 +22,25 @@ public class GamePreferences {
     private Preferences prefs;
 
     private GamePreferences() {
-        prefs = Gdx.app.getPreferences("");
+        prefs = Gdx.app.getPreferences("options.prefs");
+    }
+
+    public void load () {
+        sound = prefs.getBoolean("sound", true);
+        music = prefs.getBoolean("music", true);
+        volSound = MathUtils.clamp(prefs.getFloat("volSound", 0.5f), 0f, 1f);
+        volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.5f), 0f, 1f);
+        charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
+        showFpsCounter = prefs.getBoolean("showFpsCounter", false);
+    }
+
+    public void save () {
+        prefs.putBoolean("sound", sound);
+        prefs.putBoolean("music", music);
+        prefs.putFloat("volSound", volSound);
+        prefs.putFloat("volMusic", volMusic);
+        prefs.putFloat("charSkin", charSkin);
+        prefs.putBoolean("showFpsCounter", showFpsCounter);
+        prefs.flush();
     }
 }

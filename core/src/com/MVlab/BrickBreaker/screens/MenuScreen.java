@@ -1,6 +1,7 @@
 package com.MVlab.BrickBreaker.screens;
 
 import com.MVlab.BrickBreaker.utils.Consts;
+import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -28,6 +29,7 @@ public class MenuScreen extends AbstractGameScreen {
     private static final String TAG = MenuScreen.class.getName();
     private Stage stage;
     private Skin skinBrickBreaker;
+    private Skin OptionsSkin;
 
     //menu
     private Image imgBackground;
@@ -35,6 +37,8 @@ public class MenuScreen extends AbstractGameScreen {
     private Button btnMenuQuickPlay;
     private Button btnMenuQuit;
     private Button btnOptions;
+    private Button btnMenuPlay;
+    private Button btnMenuOptions;
 
     //options
     private Window winOptions;
@@ -129,6 +133,44 @@ public class MenuScreen extends AbstractGameScreen {
             }
         });
         return layer;
+    }
+
+    private void loadSettings() {
+        GamePreferences prefs = GamePreferences.instance;
+        prefs.load();
+        chkSound.setChecked(prefs.sound);
+        sldSound.setValue(prefs.volSound);
+        chkMusic.setChecked(prefs.music);
+        sldMusic.setValue(prefs.volMusic);
+        //selCharSkin.setSelection(prefs.charSkin);
+        //onCharSkinSelected(prefs.charSkin);
+        chkShowFpsCounter.setChecked(prefs.showFpsCounter);
+    }
+
+    private void saveSettings() {
+        GamePreferences prefs = GamePreferences.instance;
+        prefs.sound = chkSound.isChecked();
+        prefs.volSound = sldSound.getValue();
+        prefs.music = chkMusic.isChecked();
+        prefs.volMusic = sldMusic.getValue();
+        //prefs.charSkin = selCharSkin.getSelectionIndex();
+        prefs.showFpsCounter = chkShowFpsCounter.isChecked();
+        prefs.save();
+    }
+
+//    private void onCharSkinSelected(int index) {
+//        CharacterSkin skin = CharacterSkin.values()[index];
+//        imgCharSkin.setColor(skin.getColor());
+//    }
+
+    private void onSaveClicked() {
+        saveSettings();
+        onCancelClicked();
+    }
+    private void onCancelClicked() {
+        btnMenuPlay.setVisible(true);
+        btnMenuOptions.setVisible(true);
+        winOptions.setVisible(false);
     }
 
     @Override

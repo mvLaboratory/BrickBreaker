@@ -8,10 +8,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -30,6 +35,18 @@ public class MenuScreen extends AbstractGameScreen {
     private Button btnMenuQuickPlay;
     private Button btnMenuQuit;
     private Button btnOptions;
+
+    //options
+    private Window winOptions;
+    private TextButton btnWinOptSave;
+    private TextButton btnWinOptCancel;
+    private CheckBox chkSound;
+    private Slider sldSound;
+    private CheckBox chkMusic;
+    private Slider sldMusic;
+    private SelectBox selCharSkin;
+    private Image imgCharSkin;
+    private CheckBox chkShowFpsCounter;
 
     // debug
     private final float DEBUG_REBUILD_INTERVAL = 5.0f;

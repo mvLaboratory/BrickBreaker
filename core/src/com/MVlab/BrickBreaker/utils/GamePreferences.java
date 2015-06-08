@@ -22,7 +22,7 @@ public class GamePreferences {
     private Preferences prefs;
 
     private GamePreferences() {
-        prefs = Gdx.app.getPreferences("options.prefs");
+        prefs = Gdx.app.getPreferences(Consts.GAME_OPTIONS);
     }
 
     public void load () {
@@ -30,7 +30,7 @@ public class GamePreferences {
         music = prefs.getBoolean("music", true);
         volSound = MathUtils.clamp(prefs.getFloat("volSound", 0.5f), 0f, 1f);
         volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.5f), 0f, 1f);
-        charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
+        //charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
         showFpsCounter = prefs.getBoolean("showFpsCounter", false);
     }
 
@@ -39,7 +39,7 @@ public class GamePreferences {
         prefs.putBoolean("music", music);
         prefs.putFloat("volSound", volSound);
         prefs.putFloat("volMusic", volMusic);
-        prefs.putFloat("charSkin", charSkin);
+        //prefs.putFloat("charSkin", charSkin);
         prefs.putBoolean("showFpsCounter", showFpsCounter);
         prefs.flush();
     }

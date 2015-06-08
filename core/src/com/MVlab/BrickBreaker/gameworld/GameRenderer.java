@@ -10,6 +10,7 @@ import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
+import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -243,19 +244,21 @@ public class GameRenderer  implements Disposable {
         SpriteBatch guiBatch = new SpriteBatch();
         guiBatch.setProjectionMatrix(guiCam.combined);
         //FPS
-        guiBatch.begin();
-        int fps = Gdx.graphics.getFramesPerSecond();
-        BitmapFont fpsFont = Assets.instance.fonts.defaultSmall;
-        if (fps >= 45)
-            fpsFont.setColor(0, 1, 0, 1);
-        else if (fps >= 30)
-            fpsFont.setColor(1, 1, 0, 1);
-        else
-            fpsFont.setColor(1, 0, 0, 1);
+        if (GamePreferences.instance.showFpsCounter) {
+            guiBatch.begin();
+            int fps = Gdx.graphics.getFramesPerSecond();
+            BitmapFont fpsFont = Assets.instance.fonts.defaultSmall;
+            if (fps >= 45)
+                fpsFont.setColor(0, 1, 0, 1);
+            else if (fps >= 30)
+                fpsFont.setColor(1, 1, 0, 1);
+            else
+                fpsFont.setColor(1, 0, 0, 1);
 
-        // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
-        fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
-        guiBatch.end();
+            // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
+            fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
+            guiBatch.end();
+        }
         //
 
         //score

@@ -23,4 +23,10 @@ public class Consts {
     public static int MID_SCREEN_DURATION = 1; // 1 seconds till screen changes
 
     public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures/BrickBreackerTextures.pack";
+
+    //Game preferences
+    public static final String GAME_OPTIONS = "options.prefs";
+
+
+
 }

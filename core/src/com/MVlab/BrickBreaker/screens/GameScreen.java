@@ -3,6 +3,7 @@ package com.MVlab.BrickBreaker.screens;
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
+import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.MVlab.BrickBreaker.utils.InputHandler;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -24,6 +25,7 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
+        GamePreferences.instance.load();
         world = new GameWorld(game);
         renderer = new GameRenderer(world);
         previousGameState = GameWorld.gameState.start;

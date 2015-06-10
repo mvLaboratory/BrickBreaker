@@ -25,6 +25,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 import java.util.ArrayList;
 
@@ -334,6 +335,10 @@ public class GameRenderer  implements Disposable {
         }
         guiBatch.end();
         //
+
+        guiBatch.begin();
+        world.splashParticles.draw(guiBatch);
+        guiBatch.end();
     }
 
     public void resize(int width, int height) {

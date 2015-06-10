@@ -15,6 +15,7 @@ import com.MVlab.BrickBreaker.gameObjects.Racket;
 import com.MVlab.BrickBreaker.utils.MV_Math;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -42,6 +43,7 @@ public class GameWorld  implements ContactListener {
     private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
     private gameState presentGameState;
     private Game game;
+    public ParticleEffect splashParticles = new ParticleEffect();
 
     public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
 
@@ -58,6 +60,8 @@ public class GameWorld  implements ContactListener {
     public void init() {
         physicWorld = new World(new Vector2(0, -3f * getLevelMultiplier()), true);
         physicWorld.setContactListener(this);
+
+        splashParticles.load(Gdx.files.internal("data/particles/splash.pfx"), Gdx.files.internal("data/particles"));
 
         racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(Consts.GAME_CENTER, -2.15f, 0.3f, physicWorld);
@@ -122,6 +126,8 @@ public class GameWorld  implements ContactListener {
             physicWorld.step(delta, 1, 1);
             gameDuration += delta;
 
+            splashParticles.update(delta);
+
             int activeBricksCount = 0;
             for (Brick brick : bricks) {
                 if (brick != null) {
@@ -169,6 +175,19 @@ public class GameWorld  implements ContactListener {
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
         ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 80 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
+    }
+
+    private void destroyBrick(Brick brick) {
+        splashParticles.setPosition(brick.getX(), brick.getY());
+        splashParticles.start();
+
+        brick.damage(100);
+
+        int ballDirectionX = MathUtils.random(-1, 2);
+        int ballDirectionY = ball.getY() > brick.getY() ? 2 : -1;
+        ball.getPhysicBody().applyLinearImpulse(10 * ballDirectionX, 10 * ballDirectionY, 0, 0, true);
+
+        scored();
     }
 
     public void scored() {
@@ -284,13 +303,15 @@ public class GameWorld  implements ContactListener {
 
         //Brick collides
         if (bodyA instanceof Brick) {
-            ((Brick) bodyA).damage(100);
-            scored();
+            destroyBrick((Brick) bodyA);
+//            ((Brick) bodyA).damage(100);
+//            scored();
         }
 
         if (bodyB instanceof Brick) {
-            ((Brick) bodyB).damage(100);
-            scored();
+            destroyBrick((Brick) bodyB);
+//            ((Brick) bodyB).damage(100);
+//            scored();
         }
 
         //border collision

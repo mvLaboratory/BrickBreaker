@@ -226,21 +226,21 @@ public class GameRenderer  implements Disposable {
             batch.end();
         }
 
+        //Background3+++
+        batch.begin();
+        background3.setSize(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), Gdx.graphics.getHeight());
+        background3.setOrigin(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), 0);
+        background3.setPosition(rightBorder.getX() + rightBorder.getWidth(), 0);
+        background3.draw(batch);
+        batch.end();
+        //Background---
+
         //Background2+++
         batch.begin();
         background2.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - (topBorder.getY() / 2));
         background2.setOrigin(0, Gdx.graphics.getHeight() - (topBorder.getY() / 2));
         background2.setPosition(0, topBorder.getY() + topBorder.getHeight());
         background2.draw(batch);
-        batch.end();
-        //Background---
-
-        //Background2+++
-        batch.begin();
-        background3.setSize(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), Gdx.graphics.getHeight());
-        background3.setOrigin(Gdx.graphics.getWidth() - (rightBorder.getX() / 2), 0);
-        background3.setPosition(rightBorder.getX() + rightBorder.getWidth(), 0);
-        background3.draw(batch);
         batch.end();
         //Background---
     }

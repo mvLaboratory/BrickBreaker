@@ -119,8 +119,8 @@ public class MenuScreen extends AbstractGameScreen {
         btnMenuQuickPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.75f,
-                        ScreenTransitionSlide.LEFT, false, Interpolation.pow5);
+                Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.50f,
+                        ScreenTransitionSlide.LEFT, true, Interpolation.pow5);
                 game.setScreen(new GameScreen(game), transition);
             }
         });

@@ -169,8 +169,8 @@ public class GameWorld  implements ContactListener {
 
         if (timeLeftTillReturnToMenu > 0) timeLeftTillReturnToMenu -= delta;
         if (timeLeftTillReturnToMenu < 0) {
-            Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.75f,
-                    ScreenTransitionSlide.RIGHT, true, Interpolation.pow5);
+            Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.50f,
+                    ScreenTransitionSlide.RIGHT, false, Interpolation.pow5);
             game.setScreen(new MenuScreen(game), transition);
             timeLeftTillReturnToMenu = 0;
         }

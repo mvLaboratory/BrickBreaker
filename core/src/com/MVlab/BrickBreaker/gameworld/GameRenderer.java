@@ -71,6 +71,7 @@ public class GameRenderer  implements Disposable {
 
         TextureRegion borderTexture = Assets.instance.border.border;
         sprSideBorder = new Sprite(borderTexture);
+        sprSideBorder.flip(false, true);
 
         TextureRegion topBorderTexture = Assets.instance.topBorder.topBorder;
         sprTopBorder = new Sprite(topBorderTexture);
@@ -96,8 +97,11 @@ public class GameRenderer  implements Disposable {
         TextureRegion brickTexture = Assets.instance.brickTexture.brick;
         sprBrick = new Sprite(brickTexture);
 
-        background2 = new Sprite(regions);
-        background3 = new Sprite(regions);
+        TextureRegion sprBackground2 = Assets.instance.levelDecoration.background2;
+        background2 = new Sprite(sprBackground2);
+
+        TextureRegion sprBackground3 = Assets.instance.levelDecoration.background3;
+        background3 = new Sprite(sprBackground3);
     }
 
     public void render() {

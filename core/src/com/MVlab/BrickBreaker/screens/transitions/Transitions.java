@@ -1,4 +1,4 @@
-package com.MVlab.BrickBreaker.screens;
+package com.MVlab.BrickBreaker.screens.transitions;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

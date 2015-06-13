@@ -1,12 +1,16 @@
 package com.MVlab.BrickBreaker.screens;
 
+import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
+import com.MVlab.BrickBreaker.screens.transitions.Transitions;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -64,7 +68,7 @@ public class MenuScreen extends AbstractGameScreen {
     private boolean debugEnabled = false;
     private float debugRebuildStage;
 
-    public MenuScreen(Game game) {
+    public MenuScreen(DirectedGame game) {
         super(game);
     }
 
@@ -115,7 +119,9 @@ public class MenuScreen extends AbstractGameScreen {
         btnMenuQuickPlay.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game));
+                Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.75f,
+                        ScreenTransitionSlide.LEFT, false, Interpolation.pow5);
+                game.setScreen(new GameScreen(game), transition);
             }
         });
         layer.row();
@@ -310,6 +316,11 @@ public class MenuScreen extends AbstractGameScreen {
     //options---
 
     @Override
+    public InputProcessor getInputProcessor () {
+        return stage;
+    }
+
+    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -335,7 +346,7 @@ public class MenuScreen extends AbstractGameScreen {
     @Override
     public void show() {
         stage = new Stage(new StretchViewport(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT));
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
         rebuiltStage();
     }
 

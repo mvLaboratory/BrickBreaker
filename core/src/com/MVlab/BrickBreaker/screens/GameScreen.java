@@ -5,8 +5,9 @@ import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.MVlab.BrickBreaker.utils.InputHandler;
-import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 
 /**
@@ -19,8 +20,13 @@ public class GameScreen extends AbstractGameScreen {
     private GameRenderer renderer;
     private InputHandler inputHandler;
 
-    public GameScreen(Game game) {
+    public GameScreen(DirectedGame game) {
         super(game);
+    }
+
+    @Override
+    public InputProcessor getInputProcessor () {
+        return inputHandler;
     }
 
     @Override
@@ -31,7 +37,7 @@ public class GameScreen extends AbstractGameScreen {
         previousGameState = GameWorld.gameState.start;
 
         inputHandler = new InputHandler(world);
-        Gdx.input.setInputProcessor(inputHandler);
+        //Gdx.input.setInputProcessor(inputHandler);
 
         Gdx.input.setCatchBackKey(true);
     }
@@ -66,8 +72,8 @@ public class GameScreen extends AbstractGameScreen {
     public void pause() {
         previousGameState = world.getPresentGameState();
         world.setPresentGameState(GameWorld.gameState.paused);
-        renderer.dispose();
-        Assets.instance.dispose();
+        //renderer.dispose();
+        //Assets.instance.dispose();
     }
 
     @Override

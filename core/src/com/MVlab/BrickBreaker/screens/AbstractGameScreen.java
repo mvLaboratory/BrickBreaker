@@ -2,6 +2,7 @@ package com.MVlab.BrickBreaker.screens;
 
 import com.MVlab.BrickBreaker.Assets;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 
@@ -9,11 +10,18 @@ import com.badlogic.gdx.assets.AssetManager;
  * Created by MV on 18.05.2015.
  */
 public abstract class AbstractGameScreen implements Screen {
-    protected Game game;
+    //protected Game game;
+    protected DirectedGame game;
 
-    protected AbstractGameScreen(Game game) {
+//    protected AbstractGameScreen(Game game) {
+//        this.game = game;
+//    }
+
+    public AbstractGameScreen (DirectedGame game) {
         this.game = game;
     }
+
+    public abstract InputProcessor getInputProcessor ();
 
     @Override
     public void render(float delta) {

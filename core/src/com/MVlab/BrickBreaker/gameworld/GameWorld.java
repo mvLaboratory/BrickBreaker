@@ -8,7 +8,10 @@ import com.MVlab.BrickBreaker.gameObjects.BottomBorder;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.gameObjects.RightBorder;
+import com.MVlab.BrickBreaker.screens.DirectedGame;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
+import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
+import com.MVlab.BrickBreaker.screens.transitions.Transitions;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
@@ -16,6 +19,7 @@ import com.MVlab.BrickBreaker.utils.MV_Math;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -42,12 +46,12 @@ public class GameWorld  implements ContactListener {
     private static int levelNumber;
     private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
     private gameState presentGameState;
-    private Game game;
+    private DirectedGame game;
     public ParticleEffect splashParticles = new ParticleEffect();
 
     public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
 
-    public GameWorld(Game game) {
+    public GameWorld(DirectedGame game) {
         this.game = game;
         extraLivesCount = Consts.EXTRA_LIFE_CONT;
         bricks = new ArrayList<Brick>();
@@ -165,7 +169,9 @@ public class GameWorld  implements ContactListener {
 
         if (timeLeftTillReturnToMenu > 0) timeLeftTillReturnToMenu -= delta;
         if (timeLeftTillReturnToMenu < 0) {
-            game.setScreen(new MenuScreen(game));
+            Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.75f,
+                    ScreenTransitionSlide.RIGHT, true, Interpolation.pow5);
+            game.setScreen(new MenuScreen(game), transition);
             timeLeftTillReturnToMenu = 0;
         }
     }

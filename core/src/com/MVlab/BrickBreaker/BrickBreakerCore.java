@@ -2,10 +2,14 @@ package com.MVlab.BrickBreaker;
 
 import com.MVlab.BrickBreaker.screens.DirectedGame;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
+import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
+import com.MVlab.BrickBreaker.screens.transitions.Transitions;
+import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.MVlab.BrickBreaker.utils.InputHandler;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.math.Interpolation;
 
 public class BrickBreakerCore extends DirectedGame {
     private InputHandler inputHandler;
@@ -14,6 +18,12 @@ public class BrickBreakerCore extends DirectedGame {
     public void create() {
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
         Assets.instance.init(new AssetManager());
+
+        GamePreferences.instance.load();
+        //AudioManager.instance.play(Assets.instance.music.song01);
+
+        Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.50f,
+                ScreenTransitionSlide.DOWN, true, Interpolation.pow5);
         setScreen(new MenuScreen(this));
     }
 }

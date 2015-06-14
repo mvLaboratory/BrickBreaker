@@ -3,6 +3,7 @@
  */
 
 package com.MVlab.BrickBreaker.gameWorld;
+import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.BottomBorder;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
@@ -12,6 +13,7 @@ import com.MVlab.BrickBreaker.screens.DirectedGame;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
 import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions;
+import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
@@ -187,6 +189,8 @@ public class GameWorld  implements ContactListener {
         splashParticles.setPosition(brick.getX(), brick.getY());
         splashParticles.start();
 
+        AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));
+
         brick.damage(100);
 
         int ballDirectionX = MathUtils.random(-1, 2);
@@ -323,18 +327,22 @@ public class GameWorld  implements ContactListener {
         //border collision
         if (bodyA instanceof Ball && bodyB instanceof LeftBorder) {
             ((Ball) bodyA).getPhysicBody().applyLinearImpulse(1, 0, 0, 0, true);
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
         if (bodyA instanceof LeftBorder && bodyB instanceof Ball) {
             ((Ball) bodyB).getPhysicBody().applyLinearImpulse(1, 0, 0, 0, true);
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
         if (bodyA instanceof Ball && bodyB instanceof RightBorder) {
             ((Ball) bodyA).getPhysicBody().applyLinearImpulse(-1, 0, 0, 0, true);
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
         if (bodyA instanceof RightBorder && bodyB instanceof Ball) {
             ((Ball) bodyB).getPhysicBody().applyLinearImpulse(-1, 0, 0, 0, true);
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
         //Bottom border

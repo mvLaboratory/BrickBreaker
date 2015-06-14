@@ -2,6 +2,7 @@ package com.MVlab.BrickBreaker.screens;
 
 import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions;
+import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.badlogic.gdx.Game;
@@ -298,6 +299,7 @@ public class MenuScreen extends AbstractGameScreen {
     private void onSaveClicked() {
         saveSettings();
         onCancelClicked();
+        AudioManager.instance.onSettingsUpdated();
     }
 
     private void onCancelClicked() {
@@ -305,6 +307,7 @@ public class MenuScreen extends AbstractGameScreen {
         btnMenuOptions.setVisible(true);
         btnMenuQuit.setVisible(true);
         winOptions.setVisible(false);
+        AudioManager.instance.onSettingsUpdated();
     }
 
     private void showOptionsWindow (boolean visible, boolean animated) {

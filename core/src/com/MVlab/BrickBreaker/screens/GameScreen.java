@@ -65,6 +65,7 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void hide() {
         renderer.dispose();
+        Assets.instance.dispose();
         Gdx.input.setCatchBackKey(false);
     }
 
@@ -80,6 +81,6 @@ public class GameScreen extends AbstractGameScreen {
     public void resume() {
         super.resume();
         world.setPresentGameState(previousGameState);
-        renderer.init();
+       // renderer.init();
     }
 }

@@ -183,6 +183,7 @@ public class GameWorld  implements ContactListener {
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
         ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 80 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
+        AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
     }
 
     private void destroyBrick(Brick brick) {
@@ -345,9 +346,19 @@ public class GameWorld  implements ContactListener {
             AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
+        if ((bodyA instanceof Ball && bodyB instanceof Border) || (bodyA instanceof Border && bodyB instanceof Ball)) {
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
+        }
+
         //Bottom border
         if ((bodyA instanceof Ball && bodyB instanceof BottomBorder) || (bodyA instanceof BottomBorder && bodyB instanceof Ball)) {
+            AudioManager.instance.play(Assets.instance.sounds.drop, 1 , MathUtils.random(1.0f, 1.1f));
             drop();
+        }
+
+        //Racket collision
+        if ((bodyA instanceof Ball && bodyB instanceof Racket) || (bodyA instanceof Racket && bodyB instanceof Ball)) {
+            AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
     }
 

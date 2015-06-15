@@ -20,7 +20,7 @@ public class Consts {
     public static int EXTRA_LIFE_CONT = 3;
     public static int DROP_DURATION = 1; // 1 seconds till ball restart
     public static int MID_LEVEL_DURATION = 1; // 1 seconds till level starts
-    public static int MID_SCREEN_DURATION = 1; // 1 seconds till screen changes
+    public static float MID_SCREEN_DURATION = 0.3f; // 1 seconds till screen changes
 
     public static final String BASIC_TEXTURES_ATLAS_OBJECT = "data/textures/BrickBreackerTextures.pack";
 

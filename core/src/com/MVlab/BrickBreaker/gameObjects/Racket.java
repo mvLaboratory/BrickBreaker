@@ -49,6 +49,7 @@ public class Racket {
 
         physicBody = physicWorld.createBody(bodyDef);
         physicBody.setType(BodyDef.BodyType.KinematicBody);
+        physicBody.setUserData(this);
 
         PolygonShape bodyShape = new PolygonShape();
 

@@ -1,11 +1,14 @@
 package com.MVlab.BrickBreaker.screens;
 
+import com.MVlab.BrickBreaker.Assets;
+import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions.*;
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Created by MV on 12.06.2015.
@@ -25,6 +28,8 @@ public abstract class DirectedGame implements ApplicationListener {
     }
 
     public void setScreen(AbstractGameScreen screen, ScreenTransition screenTransition) {
+        AudioManager.instance.play(Assets.instance.sounds.doors, 3);
+
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
 

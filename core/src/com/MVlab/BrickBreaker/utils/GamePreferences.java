@@ -29,7 +29,7 @@ public class GamePreferences {
         sound = prefs.getBoolean("sound", true);
         music = prefs.getBoolean("music", true);
         volSound = MathUtils.clamp(prefs.getFloat("volSound", 0.5f), 0f, 1f);
-        volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.5f), 0f, 1f);
+        volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.3f), 0f, 1f);
         //charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
         showFpsCounter = prefs.getBoolean("showFpsCounter", false);
     }

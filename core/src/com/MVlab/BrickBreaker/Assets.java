@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -29,6 +30,8 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetFonts fonts;
     //sounds
     public AssetSounds sounds;
+    //music
+    public AssetMusic music;
 
     private Assets() {};
 
@@ -42,7 +45,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("data/sounds/doors.mp3", Sound.class);
         assetManager.load("data/sounds/drop.wav", Sound.class);
         //---
+        // load music
+        assetManager.load("data/music/mainTheme.Wav", Music.class);
         assetManager.finishLoading();
+        //---
 
 //        Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
 //        for (String a : assetManager.getAssetNames())
@@ -63,6 +69,7 @@ public class Assets implements Disposable, AssetErrorListener {
         fonts = new AssetFonts();
 
         sounds = new AssetSounds(assetManager);
+        music = new AssetMusic(assetManager);
     }
 
     @Override
@@ -165,6 +172,14 @@ public class Assets implements Disposable, AssetErrorListener {
             defaultBig.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
             tableNormal.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
+    }
+
+    public class AssetMusic {
+        public final Music theme;
+
+        public AssetMusic(AssetManager am) {
+            theme = am.get("data/music/mainTheme.Wav", Music.class);
         }
     }
 

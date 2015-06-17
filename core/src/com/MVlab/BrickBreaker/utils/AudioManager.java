@@ -30,11 +30,15 @@ public class AudioManager {
     }
 
     public void play (Music music) {
+        play(music, 1);
+    }
+
+    public void play (Music music, float volume) {
         stopMusic();
         playingMusic = music;
         if (GamePreferences.instance.music) {
             music.setLooping(true);
-            music.setVolume(GamePreferences.instance.volMusic);
+            music.setVolume(GamePreferences.instance.volMusic * volume);
             music.play();
         }
     }
@@ -44,7 +48,7 @@ public class AudioManager {
 
     public void onSettingsUpdated () {
         if (playingMusic == null) return;
-        playingMusic.setVolume(GamePreferences.instance.volMusic);
+        playingMusic.setVolume(GamePreferences.instance.volMusic * 0.10f);
         if (GamePreferences.instance.music) {
             if (!playingMusic.isPlaying()) playingMusic.play();
         } else {

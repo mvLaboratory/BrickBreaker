@@ -4,6 +4,7 @@ import com.MVlab.BrickBreaker.screens.DirectedGame;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
 import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions;
+import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.MVlab.BrickBreaker.utils.InputHandler;
 import com.badlogic.gdx.Application;
@@ -20,7 +21,7 @@ public class BrickBreakerCore extends DirectedGame {
         Assets.instance.init(new AssetManager());
 
         GamePreferences.instance.load();
-        //AudioManager.instance.play(Assets.instance.music.song01);
+        AudioManager.instance.play(Assets.instance.music.theme, 0.10f);
 
         Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.50f,
                 ScreenTransitionSlide.DOWN, true, Interpolation.pow5);

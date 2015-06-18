@@ -1,7 +1,3 @@
-/**
- * Created by MV on 17.03.2015.
- */
-
 package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
@@ -18,7 +14,6 @@ import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
 import com.MVlab.BrickBreaker.utils.MV_Math;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Interpolation;
@@ -34,7 +29,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 public class GameWorld  implements ContactListener {
-    public static final String TAG = GameWorld.class.getName();
     private Racket racket;
     private Ball ball;
     private LeftBorder leftBorder;
@@ -181,7 +175,7 @@ public class GameWorld  implements ContactListener {
     public void kickTheBall() {
         int ballDirectionX = MathUtils.random(-1, 2);
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
-        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 80 * getLevelMultiplier(), 0, 0, true);
+        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 100 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
         AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
     }

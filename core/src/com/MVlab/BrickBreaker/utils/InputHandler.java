@@ -35,7 +35,7 @@ public class InputHandler implements InputProcessor {
         if (accelerometerAvailable) {
             // normalize accelerometer values from [-10, 10] to [-1, 1]
             // which translate to rotations of [-90, 90] degrees
-            float amount = Gdx.input.getAccelerometerY() / 10.0f;
+            float amount = Gdx.input.getAccelerometerX() / 10.0f;
             amount *= 90.0f;
             // is angle of rotation inside dead zone?
             if (Math.abs(amount) < ACCEL_ANGLE_DEAD_ZONE) {

@@ -47,6 +47,7 @@ public class GameScreen extends AbstractGameScreen {
         Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        inputHandler.handleInput();
         world.update(Gdx.graphics.getDeltaTime());
         renderer.render();
 

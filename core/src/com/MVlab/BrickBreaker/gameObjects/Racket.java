@@ -106,11 +106,17 @@ public class Racket {
 //            else presentVelocity.x = positionDelta * 10;
 //        }
 
-            if (absPositionDelta < 0.1)
-                presentVelocity.x = 0;
-            else presentVelocity.x = positionDelta * 50 / (Gdx.graphics.getDeltaTime() * 50);
+        if (absPositionDelta < 0.1)
+            presentVelocity.x = 0;
+        else presentVelocity.x = positionDelta * 50 / (Gdx.graphics.getDeltaTime() * 50);
 
 
+        physicBody.setLinearVelocity(presentVelocity);
+    }
+
+    public void setRocketSpeed(float speed) {
+        Vector2 presentVelocity = physicBody.getLinearVelocity();
+        presentVelocity.x = speed;
         physicBody.setLinearVelocity(presentVelocity);
     }
 

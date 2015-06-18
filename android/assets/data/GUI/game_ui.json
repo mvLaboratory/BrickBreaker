@@ -6,6 +6,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 },
 
 com.badlogic.gdx.scenes.scene2d.ui.Image: {
- background: { drawable: backGround},
+ backGround: { drawable: backGround},
+ racket: { drawable: Racket},
 },
 }

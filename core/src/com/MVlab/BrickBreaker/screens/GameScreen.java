@@ -54,7 +54,8 @@ public class GameScreen extends AbstractGameScreen {
         if (world.needRestart()) {
             world.init();
             renderer.init();
-            Gdx.input.setInputProcessor(new InputHandler(world));
+            inputHandler = new InputHandler(world);
+            Gdx.input.setInputProcessor(inputHandler);
         }
     }
 

@@ -43,6 +43,7 @@ public class GameWorld  implements ContactListener {
     private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
     private gameState presentGameState;
     private DirectedGame game;
+    public String debugAccelerometerMassage;
     public ParticleEffect splashParticles = new ParticleEffect();
 
     public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
@@ -175,13 +176,14 @@ public class GameWorld  implements ContactListener {
     public void kickTheBall() {
         int ballDirectionX = MathUtils.random(-1, 2);
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
-        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 100 * getLevelMultiplier(), 0, 0, true);
+        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 500 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
         AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
     }
 
     private void destroyBrick(Brick brick) {
         splashParticles.setPosition(brick.getX(), brick.getY());
+        //splashParticles.setPosition(0, 0);
         splashParticles.start();
 
         AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));

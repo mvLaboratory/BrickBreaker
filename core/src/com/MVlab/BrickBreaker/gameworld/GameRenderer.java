@@ -263,8 +263,16 @@ public class GameRenderer  implements Disposable {
             // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
             fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
             guiBatch.end();
+
+            //
+            //Accelerometer debug
+            guiBatch.begin();
+            BitmapFont accDebugFont = Assets.instance.fonts.defaultSmall;
+            accDebugFont.setColor(0, 1, 0, 1);
+            accDebugFont.draw(guiBatch, world.debugAccelerometerMassage, guiCam.viewportWidth - 40, 20);
+            guiBatch.end();
+        //--
         }
-        //
 
         //score
         float scoreFntScale = (guiCam.viewportWidth / guiCam.viewportHeight * 0.6f) + 0.6f;

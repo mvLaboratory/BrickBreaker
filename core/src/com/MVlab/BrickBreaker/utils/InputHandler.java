@@ -20,7 +20,7 @@ public class InputHandler implements InputProcessor {
     private boolean accelerometerAvailable;
 
     // Angle of rotation for dead zone (no movement)
-    public static final float ACCEL_ANGLE_DEAD_ZONE = 5.0f;
+    public static final float ACCEL_ANGLE_DEAD_ZONE = 1.0f;
     // Max angle of rotation needed to gain max movement velocity
     public static final float ACCEL_MAX_ANGLE_MAX_MOVEMENT = 20.0f;
 
@@ -35,17 +35,22 @@ public class InputHandler implements InputProcessor {
         if (accelerometerAvailable) {
             // normalize accelerometer values from [-10, 10] to [-1, 1]
             // which translate to rotations of [-90, 90] degrees
-            float amount = Gdx.input.getAccelerometerX() / 10.0f;
-            amount *= 90.0f;
+            float amountX = Gdx.input.getAccelerometerX() / 10.0f;
+            amountX *= 90.0f;
             // is angle of rotation inside dead zone?
-            if (Math.abs(amount) < ACCEL_ANGLE_DEAD_ZONE) {
-                amount = 0;
+            if (Math.abs(amountX) < ACCEL_ANGLE_DEAD_ZONE) {
+                amountX = 0;
             } else {
                 // use the defined max angle of rotation instead of
                 // the full 90 degrees for maximum velocity
-                amount /= ACCEL_MAX_ANGLE_MAX_MOVEMENT;
+                amountX /= ACCEL_MAX_ANGLE_MAX_MOVEMENT;
             }
-            racket.setRocketSpeed(amount);
+            gameWorld.debugAccelerometerMassage = "" + amountX;
+
+            racket.setRocketSpeed(amountX * -2);
+        }
+        else {
+            gameWorld.debugAccelerometerMassage = "N/A";
         }
     }
 
@@ -58,6 +63,11 @@ public class InputHandler implements InputProcessor {
         if (keycode == Input.Keys.BACKSPACE || keycode == Input.Keys.BACK) {
             gameWorld.backToMenu();
         }
+
+        if (keycode == Input.Keys.LEFT)
+            racket.setRocketSpeed(-0.1f);
+        if (keycode == Input.Keys.RIGHT)
+            racket.setRocketSpeed(0.1f);
         return true;
     }
 

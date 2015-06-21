@@ -63,7 +63,7 @@ public class GameWorld  implements ContactListener {
         physicWorld.setContactListener(this);
 
         splashParticles.load(Gdx.files.internal("data/particles/splash.pfx"), Gdx.files.internal("data/particles"));
-        splashParticles.scaleEffect(1);
+        splashParticles.scaleEffect((Gdx.graphics.getHeight() + Gdx.graphics.getWidth()) / 680);
 
         racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(Consts.GAME_CENTER, -2.15f, 0.3f, physicWorld);

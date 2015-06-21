@@ -12,9 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.audio.Sound;
 
-/**
- * Created by MV on 09.04.2015.
- */
 public class Assets implements Disposable, AssetErrorListener {
     public static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
@@ -33,7 +30,7 @@ public class Assets implements Disposable, AssetErrorListener {
     //music
     public AssetMusic music;
 
-    private Assets() {};
+    private Assets() {}
 
     public void init(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -84,7 +81,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
-        Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'", (Exception)throwable);
+        Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'", throwable);
     }
 
     public class RacketTexture{

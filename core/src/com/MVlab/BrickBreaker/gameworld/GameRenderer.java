@@ -1,13 +1,8 @@
-/**
- * Created by MV on 17.03.2015.
- */
-
 package com.MVlab.BrickBreaker.gameWorld;
 
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
-import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
@@ -21,12 +16,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-
 import java.util.ArrayList;
 
 public class GameRenderer  implements Disposable {
@@ -38,10 +30,10 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, background2, background3, sprPipe, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
+    Sprite background, background2, background3, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam, guiCam;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
-    private Box2DDebugRenderer b2debugRenderer;
+    Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
         this.world = world;
@@ -51,7 +43,8 @@ public class GameRenderer  implements Disposable {
     }
 
     public void init() {
-        this.b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
+
+        b2debugRenderer = new Box2DDebugRenderer(true, false, false, false, false, false);
         this.physicWorld = world.getPhysicWorld();
 
         cam.position.set(0, 0, 0);
@@ -187,26 +180,14 @@ public class GameRenderer  implements Disposable {
         //bricks---
 
         //borders
-        float borderPosition = topBorder.getX();
-        float borderFinish = topBorder.getX() + topBorder.getWidth();
-        float step = 20;
+        float step = 100;
 
-        while (borderPosition < borderFinish) {
-            sprTopBorder.setSize(step, topBorder.getHeight());
-            sprTopBorder.setPosition(borderPosition, topBorder.getY());
-            borderPosition += step;
-
-            batch.begin();
-            sprTopBorder.draw(batch);
-            batch.end();
-        }
-
-        borderPosition = rightBorder.getY() - 100;
-        borderFinish = rightBorder.getY() + rightBorder.getHeight();
+        float borderPosition = rightBorder.getY() - 100;
+        float borderFinish = rightBorder.getY() + rightBorder.getHeight();
         while (borderPosition < borderFinish) {
             sprSideBorder.setSize(rightBorder.getWidth(), step);
             sprSideBorder.setPosition(rightBorder.getX(), borderPosition);
-            borderPosition += step;
+            borderPosition += step - 17;
 
             batch.begin();
             sprSideBorder.draw(batch);
@@ -219,12 +200,25 @@ public class GameRenderer  implements Disposable {
         while (borderPosition < borderFinish) {
             sprSideBorder.setSize(leftBorder.getWidth(), step);
             sprSideBorder.setPosition(leftBorder.getX(), borderPosition);
-            borderPosition += step;
+            borderPosition += step - 17;
 
             batch.begin();
             sprSideBorder.draw(batch);
             batch.end();
         }
+
+        borderPosition = topBorder.getX();
+        borderFinish = topBorder.getX() + topBorder.getWidth();
+        while (borderPosition < borderFinish) {
+            sprTopBorder.setSize(step, topBorder.getHeight());
+            sprTopBorder.setPosition(borderPosition, topBorder.getY());
+            borderPosition += (step - 17);
+
+            batch.begin();
+            sprTopBorder.draw(batch);
+            batch.end();
+        }
+        //Borders---
 
         //Background3+++
         batch.begin();
@@ -243,6 +237,11 @@ public class GameRenderer  implements Disposable {
         background2.draw(batch);
         batch.end();
         //Background---
+
+
+        batch.begin();
+        world.splashParticles.draw(batch);
+        batch.end();
     }
 
     private void renderGUI() {
@@ -331,7 +330,7 @@ public class GameRenderer  implements Disposable {
         if  (world.levelStart()) {
             BitmapFont lvlStartMassageFont = Assets.instance.fonts.defaultBig;
             lvlStartMassageFont.setColor(1, 1, 1, 1);
-            lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + world.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
+            lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + GameWorld.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
         }
         guiBatch.end();
         //
@@ -347,10 +346,6 @@ public class GameRenderer  implements Disposable {
         }
         guiBatch.end();
         //
-
-        guiBatch.begin();
-        world.splashParticles.draw(guiBatch);
-        guiBatch.end();
     }
 
     public void resize(int width, int height) {
@@ -365,12 +360,5 @@ public class GameRenderer  implements Disposable {
     @Override
     public void dispose() {
 
-    }
-
-    public void moveCamera(float x, float y) {
-        if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
-            Vector3 camPos = cam.position;
-            cam.position.set(camPos.x + x, camPos.y + y, camPos.z);
-        }
     }
 }

@@ -63,6 +63,7 @@ public class GameWorld  implements ContactListener {
         physicWorld.setContactListener(this);
 
         splashParticles.load(Gdx.files.internal("data/particles/splash.pfx"), Gdx.files.internal("data/particles"));
+        splashParticles.scaleEffect(1);
 
         racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld);
         ball = new Ball(Consts.GAME_CENTER, -2.15f, 0.3f, physicWorld);
@@ -106,7 +107,7 @@ public class GameWorld  implements ContactListener {
 
     public void loadLevel() {
         bricks.clear();
-        Vector2 brickPosition = new Vector2(-3.5f, 2.5f);
+        Vector2 brickPosition = new Vector2(-3.5f, 2.0f);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
                 bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.4f, 0.25f, physicWorld));
@@ -176,17 +177,13 @@ public class GameWorld  implements ContactListener {
     public void kickTheBall() {
         int ballDirectionX = MathUtils.random(-1, 2);
         ballDirectionX = ballDirectionX > 0 ? 1 : -1;
-        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 500 * getLevelMultiplier(), 0, 0, true);
+        ball.getPhysicBody().applyLinearImpulse(15 * ballDirectionX, 100 * getLevelMultiplier(), 0, 0, true);
         presentGameState = gameState.active;
         AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
     }
 
     private void destroyBrick(Brick brick) {
-        splashParticles.setPosition(brick.getX(), brick.getY());
-        //splashParticles.setPosition(0, 0);
-        splashParticles.start();
-
-        AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));
+        splash(brick.getX(), brick.getY());
 
         brick.damage(100);
 
@@ -195,6 +192,15 @@ public class GameWorld  implements ContactListener {
         ball.getPhysicBody().applyLinearImpulse(10 * ballDirectionX, 10 * ballDirectionY, 0, 0, true);
 
         scored();
+    }
+
+    public void splash(float x, float y) {
+        float splashY = y;
+        splashParticles.setPosition(x, splashY);
+        splashParticles.setFlip(false, true);
+        splashParticles.start();
+
+        AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));
     }
 
     public void scored() {
@@ -278,9 +284,9 @@ public class GameWorld  implements ContactListener {
     }
 
     public static float getLevelMultiplier() {
-        float levelMultiplier = MV_Math.max(1, levelNumber);
-        levelMultiplier = MV_Math.max(1f, levelMultiplier * 0.13f);
-        return MV_Math.max(1, levelMultiplier);
+//        float levelMultiplier = MV_Math.max(1, levelNumber);
+//        levelMultiplier = MV_Math.max(1f, levelMultiplier * 0.05f);
+        return 1 + (levelNumber * 0.05f);
     }
 
     public void backToMenu() {

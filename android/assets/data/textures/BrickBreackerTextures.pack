@@ -45,25 +45,25 @@ brick
   orig: 133, 65
   offset: 0, 0
   index: -1
-ball
+topBorder
   rotate: false
-  xy: 684, 461
-  size: 46, 45
-  orig: 46, 45
+  xy: 684, 464
+  size: 94, 42
+  orig: 94, 42
   offset: 0, 0
   index: -1
 border
   rotate: false
-  xy: 343, 46
-  size: 40, 42
-  orig: 40, 42
+  xy: 430, 194
+  size: 38, 94
+  orig: 38, 94
   offset: 0, 0
   index: -1
-topBorder
+ball
   rotate: false
-  xy: 430, 246
-  size: 40, 42
-  orig: 40, 42
+  xy: 343, 43
+  size: 46, 45
+  orig: 46, 45
   offset: 0, 0
   index: -1
 

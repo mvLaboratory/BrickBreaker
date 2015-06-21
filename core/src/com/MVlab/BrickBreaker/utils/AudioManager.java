@@ -3,9 +3,6 @@ package com.MVlab.BrickBreaker.utils;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
-/**
- * Created by MV on 14.06.2015.
- */
 public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;

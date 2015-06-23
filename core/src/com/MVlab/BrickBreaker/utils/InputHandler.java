@@ -64,6 +64,10 @@ public class InputHandler implements InputProcessor {
             gameWorld.backToMenu();
         }
 
+        if (keycode == Input.Keys.P) {
+            gameWorld.gamePause();
+        }
+
         if (keycode == Input.Keys.LEFT)
             racket.setRocketSpeed(-0.1f);
         if (keycode == Input.Keys.RIGHT)

@@ -82,13 +82,13 @@ public class Racket {
     }
 
     public void onClick(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.4f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
         targetPosition = x;
         setRocketSpeed();
     }
 
     public void onDrag(float x) {
-        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
+        x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.4f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
         targetPosition = x;
         setRocketSpeed();
     }
@@ -111,7 +111,7 @@ public class Racket {
     public void setRocketSpeed(float speed) {
         targetPosition = 0;
         float x = physicBody.getPosition().x + startPositionX + speed;
-        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
+        x = MathUtils.clamp(x, Consts.GAME_LEFT_BORDER + width + 0.3f, Consts.GAME_RIGHT_BORDER - width - 0.3f);
         targetPosition = x;
         setRocketSpeed();
     }

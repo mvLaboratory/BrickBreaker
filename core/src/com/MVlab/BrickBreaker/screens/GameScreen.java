@@ -3,25 +3,34 @@ package com.MVlab.BrickBreaker.screens;
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
+import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.MVlab.BrickBreaker.utils.InputHandler;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-/**
- * Created by MV on 18.05.2015.
- */
+
 public class GameScreen extends AbstractGameScreen {
-    private static final String TAG = GameScreen.class.getName();
     private GameWorld.gameState previousGameState;
     private GameWorld world;
     private GameRenderer renderer;
     private InputHandler inputHandler;
 
+    private Stage stage;
+    private optionsWindow optionsWindow;
+
     public GameScreen(DirectedGame game) {
         super(game);
+    }
+
+    //Game pause
+    public void showGameMenu() {
+        previousGameState = GameWorld.gameState.active;
+        optionsWindow = new optionsWindow(stage, this);
+        optionsWindow.showGameMenu();
     }
 
     @Override
@@ -31,6 +40,9 @@ public class GameScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
+        stage = new Stage(new StretchViewport(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT));
+        if (optionsWindow != null) optionsWindow.rebuiltStage();
+
         GamePreferences.instance.load();
         world = new GameWorld(game);
         renderer = new GameRenderer(world);
@@ -56,6 +68,11 @@ public class GameScreen extends AbstractGameScreen {
             renderer.init();
             inputHandler = new InputHandler(world);
             Gdx.input.setInputProcessor(inputHandler);
+        }
+
+        if (world.getPresentGameState() == GameWorld.gameState.paused) {
+            stage.act(delta);
+            stage.draw();
         }
     }
 
@@ -83,6 +100,7 @@ public class GameScreen extends AbstractGameScreen {
     public void resume() {
         super.resume();
         world.setPresentGameState(previousGameState);
+        Gdx.input.setCatchBackKey(true);
        // renderer.init();
     }
 }

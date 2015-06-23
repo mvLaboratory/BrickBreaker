@@ -6,6 +6,7 @@ import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.gameObjects.RightBorder;
 import com.MVlab.BrickBreaker.screens.DirectedGame;
+import com.MVlab.BrickBreaker.screens.GameScreen;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
 import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions;
@@ -25,6 +26,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 
@@ -277,6 +279,14 @@ public class GameWorld  implements ContactListener {
 
     public void setPresentGameState(gameState presentGameState) {
         this.presentGameState = presentGameState;
+    }
+
+    public void gamePause() {
+        if (active()) {
+            setPresentGameState(gameState.paused);
+            game.gamePause();
+        }
+        else setPresentGameState(gameState.active);
     }
 
     public static int getLevelNumber() {

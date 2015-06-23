@@ -51,6 +51,10 @@ public abstract class DirectedGame implements ApplicationListener {
         t = 0;
     }
 
+    public void gamePause() {
+        currScreen.showGameMenu();
+    }
+
     @Override
     public void render () {
         // get delta time and ensure an upper limit of one 60th second

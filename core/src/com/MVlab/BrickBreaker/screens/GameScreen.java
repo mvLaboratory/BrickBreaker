@@ -11,6 +11,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 
 public class GameScreen extends AbstractGameScreen {
@@ -79,6 +80,8 @@ public class GameScreen extends AbstractGameScreen {
     @Override
     public void resize(int width, int height) {
         renderer.resize(width, height);
+        Viewport viewport = stage.getViewport();
+        viewport.update(width, height, true);
     }
 
     @Override
@@ -86,6 +89,9 @@ public class GameScreen extends AbstractGameScreen {
         renderer.dispose();
         Assets.instance.dispose();
         Gdx.input.setCatchBackKey(false);
+
+        stage.dispose();
+        if (optionsWindow != null) optionsWindow.dispose();
     }
 
     @Override

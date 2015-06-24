@@ -32,6 +32,8 @@ public class optionsWindow {
     private CheckBox chkMusic;
     private Slider sldMusic;
     private CheckBox chkShowFpsCounter;
+    private CheckBox chkUseAccelerometer;
+    private Slider accSensitivity;
 
     public optionsWindow(Stage stage, AbstractGameScreen screen) {
         this.stage = stage;
@@ -53,22 +55,29 @@ public class optionsWindow {
         Table layerOptionsWindow = buildOptionsWindowLayer();
 
         // assemble stage for menu screen
-        stage.clear();
-        Stack stack = new Stack();
-        stage.addActor(stack);
-        stack.setSize(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT);
-
-        stack.addActor(layerOptionsWindow);
+        if (!(screen instanceof MenuScreen)) {
+            stage.clear();
+            Stack stack = new Stack();
+            stage.addActor(stack);
+            stack.setSize(Consts.VIEWPORT_GUI_WIDTH, Consts.VIEWPORT_GUI_HEIGHT);
+            stack.addActor(layerOptionsWindow);
+        }
+        else ((MenuScreen) screen).getStack().addActor(layerOptionsWindow);
     }
 
     private Table buildOptionsWindowLayer () {
         winOptions = new Window("Options", optionsSkin);
-        winOptions.pack();
+        //winOptions.pack();
 
         // + Audio Settings: Sound/Music CheckBox and Volume Slider
         winOptions.add(buildOptWinAudioSettings()).row();
         // + Character Skin: Selection Box (White, Gray, Brown)
         //  winOptions.add(buildOptWinSkinSelection()).row();
+
+        //input settings
+        winOptions.add(buildOptInputSettings()).row();
+        //--
+
         // + Debug: Show FPS Counter
         winOptions.add(buildOptWinDebug()).row();
         // + Separator and Buttons (Save, Cancel)
@@ -109,6 +118,27 @@ public class optionsWindow {
         sldMusic = new Slider(0.0f, 1.0f, 0.1f, false, optionsSkin);
         tbl.add(sldMusic);
         tbl.row();
+        return tbl;
+    }
+
+    private Table buildOptInputSettings() {
+        Table tbl = new Table();
+        // + Title: "input"
+        tbl.pad(10, 10, 0, 10);
+        tbl.add(new Label("Input settings", optionsSkin, "default-font", Color.ORANGE)).colspan(3);
+        tbl.row();
+        tbl.columnDefaults(0).padRight(10);
+        tbl.columnDefaults(1).padRight(10);
+        // + check button, "Use accelerometer" label
+        chkUseAccelerometer = new CheckBox("", optionsSkin);
+        tbl.add(chkUseAccelerometer);
+        tbl.add(new Label("Use accelerometer", optionsSkin));
+        tbl.row();
+        tbl.add(new Label("Sensitivity", optionsSkin));
+        accSensitivity = new Slider(1.0f, 3.0f, 0.2f, false, optionsSkin);
+        tbl.add(accSensitivity);
+        tbl.row();
+
         return tbl;
     }
 
@@ -197,7 +227,14 @@ public class optionsWindow {
         winOptions.setVisible(false);
         AudioManager.instance.onSettingsUpdated();
         Gdx.input.setInputProcessor(screen.getInputProcessor());
-        screen.resume();
+
+        if (screen instanceof GameScreen) ((GameScreen) screen).resume();
+
+        if (screen instanceof MenuScreen) ((MenuScreen) screen).hideOptions();
     }
     //---
+
+    public void dispose() {
+        optionsSkin.dispose();
+    }
 }

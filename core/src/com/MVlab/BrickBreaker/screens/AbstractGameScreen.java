@@ -45,7 +45,7 @@ public abstract class AbstractGameScreen implements Screen {
 
     @Override
     public void resume() {
-        //Assets.instance.init(new AssetManager());
+        Assets.instance.init(new AssetManager());
     }
 
     @Override

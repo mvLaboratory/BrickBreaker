@@ -23,4 +23,16 @@ public class MV_Math {
     public static int min(int x, int y) {
         return x > y ? y : x;
     }
+
+    public static float round(float value, int amount) {
+        for (int i = 0; i < amount; i++) {
+            value *= 10;
+        }
+        int tempValue = (int) value;
+        value = tempValue;
+        for (int i = 0; i < amount; i++) {
+            value /= 10;
+        }
+        return value;
+    }
 }

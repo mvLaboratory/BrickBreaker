@@ -14,7 +14,7 @@ public class InputHandler implements InputProcessor {
     private boolean accelerometerAvailable;
 
     // Angle of rotation for dead zone (no movement)
-    public static final float ACCEL_ANGLE_DEAD_ZONE = 3.0f;
+    public static final float ACCEL_ANGLE_DEAD_ZONE = 2.0f;
     // Max angle of rotation needed to gain max movement velocity
     public static final float ACCEL_MAX_ANGLE_MAX_MOVEMENT = 20.0f;
 
@@ -26,7 +26,7 @@ public class InputHandler implements InputProcessor {
     }
 
     public void handleInput() {
-        if (accelerometerAvailable) {
+        if (accelerometerAvailable && GamePreferences.instance.useAccelerometer) {
             // normalize accelerometer values from [-10, 10] to [-1, 1]
             // which translate to rotations of [-90, 90] degrees
             float amountX = Gdx.input.getAccelerometerX() / 10.0f;

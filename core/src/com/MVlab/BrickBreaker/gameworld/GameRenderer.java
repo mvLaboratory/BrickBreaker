@@ -30,7 +30,7 @@ public class GameRenderer  implements Disposable {
     Border rightBorder;
     Border topBorder;
     ArrayList<Brick> bricks;
-    Sprite background, background2, background3, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
+    Sprite background, background2, background3, pauseButton, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam, guiCam;
     private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     Box2DDebugRenderer b2debugRenderer;
@@ -95,6 +95,9 @@ public class GameRenderer  implements Disposable {
 
         TextureRegion sprBackground3 = Assets.instance.levelDecoration.background3;
         background3 = new Sprite(sprBackground3);
+
+        TextureRegion sprPauseButton  = Assets.instance.levelDecoration.pauseButton;
+        pauseButton = new Sprite(sprPauseButton);
     }
 
     public void render() {
@@ -347,6 +350,12 @@ public class GameRenderer  implements Disposable {
         }
         guiBatch.end();
         //
+
+        guiBatch.begin();
+        pauseButton.setPosition(guiCam.viewportWidth - 40, 20);
+        pauseButton.setSize(40, 40);
+        pauseButton.draw(guiBatch);
+        guiBatch.end();
     }
 
     public void resize(int width, int height) {

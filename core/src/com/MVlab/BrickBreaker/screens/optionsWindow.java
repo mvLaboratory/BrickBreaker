@@ -1,11 +1,14 @@
 package com.MVlab.BrickBreaker.screens;
 
+import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
+import com.MVlab.BrickBreaker.screens.transitions.Transitions;
 import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -25,8 +28,9 @@ public class optionsWindow {
 
     //options
     private Window winOptions;
-    private TextButton btnWinOptSave;
-    private TextButton btnWinOptCancel;
+    TextButton btnWinOptSave;
+    TextButton btnWinOptCancel;
+    TextButton btnBackToMenu;
     private CheckBox chkSound;
     private Slider sldSound;
     private CheckBox chkMusic;
@@ -34,6 +38,7 @@ public class optionsWindow {
     private CheckBox chkShowFpsCounter;
     private CheckBox chkUseAccelerometer;
     private Slider accSensitivity;
+    Label lblAccSens;
 
     public optionsWindow(Stage stage, AbstractGameScreen screen) {
         this.stage = stage;
@@ -81,6 +86,9 @@ public class optionsWindow {
         // + Debug: Show FPS Counter
         winOptions.add(buildOptWinDebug()).row();
         // + Separator and Buttons (Save, Cancel)
+        if (screen instanceof GameScreen)
+            winOptions.add(buildOptWinBack()).row();
+
         winOptions.add(buildOptWinButtons()).pad(10, 0, 10, 0);
 
         // Make options window slightly transparent
@@ -100,7 +108,7 @@ public class optionsWindow {
         Table tbl = new Table();
         // + Title: "Audio"
         tbl.pad(10, 10, 0, 10);
-        tbl.add(new Label("Audio", optionsSkin, "default-font", Color.ORANGE)).colspan(3);
+        tbl.add(new Label("Audio", optionsSkin, "default-font", Color.ORANGE)).colspan(4);
         tbl.row();
         tbl.columnDefaults(0).padRight(10);
         tbl.columnDefaults(1).padRight(10);
@@ -123,21 +131,30 @@ public class optionsWindow {
 
     private Table buildOptInputSettings() {
         Table tbl = new Table();
+        tbl.left();
         // + Title: "input"
-        tbl.pad(10, 10, 0, 10);
-        tbl.add(new Label("Input settings", optionsSkin, "default-font", Color.ORANGE)).colspan(3);
-        tbl.row();
-        tbl.columnDefaults(0).padRight(10);
-        tbl.columnDefaults(1).padRight(10);
+        tbl.pad(10, 10, 0, 10).left();
+        tbl.add(new Label("Input settings", optionsSkin, "default-font", Color.ORANGE)).colspan(4);
+        tbl.row().left();
+        tbl.columnDefaults(1).padLeft(10);
+        //tbl.columnDefaults(1).padLeft(10);
         // + check button, "Use accelerometer" label
         chkUseAccelerometer = new CheckBox("", optionsSkin);
-        tbl.add(chkUseAccelerometer);
         tbl.add(new Label("Use accelerometer", optionsSkin));
-        tbl.row();
-        tbl.add(new Label("Sensitivity", optionsSkin));
-        accSensitivity = new Slider(1.0f, 3.0f, 0.2f, false, optionsSkin);
+        tbl.add(chkUseAccelerometer);
+        chkUseAccelerometer.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                accSensitivity.setVisible(chkUseAccelerometer.isChecked());
+                lblAccSens.setVisible(chkUseAccelerometer.isChecked());
+            }
+        });
+        tbl.row().left();
+        lblAccSens = new Label("Sensitivity", optionsSkin);
+        tbl.add(lblAccSens);
+        accSensitivity = new Slider(0.0f, 2.0f, 0.2f, false, optionsSkin);
         tbl.add(accSensitivity);
-        tbl.row();
+        tbl.row().left();
 
         return tbl;
     }
@@ -146,7 +163,7 @@ public class optionsWindow {
         Table tbl = new Table();
         // + Title: "Debug"
         tbl.pad(10, 10, 0, 10);
-        tbl.add(new Label("Debug", optionsSkin, "default-font", Color.RED)).colspan(3);
+        tbl.add(new Label("Debug", optionsSkin, "default-font", Color.RED)).colspan(4);
         tbl.row();
         tbl.columnDefaults(0).padRight(10);
         tbl.columnDefaults(1).padRight(10);
@@ -159,22 +176,57 @@ public class optionsWindow {
         return tbl;
     }
 
-    private Table buildOptWinButtons () {
+    private Table buildOptWinBack () {
         Table tbl = new Table();
         // + Separator
-        Label lbl = null;
+        Label lbl;
         lbl = new Label("", optionsSkin);
         lbl.setColor(0.75f, 0.75f, 0.75f, 1);
         lbl.setStyle(new Label.LabelStyle(lbl.getStyle()));
         lbl.getStyle().background = optionsSkin.newDrawable("white");
         tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 0, 0, 1);
         tbl.row();
+
         lbl = new Label("", optionsSkin);
         lbl.setColor(0.5f, 0.5f, 0.5f, 1);
         lbl.setStyle(new Label.LabelStyle(lbl.getStyle()));
         lbl.getStyle().background = optionsSkin.newDrawable("white");
         tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 1, 5, 0);
         tbl.row();
+        //back to menu
+        btnBackToMenu = new TextButton("Back to menu", optionsSkin);
+        tbl.add(btnBackToMenu).center().width(220).pad(0, 0, 0, 0);
+        btnBackToMenu.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                Transitions.ScreenTransition transition = ScreenTransitionSlide.init(0.50f,
+                        ScreenTransitionSlide.RIGHT, false, Interpolation.pow5);
+                screen.game.setScreen(new MenuScreen(screen.game), transition);
+            }
+        });
+        tbl.row();
+        //---
+        return tbl;
+    }
+
+    private Table buildOptWinButtons () {
+        Table tbl = new Table();
+        // + Separator
+        Label lbl;
+        lbl = new Label("", optionsSkin);
+        lbl.setColor(0.75f, 0.75f, 0.75f, 1);
+        lbl.setStyle(new Label.LabelStyle(lbl.getStyle()));
+        lbl.getStyle().background = optionsSkin.newDrawable("white");
+        tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 0, 0, 1);
+        tbl.row();
+
+        lbl = new Label("", optionsSkin);
+        lbl.setColor(0.5f, 0.5f, 0.5f, 1);
+        lbl.setStyle(new Label.LabelStyle(lbl.getStyle()));
+        lbl.getStyle().background = optionsSkin.newDrawable("white");
+        tbl.add(lbl).colspan(2).height(1).width(220).pad(0, 1, 5, 0);
+        tbl.row();
+
         // + Save Button with event handler
         btnWinOptSave = new TextButton("Save", optionsSkin);
         tbl.add(btnWinOptSave).padRight(30);
@@ -204,6 +256,11 @@ public class optionsWindow {
         chkMusic.setChecked(prefs.music);
         sldMusic.setValue(prefs.volMusic);
 
+        chkUseAccelerometer.setChecked(prefs.useAccelerometer);
+        accSensitivity.setValue(prefs.accelerometerSensitivity);
+        accSensitivity.setVisible(chkUseAccelerometer.isChecked());
+        lblAccSens.setVisible(chkUseAccelerometer.isChecked());
+
         chkShowFpsCounter.setChecked(prefs.showFpsCounter);
     }
 
@@ -214,6 +271,9 @@ public class optionsWindow {
         prefs.music = chkMusic.isChecked();
         prefs.volMusic = sldMusic.getValue();
         prefs.showFpsCounter = chkShowFpsCounter.isChecked();
+
+        prefs.useAccelerometer = chkUseAccelerometer.isChecked();
+        prefs.accelerometerSensitivity = accSensitivity.getValue();
         prefs.save();
     }
 
@@ -228,7 +288,7 @@ public class optionsWindow {
         AudioManager.instance.onSettingsUpdated();
         Gdx.input.setInputProcessor(screen.getInputProcessor());
 
-        if (screen instanceof GameScreen) ((GameScreen) screen).resume();
+        if (screen instanceof GameScreen) screen.resume();
 
         if (screen instanceof MenuScreen) ((MenuScreen) screen).hideOptions();
     }

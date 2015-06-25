@@ -1,6 +1,5 @@
 package com.MVlab.BrickBreaker.utils;
 
-import com.MVlab.BrickBreaker.gameWorld.GameRenderer;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,15 +7,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
 
-/**
- * Created by MV on 17.03.2015.
- */
 public class InputHandler implements InputProcessor {
-    private static final String TAG = InputHandler.class.getName();
     private GameWorld gameWorld;
-    private GameRenderer gameRenderer;
     private Racket racket;
-    private Ball ball;
+    Ball ball;
     private boolean accelerometerAvailable;
 
     // Angle of rotation for dead zone (no movement)
@@ -47,7 +41,7 @@ public class InputHandler implements InputProcessor {
             }
             gameWorld.debugAccelerometerMassage = "" + MV_Math.round(amountX, 3);
 
-            racket.setRocketSpeed(amountX * -2);
+            racket.setRocketSpeed(amountX * -1 * GamePreferences.instance.accelerometerSensitivity);
         }
         else {
             gameWorld.debugAccelerometerMassage = "N/A";

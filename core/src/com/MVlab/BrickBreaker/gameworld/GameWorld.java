@@ -6,7 +6,6 @@ import com.MVlab.BrickBreaker.gameObjects.Brick;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.gameObjects.RightBorder;
 import com.MVlab.BrickBreaker.screens.DirectedGame;
-import com.MVlab.BrickBreaker.screens.GameScreen;
 import com.MVlab.BrickBreaker.screens.MenuScreen;
 import com.MVlab.BrickBreaker.screens.transitions.ScreenTransitionSlide;
 import com.MVlab.BrickBreaker.screens.transitions.Transitions;
@@ -14,7 +13,6 @@ import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
-import com.MVlab.BrickBreaker.utils.MV_Math;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Interpolation;
@@ -26,7 +24,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 
@@ -36,7 +33,7 @@ public class GameWorld  implements ContactListener {
     private LeftBorder leftBorder;
     private RightBorder rightBorder;
     private Border topBorder;
-    private BottomBorder bottomBorder;
+    BottomBorder bottomBorder;
     private World physicWorld;
     ArrayList<Brick> bricks;
     private int score;
@@ -48,7 +45,7 @@ public class GameWorld  implements ContactListener {
     public String debugAccelerometerMassage;
     public ParticleEffect splashParticles = new ParticleEffect();
 
-    public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart};
+    public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart}
 
     public GameWorld(DirectedGame game) {
         this.game = game;
@@ -73,7 +70,7 @@ public class GameWorld  implements ContactListener {
         leftBorder = new LeftBorder(Consts.GAME_LEFT_BORDER + 0.20f, -0.5f, 0.20f, Consts.GAME_TOP_BORDER, physicWorld);
         rightBorder = new RightBorder(Consts.GAME_RIGHT_BORDER, -0.5f, 0.20f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.20f, physicWorld);
-        bottomBorder = new BottomBorder(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+        bottomBorder = new BottomBorder(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.6f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
 
         if (presentGameState == gameState.start || presentGameState == gameState.gameRestart){
             score = 0;
@@ -197,8 +194,7 @@ public class GameWorld  implements ContactListener {
     }
 
     public void splash(float x, float y) {
-        float splashY = y;
-        splashParticles.setPosition(x, splashY);
+        splashParticles.setPosition(x, y);
         splashParticles.setFlip(false, true);
         splashParticles.start();
 
@@ -286,7 +282,7 @@ public class GameWorld  implements ContactListener {
             setPresentGameState(gameState.paused);
             game.gamePause();
         }
-        else setPresentGameState(gameState.active);
+        else if (presentGameState == gameState.paused) setPresentGameState(gameState.active);
     }
 
     public static int getLevelNumber() {

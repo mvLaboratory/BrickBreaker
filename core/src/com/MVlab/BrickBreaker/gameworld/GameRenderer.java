@@ -262,7 +262,8 @@ public class GameRenderer  implements Disposable {
             // fpsFont.draw(guiBatch, "FPS: " + fps, rightBorder.getX() + leftBorder.getWidth() + 10, 10);
             fpsFont.draw(guiBatch, "FPS: " + fps, guiCam.viewportWidth - 40, 10);
             guiBatch.end();
-
+        }
+        if (GamePreferences.instance.useAccelerometer) {
             //
             //Accelerometer debug
             guiBatch.begin();
@@ -270,7 +271,7 @@ public class GameRenderer  implements Disposable {
             accDebugFont.setColor(0, 1, 0, 1);
             accDebugFont.draw(guiBatch, world.debugAccelerometerMassage, guiCam.viewportWidth - 40, 20);
             guiBatch.end();
-        //--
+            //--
         }
 
         //score

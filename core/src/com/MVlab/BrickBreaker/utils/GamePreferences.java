@@ -4,11 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.MathUtils;
 
-/**
- * Created by MV on 07.06.2015.
- */
 public class GamePreferences {
-    public static final String TAG = GamePreferences.class.getName();
 
     public static final GamePreferences instance = new GamePreferences();
 
@@ -16,8 +12,9 @@ public class GamePreferences {
     public boolean music;
     public float volSound;
     public float volMusic;
-    public int charSkin;
     public boolean showFpsCounter;
+    public boolean useAccelerometer;
+    public float accelerometerSensitivity;
 
     private Preferences prefs;
 
@@ -32,6 +29,10 @@ public class GamePreferences {
         volMusic = MathUtils.clamp(prefs.getFloat("volMusic", 0.3f), 0f, 1f);
         //charSkin = MathUtils.clamp(prefs.getInteger("charSkin", 0), 0, 2);
         showFpsCounter = prefs.getBoolean("showFpsCounter", false);
+
+        //input settings
+        useAccelerometer = prefs.getBoolean("useAccelerometer", false);
+        accelerometerSensitivity = MathUtils.clamp(prefs.getFloat("accelerometerSensitivity", 0.3f), 0f, 2f);
     }
 
     public void save () {
@@ -41,6 +42,11 @@ public class GamePreferences {
         prefs.putFloat("volMusic", volMusic);
         //prefs.putFloat("charSkin", charSkin);
         prefs.putBoolean("showFpsCounter", showFpsCounter);
+
+        //input settings
+        prefs.putBoolean("useAccelerometer", useAccelerometer);
+        prefs.putFloat("accelerometerSensitivity", accelerometerSensitivity);
+
         prefs.flush();
     }
 }

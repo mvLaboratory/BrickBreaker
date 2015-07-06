@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
  * Created by MV on 13.04.2015.
  */
 public class GameHelpers {
+    public static float GUI_camWidth, GUI_camHeight;
+
     public static float screenDensity() {
         return (Consts.VIEWPORT_WIDTH / 2) / (Gdx.graphics.getWidth() / 2);
     }
@@ -44,6 +46,28 @@ public class GameHelpers {
 
     public static float meterToCoordY(float y) {
         return meterToPixelsY(y) + (Gdx.graphics.getHeight() / 2);
+    }
+
+    //GUI
+    public static float screenDensityX_GUI() {
+        return (Consts.VIEWPORT_GUI_WIDTH / 2) / (Gdx.graphics.getWidth() / 2);
+    }
+
+    public static float screenDensityY_GUI() {
+        return (Consts.VIEWPORT_GUI_HEIGHT / 2) / (Gdx.graphics.getHeight() / 2);
+    }
+
+    public static float pixelsToMeterX_GUI(float x) {
+        return x * screenDensityX_GUI();
+    }
+
+    public static float pixelsToMeterY_GUI(float y) {
+        return y * screenDensityY_GUI();
+    }
+
+    public static float coordsToMeterY_GUI(float y) {
+        float reverseY = Gdx.graphics.getHeight() - y;
+        return pixelsToMeterY_GUI(reverseY);
     }
 
     public static String getFormattedScore(int score) {

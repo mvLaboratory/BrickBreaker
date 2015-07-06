@@ -91,6 +91,9 @@ public class InputHandler implements InputProcessor {
             gameWorld.rebootExtraLivesCount();
             gameWorld.setPresentGameState(GameWorld.gameState.gameRestart);
         }
+
+        if (gameWorld.pauseButton.isButtonPressed(screenX, screenY)) gameWorld.gamePause();
+
         return true;
     }
 

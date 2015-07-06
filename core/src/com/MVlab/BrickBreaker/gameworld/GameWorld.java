@@ -3,6 +3,7 @@ import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.BottomBorder;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
+import com.MVlab.BrickBreaker.gameObjects.GameButton;
 import com.MVlab.BrickBreaker.gameObjects.LeftBorder;
 import com.MVlab.BrickBreaker.gameObjects.RightBorder;
 import com.MVlab.BrickBreaker.screens.DirectedGame;
@@ -13,7 +14,9 @@ import com.MVlab.BrickBreaker.utils.AudioManager;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
+import com.MVlab.BrickBreaker.utils.LevelLoader;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -24,7 +27,6 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
-
 import java.util.ArrayList;
 
 public class GameWorld  implements ContactListener {
@@ -42,6 +44,7 @@ public class GameWorld  implements ContactListener {
     private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
     private gameState presentGameState;
     private DirectedGame game;
+    public GameButton pauseButton;
     public String debugAccelerometerMassage;
     public ParticleEffect splashParticles = new ParticleEffect();
 
@@ -71,6 +74,8 @@ public class GameWorld  implements ContactListener {
         rightBorder = new RightBorder(Consts.GAME_RIGHT_BORDER, -0.5f, 0.20f, Consts.GAME_TOP_BORDER, physicWorld);
         topBorder = new Border(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_TOP_BORDER - 0.5f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.20f, physicWorld);
         bottomBorder = new BottomBorder(Consts.GAME_RIGHT_BORDER - ((Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2) - 0.01f, Consts.GAME_BOTTOM_BORDER - 0.6f, (Consts.GAME_RIGHT_BORDER - Consts.GAME_LEFT_BORDER) / 2, 0.01f, physicWorld);
+
+        pauseButton = new GameButton(55, 20, 55, 55);
 
         if (presentGameState == gameState.start || presentGameState == gameState.gameRestart){
             score = 0;
@@ -105,15 +110,28 @@ public class GameWorld  implements ContactListener {
     }
 
     public void loadLevel() {
+        String[] lvlContent = LevelLoader.instance.loadLevel();
+
         bricks.clear();
         Vector2 brickPosition = new Vector2(-3.5f, 2.0f);
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
-                bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.4f, 0.25f, physicWorld));
-                brickPosition.x += 0.3;
-            }
-            brickPosition.x = -3.5f;
+       // Vector2 startBrickPosition = brickPosition.cpy();
+
+        float verticalShift = 0;
+        float horizontalShift = 0;
+        for (String brickSymbol : lvlContent) {
+            if (brickSymbol.equals("\r")) continue;
+            if (brickSymbol.equals("1")) bricks.add(new Brick(brickPosition.x + horizontalShift, brickPosition.y + verticalShift, 0.4f, 0.25f, physicWorld));
+            horizontalShift += 1.3f;
+            if (brickSymbol.equals("\n")) {horizontalShift = 0;  verticalShift += 1;}
         }
+
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
+//                bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.4f, 0.25f, physicWorld));
+//                brickPosition.x += 0.3;
+//            }
+//            brickPosition.x = -3.5f;
+//        }
         levelNumber++;
     }
 

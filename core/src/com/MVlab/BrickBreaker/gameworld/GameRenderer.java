@@ -3,6 +3,7 @@ package com.MVlab.BrickBreaker.gameWorld;
 import com.MVlab.BrickBreaker.Assets;
 import com.MVlab.BrickBreaker.gameObjects.Border;
 import com.MVlab.BrickBreaker.gameObjects.Brick;
+import com.MVlab.BrickBreaker.gameObjects.GameButton;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.MVlab.BrickBreaker.gameObjects.Ball;
 import com.MVlab.BrickBreaker.gameObjects.Racket;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
@@ -352,8 +354,8 @@ public class GameRenderer  implements Disposable {
         //
 
         guiBatch.begin();
-        pauseButton.setPosition(guiCam.viewportWidth - 40, 20);
-        pauseButton.setSize(40, 40);
+        pauseButton.setPosition(world.pauseButton.getX(), world.pauseButton.getY());
+        pauseButton.setSize( world.pauseButton.getWidth(), world.pauseButton.getHeight());
         pauseButton.draw(guiBatch);
         guiBatch.end();
     }
@@ -364,6 +366,8 @@ public class GameRenderer  implements Disposable {
         guiCam.viewportWidth = Consts.VIEWPORT_GUI_HEIGHT / (float) height * (float) width;
         guiCam.viewportHeight = Consts.VIEWPORT_GUI_HEIGHT;
         guiCam.position.set(guiCam.viewportWidth / 2, guiCam.viewportHeight / 2, 0);
+        GameHelpers.GUI_camHeight = guiCam.viewportHeight;
+        GameHelpers.GUI_camWidth = guiCam.viewportWidth;
         guiCam.update();
     }
 

@@ -156,13 +156,6 @@ public class GameRenderer  implements Disposable {
 //      sprPipe.draw(batch);
 //      batch.end();
 
-        //racket+++
-        sprRacket.setPosition(racket.getX(), racket.getY());
-        batch.begin();
-        sprRacket.draw(batch);
-        batch.end();
-        //racket---
-
         //Ball+++
         if (!(world.getPresentGameState() == GameWorld.gameState.dropped || world.getPresentGameState() == GameWorld.gameState.gameOver)) {
             sprBall.setPosition(ball.getX(), ball.getY());
@@ -171,6 +164,13 @@ public class GameRenderer  implements Disposable {
             batch.end();
         }
         //Ball---
+
+        //racket+++
+        sprRacket.setPosition(racket.getX(), racket.getY());
+        batch.begin();
+        sprRacket.draw(batch);
+        batch.end();
+        //racket---
 
         //bricks+++
         for (Brick brick : bricks) {

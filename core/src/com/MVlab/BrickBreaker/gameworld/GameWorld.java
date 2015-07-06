@@ -110,10 +110,12 @@ public class GameWorld  implements ContactListener {
     }
 
     public void loadLevel() {
+        levelNumber++;
         String[] lvlContent = LevelLoader.instance.loadLevel();
 
         bricks.clear();
-        Vector2 brickPosition = new Vector2(-3.5f, 2.0f);
+        //Vector2 brickPosition = new Vector2(-3.5f, 2.0f);
+        Vector2 brickPosition = new Vector2(-3.5f, 5.0f);
        // Vector2 startBrickPosition = brickPosition.cpy();
 
         float verticalShift = 0;
@@ -122,7 +124,7 @@ public class GameWorld  implements ContactListener {
             if (brickSymbol.equals("\r")) continue;
             if (brickSymbol.equals("1")) bricks.add(new Brick(brickPosition.x + horizontalShift, brickPosition.y + verticalShift, 0.4f, 0.25f, physicWorld));
             horizontalShift += 1.3f;
-            if (brickSymbol.equals("\n")) {horizontalShift = 0;  verticalShift += 1;}
+            if (brickSymbol.equals("\n")) {horizontalShift = 0;  verticalShift -= 1;}
         }
 
 //        for (int i = 0; i < 3; i++) {
@@ -132,7 +134,6 @@ public class GameWorld  implements ContactListener {
 //            }
 //            brickPosition.x = -3.5f;
 //        }
-        levelNumber++;
     }
 
     public boolean levelStart() {

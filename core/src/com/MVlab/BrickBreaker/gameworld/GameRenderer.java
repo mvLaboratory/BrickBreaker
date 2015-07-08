@@ -34,7 +34,7 @@ public class GameRenderer  implements Disposable {
     ArrayList<Brick> bricks;
     Sprite background, background2, background3, pauseButton, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam, guiCam;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
     Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {

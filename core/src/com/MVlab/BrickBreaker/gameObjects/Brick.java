@@ -2,6 +2,7 @@ package com.MVlab.BrickBreaker.gameObjects;
 
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -20,21 +21,24 @@ public class Brick {
     private BodyDef bodyDef;
     private int health;
     private boolean deleted;
+    private float targetPosition;
 
     public Brick(float x, float y, float width, float height, World physicWorld) {
         this.x = x;
         this.y = y;
+        targetPosition = y;
         this.width = width;
         this.height = height;
         this.physicWorld = physicWorld;
         this.health = 100;
 
         bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
+        //bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(x, y);
 
         physicBody = physicWorld.createBody(bodyDef);
-        physicBody.setType(BodyDef.BodyType.StaticBody);
+        physicBody.setType(BodyDef.BodyType.KinematicBody);
         physicBody.setUserData(this);
 
         PolygonShape bodyShape = new PolygonShape();
@@ -43,7 +47,7 @@ public class Brick {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = bodyShape;
         fixtureDef.density = 5f;
-        fixtureDef.restitution = 0f;
+        fixtureDef.restitution = 1f;
 
         Fixture fixture = physicBody.createFixture(fixtureDef);
 
@@ -57,6 +61,22 @@ public class Brick {
             physicWorld.destroyBody(physicBody);
             delete();
         }
+
+        if (targetPosition < y) {
+            Vector2 presentVelocity = physicBody.getLinearVelocity();
+            presentVelocity.y = -1;
+            physicBody.setLinearVelocity(0, -1);
+            y = physicBody.getPosition().y;
+        } else {
+            Vector2 presentVelocity = physicBody.getLinearVelocity();
+            presentVelocity.y = 0;
+            physicBody.setLinearVelocity(presentVelocity);
+            y = physicBody.getPosition().y;
+        }
+    }
+
+    public void moveDown() {
+        targetPosition = y - 1;
     }
 
     public void damage(int damage) {

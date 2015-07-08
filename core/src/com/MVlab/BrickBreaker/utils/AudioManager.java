@@ -39,6 +39,7 @@ public class AudioManager {
             music.play();
         }
     }
+
     public void stopMusic () {
         if (playingMusic != null) playingMusic.stop();
     }

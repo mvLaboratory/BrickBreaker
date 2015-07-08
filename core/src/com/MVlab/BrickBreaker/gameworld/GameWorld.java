@@ -39,9 +39,9 @@ public class GameWorld  implements ContactListener {
     private World physicWorld;
     ArrayList<Brick> bricks;
     private int score;
-    private int extraLivesCount;
+    private int extraLivesCount, survivalLines = 0;
     private static int levelNumber;
-    private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu;
+    private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu, midLinesDuration;
     private gameState presentGameState;
     private DirectedGame game;
     public GameButton pauseButton;
@@ -85,6 +85,7 @@ public class GameWorld  implements ContactListener {
         dropDuration = 0;
         midLevelDuration = 0;
         timeLeftTillReturnToMenu = 0;
+        midLinesDuration = 0;
 
         if (presentGameState == gameState.gameRestart) presentGameState = gameState.start;
         if (presentGameState == gameState.levelRestart) presentGameState = gameState.levelStart;
@@ -121,6 +122,11 @@ public class GameWorld  implements ContactListener {
         float verticalShift = 0;
         float horizontalShift = 0;
         for (String brickSymbol : lvlContent) {
+            if (brickSymbol.equals("survival")) {
+                midLinesDuration = Consts.TIME_BETWEEN_SURVIVAL_LINES;
+                addBrickLines();
+            } else if(LevelLoader.survival) LevelLoader.survival = false;
+
             if (brickSymbol.equals("\r")) continue;
             if (brickSymbol.equals("1")) bricks.add(new Brick(brickPosition.x + horizontalShift, brickPosition.y + verticalShift, 0.4f, 0.25f, physicWorld));
             horizontalShift += 1.3f;
@@ -134,6 +140,27 @@ public class GameWorld  implements ContactListener {
 //            }
 //            brickPosition.x = -3.5f;
 //        }
+    }
+
+    public void addBrickLines() {
+        //Vector2 brickPosition = new Vector2(-3.5f, 5f);
+        Vector2 brickPosition = new Vector2(-3.5f, 1f);
+        if (brickPosition.y < -3) {
+            extraLivesCount = 0;
+            presentGameState = gameState.gameOver;
+        }
+
+        for (int i = 0; i < Consts.MAX_SURVIVAL_LINES; i++) {
+            for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
+                bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.4f, 0.25f, physicWorld));
+                brickPosition.x += 0.3;
+            }
+            brickPosition.x = -3.5f;
+        }
+
+        //for (Brick brick : bricks) brick.moveDown();
+
+        survivalLines++;
     }
 
     public boolean levelStart() {
@@ -189,6 +216,22 @@ public class GameWorld  implements ContactListener {
                     ScreenTransitionSlide.RIGHT, false, Interpolation.pow5);
             game.setScreen(new MenuScreen(game), transition);
             timeLeftTillReturnToMenu = 0;
+        }
+
+        if (active() && LevelLoader.survival) {
+            if (midLevelDuration > Consts.TIME_BETWEEN_SURVIVAL_LINES) {
+                //addBrickLine();
+                for (Brick brick : bricks) {
+                    brick.moveDown();
+                    if (brick.existing() && brick.getBrickY() < -6f) {
+                        racketDestroy();
+                    }
+                }
+                midLevelDuration = 0;
+            }
+            else midLevelDuration += delta;
+
+            //if (survivalLines >= Consts.MAX_SURVIVAL_LINES) LevelLoader.survival = false;
         }
     }
 
@@ -319,6 +362,18 @@ public class GameWorld  implements ContactListener {
 //        game.setScreen(new MenuScreen(game));
     }
 
+    public void racketDestroy(float splashX, float splashY) {
+        extraLivesCount = 0;
+        presentGameState = gameState.gameOver;
+        splash(splashX, splashY);
+    }
+
+    public void racketDestroy() {
+        extraLivesCount = 0;
+        presentGameState = gameState.gameOver;
+        //splash(brick.getX(), brick.getY());
+    }
+
     @Override
     public void beginContact(Contact contact) {
     }
@@ -387,6 +442,15 @@ public class GameWorld  implements ContactListener {
         if ((bodyA instanceof Ball && bodyB instanceof Racket) || (bodyA instanceof Racket && bodyB instanceof Ball)) {
             AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
+
+//        //Rocket/brick collision
+//        if (bodyA instanceof Racket && bodyB instanceof Brick) {
+//            racketDestroy(((Brick) bodyB).getBrickX(), ((Brick) bodyB).getBrickY());
+//        }
+//
+//        if (bodyA instanceof Brick && bodyB instanceof Racket) {
+//            racketDestroy(((Brick) bodyA).getBrickX(), ((Brick) bodyA).getBrickY());
+//        }
     }
 
 }

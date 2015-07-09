@@ -7,6 +7,7 @@ import com.MVlab.BrickBreaker.gameObjects.GameButton;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.MVlab.BrickBreaker.utils.GamePreferences;
+import com.MVlab.BrickBreaker.utils.LevelLoader;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -34,7 +35,7 @@ public class GameRenderer  implements Disposable {
     ArrayList<Brick> bricks;
     Sprite background, background2, background3, pauseButton, sprRacket, sprBall, sprExtraLive, sprSideBorder, sprTopBorder, sprBrick;
     private OrthographicCamera cam, guiCam;
-    private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+    private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
     Box2DDebugRenderer b2debugRenderer;
 
     public GameRenderer(GameWorld world) {
@@ -166,10 +167,12 @@ public class GameRenderer  implements Disposable {
         //Ball---
 
         //racket+++
-        sprRacket.setPosition(racket.getX(), racket.getY());
-        batch.begin();
-        sprRacket.draw(batch);
-        batch.end();
+        if (racket.existing()) {
+            sprRacket.setPosition(racket.getX(), racket.getY());
+            batch.begin();
+            sprRacket.draw(batch);
+            batch.end();
+        }
         //racket---
 
         //bricks+++
@@ -246,6 +249,7 @@ public class GameRenderer  implements Disposable {
 
         batch.begin();
         world.splashParticles.draw(batch);
+        world.racketExplosion.draw(batch);
         batch.end();
     }
 
@@ -336,7 +340,12 @@ public class GameRenderer  implements Disposable {
         if  (world.levelStart()) {
             BitmapFont lvlStartMassageFont = Assets.instance.fonts.defaultBig;
             lvlStartMassageFont.setColor(1, 1, 1, 1);
-            lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + GameWorld.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
+            if (LevelLoader.survival) {
+                lvlStartMassageFont.drawMultiLine(guiBatch, "TRY", guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2 + 17, 0, BitmapFont.HAlignment.CENTER);
+                lvlStartMassageFont.drawMultiLine(guiBatch, "TO SURVIVE", guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2 - 17, 0, BitmapFont.HAlignment.CENTER);
+            }
+            else
+                lvlStartMassageFont.drawMultiLine(guiBatch, "Level " + GameWorld.getLevelNumber(), guiCam.viewportWidth / 2 - 10, guiCam.viewportHeight / 2, 0, BitmapFont.HAlignment.CENTER);
         }
         guiBatch.end();
         //

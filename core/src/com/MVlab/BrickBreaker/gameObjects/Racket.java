@@ -1,9 +1,8 @@
-/**
- * Created by MV on 17.03.2015.
- */
+
 
 package com.MVlab.BrickBreaker.gameObjects;
 
+import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
 import com.badlogic.gdx.Gdx;
@@ -11,34 +10,36 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.MVlab.BrickBreaker.utils.MV_Math;
 
 public class Racket {
-    private Vector2 position;
+    Vector2 position;
 
     private float width;
     private float height;
     private float fullHeight;
+    private boolean deleted;
 
     private Body physicBody;
-    private BodyDef bodyDef;
-    private World physicWorld;
+    BodyDef bodyDef;
+    World physicWorld;
+    GameWorld gameWorld;
 
     float startPositionX;
     float startPositionY;
     float targetPosition = 0;
 
-    public Racket(float x, float y, float width, float height, float fullHeight, World physicWorld) {
+    public Racket(float x, float y, float width, float height, float fullHeight, World physicWorld, GameWorld gameWorld) {
         this.startPositionX = x;
         this.startPositionY = y;
         this.physicWorld = physicWorld;
         this.fullHeight = fullHeight;
         this.height = height;
         this.width = width;
+        this.gameWorld = gameWorld;
 
         position = new Vector2(x, y);
         targetPosition = x * 2;
@@ -71,14 +72,17 @@ public class Racket {
         fixtureDef.density = 0.1f;
         fixtureDef.restitution = 1.7f;
 
-        Fixture fixture = physicBody.createFixture(fixtureDef);
+        physicBody.createFixture(fixtureDef);
 
         // Shape is the only disposable of the lot, so get rid of it
         bodyShape.dispose();
     }
 
-    public void update(float delta) {
+    public void update() {
         setRocketSpeed();
+        //if (LevelLoader.survival)
+        if (gameWorld.getExtraLivesCount() > 0)
+            checkBrickCollision();
     }
 
     public void onClick(float x) {
@@ -91,6 +95,26 @@ public class Racket {
         x = MathUtils.clamp(GameHelpers.coordToMeterX(x), Consts.GAME_LEFT_BORDER + width + 0.4f, Consts.GAME_RIGHT_BORDER - width - 0.2f);
         targetPosition = x;
         setRocketSpeed();
+    }
+
+    public void delete () {
+        this.deleted = true;
+    }
+
+    public boolean existing() {
+        return !deleted;
+    }
+
+    public void checkBrickCollision() {
+        float posX = physicBody.getPosition().x + startPositionX;
+        for (Brick brick : gameWorld.bricks) {
+            if (!brick.existing()) continue;
+            if (brick.getBrickY() > startPositionY * 1.95f) continue;
+            if (brick.getBrickX() + brick.getBrickWidth() < posX - width * 0.9f) continue;
+            if (brick.getBrickX() > posX + width * 1.2f) continue;
+            gameWorld.destroyBrick(brick);
+            gameWorld.racketDestroy();
+        }
     }
 
     private void setRocketSpeed() {

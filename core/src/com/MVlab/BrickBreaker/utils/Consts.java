@@ -28,5 +28,6 @@ public class Consts {
     public static final String GAME_OPTIONS = "options.prefs";
 
     public static int MAX_SURVIVAL_LINES = 15;
-    public static int TIME_BETWEEN_SURVIVAL_LINES = 1;
+    public static int TIME_BETWEEN_SURVIVAL_LINES = 3;
+    public static int TIME_TO_GAME_OVER = 1;
 }

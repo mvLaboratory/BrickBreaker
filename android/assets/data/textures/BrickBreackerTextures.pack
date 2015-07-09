@@ -18,50 +18,57 @@ background
   offset: 0, 0
   index: -1
 pipe
-  rotate: true
-  xy: 301, 30
+  rotate: false
+  xy: 498, 466
   size: 258, 40
   orig: 258, 40
   offset: 0, 0
   index: -1
 background2
   rotate: false
-  xy: 498, 393
+  xy: 301, 175
   size: 184, 113
   orig: 184, 113
   offset: 0, 0
   index: -1
+pauseButton
+  rotate: false
+  xy: 498, 322
+  size: 142, 142
+  orig: 142, 142
+  offset: 0, 0
+  index: -1
 background3
   rotate: false
-  xy: 343, 90
+  xy: 642, 266
   size: 85, 198
   orig: 85, 198
   offset: 0, 0
   index: -1
 brick
   rotate: false
-  xy: 498, 326
+  xy: 301, 108
   size: 133, 65
   orig: 133, 65
   offset: 0, 0
   index: -1
 topBorder
   rotate: false
-  xy: 684, 464
+  xy: 301, 64
   size: 94, 42
   orig: 94, 42
   offset: 0, 0
   index: -1
 border
   rotate: false
-  xy: 430, 194
+  xy: 729, 370
   size: 38, 94
   orig: 38, 94
   offset: 0, 0
   index: -1
 ball
   rotate: false
-  xy: 343, 43
+  xy: 436, 128
   size: 46, 45
   orig: 46, 45
   offset: 0, 0
@@ -73,56 +80,56 @@ filter: Linear,Linear
 repeat: none
 GUI/backGround
   rotate: false
-  xy: 1, 20
+  xy: 1, 1
   size: 360, 482
   orig: 360, 482
   offset: 0, 0
   index: -1
 GUI/Racket
   rotate: false
-  xy: 363, 351
+  xy: 363, 332
   size: 113, 151
   orig: 113, 151
   offset: 0, 0
   index: -1
 GUI/ButtonOptionsDn
-  rotate: true
-  xy: 363, 176
+  rotate: false
+  xy: 478, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 GUI/ButtonOptionsUp
-  rotate: true
-  xy: 410, 176
+  rotate: false
+  xy: 478, 391
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 GUI/ButtonQuickGameDn
-  rotate: true
-  xy: 363, 1
+  rotate: false
+  xy: 653, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 GUI/ButtonQuickGameUp
-  rotate: true
-  xy: 410, 1
+  rotate: false
+  xy: 478, 344
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 GUI/ButtonQuitDn
-  rotate: true
-  xy: 457, 176
+  rotate: false
+  xy: 653, 391
   size: 173, 45
   orig: 173, 45
   offset: 0, 0
   index: -1
 GUI/ButtonQuitUp
-  rotate: true
-  xy: 457, 1
+  rotate: false
+  xy: 828, 438
   size: 173, 45
   orig: 173, 45
   offset: 0, 0

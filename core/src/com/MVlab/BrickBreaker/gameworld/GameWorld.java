@@ -37,16 +37,17 @@ public class GameWorld  implements ContactListener {
     private Border topBorder;
     BottomBorder bottomBorder;
     private World physicWorld;
-    ArrayList<Brick> bricks;
+    public ArrayList<Brick> bricks;
     private int score;
-    private int extraLivesCount, survivalLines = 0;
+    private int extraLivesCount;
     private static int levelNumber;
-    private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu, midLinesDuration;
+    private float gameDuration, dropDuration, midLevelDuration, timeLeftTillReturnToMenu, midLinesDuration, timeToGameOver;
     private gameState presentGameState;
     private DirectedGame game;
     public GameButton pauseButton;
     public String debugAccelerometerMassage;
     public ParticleEffect splashParticles = new ParticleEffect();
+    public ParticleEffect racketExplosion = new ParticleEffect();
 
     public enum gameState {start, restart, levelStart, levelRestart, active, paused, dropped, levelEnd, gameOver, gameRestart}
 
@@ -65,9 +66,12 @@ public class GameWorld  implements ContactListener {
         physicWorld.setContactListener(this);
 
         splashParticles.load(Gdx.files.internal("data/particles/splash.pfx"), Gdx.files.internal("data/particles"));
-        splashParticles.scaleEffect((Gdx.graphics.getHeight() + Gdx.graphics.getWidth()) / 680);
+        splashParticles.scaleEffect(getSplashScale());
 
-        racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld);
+        racketExplosion.load(Gdx.files.internal("data/particles/splash.pfx"), Gdx.files.internal("data/particles"));
+        racketExplosion.scaleEffect(getSplashScale() * 2.5f);
+
+        racket = new Racket(Consts.GAME_CENTER, -2.3f, 1f, 0.2f, 3f, physicWorld, this);
         ball = new Ball(Consts.GAME_CENTER, -2.15f, 0.3f, physicWorld);
 
         leftBorder = new LeftBorder(Consts.GAME_LEFT_BORDER + 0.20f, -0.5f, 0.20f, Consts.GAME_TOP_BORDER, physicWorld);
@@ -86,11 +90,16 @@ public class GameWorld  implements ContactListener {
         midLevelDuration = 0;
         timeLeftTillReturnToMenu = 0;
         midLinesDuration = 0;
+        timeToGameOver = 0;
 
         if (presentGameState == gameState.gameRestart) presentGameState = gameState.start;
         if (presentGameState == gameState.levelRestart) presentGameState = gameState.levelStart;
 
         initLevel();
+    }
+
+    private float getSplashScale() {
+        return (Gdx.graphics.getHeight() + Gdx.graphics.getWidth()) / 680;
     }
 
     //Levels+++
@@ -115,9 +124,7 @@ public class GameWorld  implements ContactListener {
         String[] lvlContent = LevelLoader.instance.loadLevel();
 
         bricks.clear();
-        //Vector2 brickPosition = new Vector2(-3.5f, 2.0f);
         Vector2 brickPosition = new Vector2(-3.5f, 5.0f);
-       // Vector2 startBrickPosition = brickPosition.cpy();
 
         float verticalShift = 0;
         float horizontalShift = 0;
@@ -132,19 +139,10 @@ public class GameWorld  implements ContactListener {
             horizontalShift += 1.3f;
             if (brickSymbol.equals("\n")) {horizontalShift = 0;  verticalShift -= 1;}
         }
-
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < Consts.BRICKS_PER_ROW; j++) {
-//                bricks.add(new Brick(brickPosition.x + j, brickPosition.y + i, 0.4f, 0.25f, physicWorld));
-//                brickPosition.x += 0.3;
-//            }
-//            brickPosition.x = -3.5f;
-//        }
     }
 
     public void addBrickLines() {
-        //Vector2 brickPosition = new Vector2(-3.5f, 5f);
-        Vector2 brickPosition = new Vector2(-3.5f, 1f);
+        Vector2 brickPosition = new Vector2(-3.5f, 5f);
         if (brickPosition.y < -3) {
             extraLivesCount = 0;
             presentGameState = gameState.gameOver;
@@ -160,7 +158,7 @@ public class GameWorld  implements ContactListener {
 
         //for (Brick brick : bricks) brick.moveDown();
 
-        survivalLines++;
+        //survivalLines++;
     }
 
     public boolean levelStart() {
@@ -174,6 +172,7 @@ public class GameWorld  implements ContactListener {
             gameDuration += delta;
 
             splashParticles.update(delta);
+            racketExplosion.update(delta);
 
             int activeBricksCount = 0;
             for (Brick brick : bricks) {
@@ -182,15 +181,23 @@ public class GameWorld  implements ContactListener {
                     if (brick.existing()) activeBricksCount++;
                 }
             }
-            if (activeBricksCount == 0) {
+            if (activeBricksCount == 0 && extraLivesCount > 0) {
                 presentGameState = gameState.levelEnd;
                 //initLevel();
             }
 
-            racket.update(delta);
+            racket.update();
             ball.update();
             if (ball.underBottomBorder()) {
                 drop();
+            }
+
+            if (extraLivesCount <= 0) {
+                timeToGameOver += delta;
+                if (timeToGameOver >= Consts.TIME_TO_GAME_OVER) {
+                    presentGameState = gameState.gameOver;
+                    timeToGameOver = 0;
+                }
             }
         }
 
@@ -243,7 +250,7 @@ public class GameWorld  implements ContactListener {
         AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
     }
 
-    private void destroyBrick(Brick brick) {
+    public void destroyBrick(Brick brick) {
         splash(brick.getX(), brick.getY());
 
         brick.damage(100);
@@ -259,6 +266,14 @@ public class GameWorld  implements ContactListener {
         splashParticles.setPosition(x, y);
         splashParticles.setFlip(false, true);
         splashParticles.start();
+
+        AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));
+    }
+
+    public void splash(ParticleEffect effect, float x, float y) {
+        effect.setPosition(x, y);
+        effect.setFlip(false, true);
+        effect.start();
 
         AudioManager.instance.play(Assets.instance.sounds.explosion, 1 , MathUtils.random(1.0f, 1.1f));
     }
@@ -362,16 +377,10 @@ public class GameWorld  implements ContactListener {
 //        game.setScreen(new MenuScreen(game));
     }
 
-    public void racketDestroy(float splashX, float splashY) {
-        extraLivesCount = 0;
-        presentGameState = gameState.gameOver;
-        splash(splashX, splashY);
-    }
-
     public void racketDestroy() {
+        splash(racketExplosion, racket.getX(), racket.getY() + racket.getFullHeight() / 2);
+        racket.delete();
         extraLivesCount = 0;
-        presentGameState = gameState.gameOver;
-        //splash(brick.getX(), brick.getY());
     }
 
     @Override
@@ -397,14 +406,10 @@ public class GameWorld  implements ContactListener {
         //Brick collides
         if (bodyA instanceof Brick) {
             destroyBrick((Brick) bodyA);
-//            ((Brick) bodyA).damage(100);
-//            scored();
         }
 
         if (bodyB instanceof Brick) {
             destroyBrick((Brick) bodyB);
-//            ((Brick) bodyB).damage(100);
-//            scored();
         }
 
         //border collision
@@ -443,14 +448,6 @@ public class GameWorld  implements ContactListener {
             AudioManager.instance.play(Assets.instance.sounds.hit, 1 , MathUtils.random(1.0f, 1.1f));
         }
 
-//        //Rocket/brick collision
-//        if (bodyA instanceof Racket && bodyB instanceof Brick) {
-//            racketDestroy(((Brick) bodyB).getBrickX(), ((Brick) bodyB).getBrickY());
-//        }
-//
-//        if (bodyA instanceof Brick && bodyB instanceof Racket) {
-//            racketDestroy(((Brick) bodyA).getBrickX(), ((Brick) bodyA).getBrickY());
-//        }
     }
 
 }

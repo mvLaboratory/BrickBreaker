@@ -128,15 +128,22 @@ public class GameWorld  implements ContactListener {
 
         float verticalShift = 0;
         float horizontalShift = 0;
+        boolean isObjectSymbol;
         for (String brickSymbol : lvlContent) {
+            isObjectSymbol = false;
             if (brickSymbol.equals("survival")) {
                 midLinesDuration = Consts.TIME_BETWEEN_SURVIVAL_LINES;
                 addBrickLines();
             } else if(LevelLoader.survival) LevelLoader.survival = false;
 
             if (brickSymbol.equals("\r")) continue;
-            if (brickSymbol.equals("1")) bricks.add(new Brick(brickPosition.x + horizontalShift, brickPosition.y + verticalShift, 0.4f, 0.25f, physicWorld));
-            horizontalShift += 1.3f;
+            if (brickSymbol.equals("0")) isObjectSymbol = true;
+            if (brickSymbol.equals("1")) {
+                bricks.add(new Brick(brickPosition.x + horizontalShift, brickPosition.y + verticalShift, 0.4f, 0.25f, physicWorld));
+                isObjectSymbol = true;
+            }
+            if (isObjectSymbol)
+                horizontalShift += 1.3f;
             if (brickSymbol.equals("\n")) {horizontalShift = 0;  verticalShift -= 1;}
         }
     }

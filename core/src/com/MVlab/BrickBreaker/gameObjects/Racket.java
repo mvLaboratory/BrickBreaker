@@ -5,6 +5,7 @@ package com.MVlab.BrickBreaker.gameObjects;
 import com.MVlab.BrickBreaker.gameWorld.GameWorld;
 import com.MVlab.BrickBreaker.utils.Consts;
 import com.MVlab.BrickBreaker.utils.GameHelpers;
+import com.MVlab.BrickBreaker.utils.LevelLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -80,8 +81,7 @@ public class Racket {
 
     public void update() {
         setRocketSpeed();
-        //if (LevelLoader.survival)
-        if (gameWorld.getExtraLivesCount() > 0)
+        if (LevelLoader.survival&& gameWorld.getExtraLivesCount() > 0)
             checkBrickCollision();
     }
 
